@@ -1,0 +1,66 @@
+.feed_container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height:600px;
+}
+
+.feed {
+    position: absolute;
+    width: 370px;
+    height: 600px ;
+    border: 2px solid rgba(100,100,100,0.5);
+    border-radius: 5px 5px 5px 5px;
+}
+
+.feed_header {
+    position: relative;
+    width: 100%;
+    height: 50px;
+}
+
+.profile_image_container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 40px;
+    width: 40px;
+}
+
+.profile_image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 5px;
+    left: 5px;
+    border: 2px solid purple;
+    border-radius: 50% 50% 50% 50%;
+}
+
+.profile_name {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 60px;
+}
+
+.profile_name p {
+    font-size: 20px;
+    line-height: 0.5;
+    font-family: 'Nunito';
+}
+
+.feed_photo {
+    position:relative;
+    width: 100%;
+    height: 350px;
+}
+
+.feed_content {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}

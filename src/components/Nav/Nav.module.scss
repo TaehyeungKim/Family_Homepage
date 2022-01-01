@@ -1,0 +1,57 @@
+.nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+}
+
+.logo {
+    position: absolute;
+    width: 110px;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.logo_image{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 130px;
+    font-family: 'Nunito', 'Fuzzy Bubbles', sans-serif;
+}
+
+.title p {
+    font-size: 25px;
+}
+
+.login_button {
+    position: absolute;
+    right: 100px;
+    width: 100px;
+    border-radius: 10px;
+    font-size: 16px;
+    height: 40px;
+    background-color: rgb(255, 230, 204);
+    border: white;
+}
+
+.menu {
+    position: absolute;
+    height: auto;
+    right: 30px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
