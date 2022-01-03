@@ -3,6 +3,7 @@
     @return $remValue;
 }
 
+
 $containerHeight: 500;
 
 $headerHeight: 55;
@@ -25,21 +26,30 @@ $bodyHeight: 445;
         width: fit-content;
         text-align: center;
     }
-    .backButton {
+    .headerButton {
         position: absolute;
-        left: toRem(10);
+
         font-size: toRem(17);
         border: white;
         background-color: white;
         color:rgb(16, 147, 253);
+        cursor: pointer;
+    }
+
+    #back {
+        left: toRem(10);
+    }
+    #next {
+        right: toRem(10);
     }
 }
 
 .body {
     position: absolute;
-    width: 100%;
+    width: toRem(500);
     top: toRem($headerHeight);
     height: auto;
+    left: 0;
 
     .cameraContainer {
         $cameraWidth: 180;  
@@ -66,6 +76,7 @@ $bodyHeight: 445;
             font-size: toRem(15);
             font-weight: bold;
             color: white;
+            cursor: pointer;
     
         }
     }

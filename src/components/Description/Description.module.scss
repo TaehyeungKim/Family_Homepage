@@ -1,0 +1,77 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+$headerHeight: 55;
+$bodyHeight: 445;
+$profileHeight: 60;
+$descHeight: 365;
+
+.frame {
+    position: absolute;
+    right: 0%;
+    top: toRem($headerHeight);
+    height: toRem($bodyHeight);
+    transition: 0.5s;
+
+    .profile {
+        width: 100%;
+        height: toRem($profileHeight);
+        display: flex;
+        align-items: center;
+
+        .imageContainer {
+            width: toRem(40);
+            height: toRem(40);
+            border: 1px solid black;
+            border-radius: toRem(25);
+        }
+
+        .name {
+            position: absolute;
+            left: toRem(50);
+        }
+        
+    }
+
+    .descContainer {
+        position: absolute;
+        height: toRem($descHeight);
+        transition: 0.5s;
+        right: 0%;
+
+        textarea {
+            width: 97%;
+            height: 97%;
+            resize: none;
+            border: 0px;
+            font-size: toRem(20);
+        }
+    }        
+    
+}
+
+#frameWidthBeforeDescription {
+    width: toRem(0);
+}
+
+#frameWidthAtDescription {
+    width: toRem(400);
+}
+
+#descWidthBeforeDescription {
+    width: toRem(0);
+
+    textarea {
+        display: none;
+    }
+}
+
+#descWidthAtDescription {
+    width: toRem(400);
+
+    textarea {
+        display: block;
+    }
+}

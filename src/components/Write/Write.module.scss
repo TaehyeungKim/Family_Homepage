@@ -4,11 +4,21 @@
 }
 
 $containerHeight: 500;
+$select-containerWidth: 500;
+$write-containerWidth: 900;
 
 .container {
     position: absolute;
-    width: toRem(500);
-    height: toRem(500);
+    height: toRem($containerHeight);
     background-color: white;
     border-radius: toRem(20);
+    transition: 0.5s;
+}
+
+#containerSelect {
+    width: toRem($select-containerWidth);
+}
+
+#containerWrite {
+    width: toRem($write-containerWidth);
 }
