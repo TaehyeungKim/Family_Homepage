@@ -1,0 +1,84 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+$containerHeight: 500;
+
+$headerHeight: 55;
+$bodyHeight: 445;
+
+.header {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: toRem($headerHeight);
+    border-bottom: 1px solid gray;
+    border-radius: toRem(20) toRem(20) 0 0;
+    font-size: toRem(17);
+
+    p {
+        top: 0;
+        position: absolute;
+        width: fit-content;
+        text-align: center;
+    }
+    .backButton {
+        position: absolute;
+        left: toRem(10);
+        font-size: toRem(17);
+        border: white;
+        background-color: white;
+        color:rgb(16, 147, 253);
+    }
+}
+
+.body {
+    position: absolute;
+    width: 100%;
+    top: toRem($headerHeight);
+    height: auto;
+
+    .cameraContainer {
+        $cameraWidth: 180;  
+        width: toRem($cameraWidth);
+        height: auto;  
+        margin: toRem(100) auto 0;
+        img {
+            width: toRem($cameraWidth);
+        }
+    }
+    
+    .chooseButtonContainer {
+        position: relative;
+        margin: toRem(30) auto 0;
+        width: toRem(130);
+        height: toRem(40);
+    
+        .chooseButton {
+            width: 100%;
+            height: 100%;
+            background-color:rgb(16, 147, 253);
+            border: 2px solid white;
+            border-radius: toRem(10);
+            font-size: toRem(15);
+            font-weight: bold;
+            color: white;
+    
+        }
+    }
+
+    .imageContainer {
+        height: toRem($bodyHeight);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            height: 95%;
+        }
+    }
+}
+
