@@ -21,10 +21,14 @@ function MainPage() {
         <>
             <Sidebar onClick = {sidebarMove} visible={visibleSidebar}/>
             <Nav onClick = {sidebarMove}/>
-            <div className={styles.jumbotron}> </div>
-            <div className= {styles.feed_area}>
-                <Feed/>
+            <div className = {styles.frame}>
+                <div className={styles.jumbotron}> </div>
+                <div className= {styles.feed_area}>
+                    <Feed/>
+                </div>
             </div>
+
+            
         </>
     )
 }

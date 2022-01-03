@@ -1,57 +1,85 @@
+@function toRem($value) {
+    $remValue: ($value/16) + rem;
+    @return $remValue;
+}
+
+$navHeight: 80;
+
 .nav {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 80px;
-}
-
-.logo {
     position: absolute;
-    width: 110px;
-    height: 100%;
-    left: 0;
     top: 0;
-}
-
-.logo_image{
-    position:absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
     width: 100%;
-    height: 100%;
+    height: toRem($navHeight);
+
+    .logo {
+        position: absolute;
+        width: toRem(110);
+        height: 100%;
+        left: 0;
+        top: 0;
+    
+        img {
+            position:absolute;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .title {
+        position: absolute;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: toRem(130);
+        font-family: 'Nunito', 'Fuzzy Bubbles', sans-serif;
+
+        p {
+            font-size: toRem(25);
+        }
+    }
+
+    .write_button {
+        position: absolute;
+        right: toRem(220);
+        border-radius: toRem(10);
+        font-size: toRem(16);
+        height: toRem(40);
+        background-color: rgb(255, 230, 204);
+        border: white;
+        padding: toRem(20);
+        line-height: 0;
+        cursor: pointer;
+    }
+
+    .login_button {
+        position: absolute;
+        right: toRem(100);
+        border-radius: toRem(10);
+        font-size: toRem(16);
+        height: toRem(40);
+        background-color: rgb(255, 230, 204);
+        border: white;
+        padding: toRem(20);
+        line-height: 0;
+        cursor: pointer;
+    }
+
+    .menu {
+        position: absolute;
+        height: auto;
+        right: toRem(30);
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
 }
 
-.title {
-    position: absolute;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    left: 130px;
-    font-family: 'Nunito', 'Fuzzy Bubbles', sans-serif;
-}
 
-.title p {
-    font-size: 25px;
-}
 
-.login_button {
-    position: absolute;
-    right: 100px;
-    width: 100px;
-    border-radius: 10px;
-    font-size: 16px;
-    height: 40px;
-    background-color: rgb(255, 230, 204);
-    border: white;
-}
 
-.menu {
-    position: absolute;
-    height: auto;
-    right: 30px;
-    width: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}

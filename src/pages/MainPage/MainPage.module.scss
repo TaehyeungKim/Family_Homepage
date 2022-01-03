@@ -1,13 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Nunito&display=swap');
 
+@function toRem($value) {
+    $remValue: ($value/16) + rem;
+    @return $remValue;
+}
+
+$navHeight: 80;
+
 body {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100vw;
     height: auto;
 }
 
+.frame {
+    position: absolute;
+    top: toRem($navHeight);
+    width: 100%;
+    height: auto;
+    overflow-y: hidden;
+}
 
 .jumbotron{
     position:relative;
