@@ -19,16 +19,15 @@ function MainPage() {
     
     return (
         <>
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar}/>
-            <Nav onClick = {sidebarMove}/>
             <div className = {styles.frame}>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar}/>
+            <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
+                <Nav onClick = {sidebarMove}/>
                 <div className={styles.jumbotron}> </div>
                 <div className= {styles.feed_area}>
                     <Feed/>
                 </div>
             </div>
-
-            
         </>
     )
 }

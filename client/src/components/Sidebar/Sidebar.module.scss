@@ -1,0 +1,74 @@
+@function toRem($value) {
+    $remValue: ($value/16) + rem;
+    @return $remValue;
+}
+
+
+.sidebar {
+    position: absolute;
+    width: 0px; /*350px*/
+    height: 100%;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    background-color: white;
+    overflow: hidden;
+    transition: 1s;
+
+    .close_mark {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: toRem(290);
+        top: toRem(20);
+        width: auto;
+        height: auto;
+        cursor: pointer;
+    }
+
+    .sidebarProfileArea{
+        position: absolute;
+        top: toRem(80);
+        width: toRem(350);
+        height: toRem(300);
+        background-color: rgb(247, 245, 245);
+
+        .profileImageContainer {
+            width: toRem(100);
+            height: toRem(100);
+            border: 1px solid black;
+            border-radius: toRem(50);
+            margin: toRem(50) auto 0;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .profileName {
+            width: fit-content;
+            margin: toRem(20) auto 0;
+            font-size: toRem(19);
+        }
+
+        .buttonsContainer {
+            width: fit-content;
+            margin: toRem(20) auto 0;
+
+            button {
+                background-color: white;
+                color: mediumaquamarine;
+                border: 2px solid mediumaquamarine;
+                width: toRem(100);
+                height: toRem(40);
+                font-size: toRem(16);
+                border-radius: toRem(20);
+                margin: toRem(10);
+                cursor: pointer;
+            }
+        }
+    }
+}
+

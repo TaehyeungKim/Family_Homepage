@@ -6,7 +6,7 @@
 $navHeight: 80;
 
 .nav {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     display: flex;
@@ -44,28 +44,36 @@ $navHeight: 80;
 
     .write_button {
         position: absolute;
-        right: toRem(220);
+        display: flex;
+        align-items: center;
+        right: toRem(110);
+        width: toRem(90);
         border-radius: toRem(10);
-        font-size: toRem(16);
+        font-size: toRem(22);
         height: toRem(40);
-        background-color: rgb(255, 230, 204);
         border: white;
-        padding: toRem(20);
+        background-color: white;
         line-height: 0;
         cursor: pointer;
-    }
 
-    .login_button {
-        position: absolute;
-        right: toRem(100);
-        border-radius: toRem(10);
-        font-size: toRem(16);
-        height: toRem(40);
-        background-color: rgb(255, 230, 204);
-        border: white;
-        padding: toRem(20);
-        line-height: 0;
-        cursor: pointer;
+        div {
+            position: absolute;
+        }
+
+        #icon {
+            right: 0;
+            line-height: 0;
+        }
+
+        #label {
+            left: 0;
+        }
+    &:hover {
+        opacity: 0.6;
+    }
+    &:active {
+        opacity: 0.9;
+    }
     }
 
     .menu {
@@ -77,7 +85,12 @@ $navHeight: 80;
         justify-content: center;
         align-items: center;
         cursor: pointer;
+
+        &:hover {
+            opacity: 0.6;
+        }
     }
+    
 }
 
 

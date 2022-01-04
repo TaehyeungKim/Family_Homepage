@@ -14,7 +14,7 @@ function LoginPage() {
                     <h3>Knock Knock!</h3>
                 </div>
                 <div className={styles.login_form}>
-                    <form method='post' action='./login.php'>
+                    <form method='post' action='http://localhost:8080/family-homepage/server/login.php'>
                         <input name='user_id' type='text' placeholder='아이디'/>
                         <input name='user_password' type='password' placeholder='비밀번호'/>
                         <div id={styles.submit_button}>

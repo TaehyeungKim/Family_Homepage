@@ -12,12 +12,22 @@ body {
     height: auto;
 }
 
+
 .frame {
     position: absolute;
-    top: toRem($navHeight);
     width: 100%;
     height: auto;
     overflow-y: hidden;
+}
+
+#deactivate {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: black;
+    opacity: 0.2;
+    z-index: 5;
 }
 
 .jumbotron{
@@ -34,7 +44,5 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-row-gap: 30px;
-    margin-top: 20px;
-    margin: 0 auto 0;
-    border: 2px solid black;
+    margin: toRem(20) auto toRem(20);
 }
