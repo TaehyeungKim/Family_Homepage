@@ -11,16 +11,14 @@ function MainPage() {
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
     }
-    
-    // function redirToLogin() {
-    //     location.replace('./login/login.html')
-    // }
 
+    const session = sessionStorage;
     
+
     return (
         <>
             <div className = {styles.frame}>
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar}/>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                 <Nav onClick = {sidebarMove}/>
                 <div className={styles.jumbotron}> </div>

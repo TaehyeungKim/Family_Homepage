@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /client/src/images
+/server/connectDB.php
 
 # testing
 /coverage

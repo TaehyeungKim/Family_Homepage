@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import testProfile from '../../images/testProfile.jpeg'
@@ -6,15 +6,21 @@ import testProfile from '../../images/testProfile.jpeg'
 interface SidebarProps {
     onClick: () => void;
     visible: boolean;
+    user_name: string;
+    user_id: string;
+    user_status: string;
 }
 
-function Sidebar({onClick, visible}:SidebarProps) {
+function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProps) {
+    const session = sessionStorage;
     let navigate = useNavigate();
     const loginPage = `/login`
     const Logout = () => {
+        session.islogin = 'false';
         navigate(loginPage, {replace: true})
-        console.log('logout');
     }
+
+
     return(
         <>
         <div className={styles.sidebar} id='sidebar' style = {visible === true ? {width: '350px'}:{width: '0px'}}>
@@ -28,7 +34,7 @@ function Sidebar({onClick, visible}:SidebarProps) {
                     <img src = {testProfile}/>
                 </div>
                 <div className = {styles.profileName}>
-                    김태형 / @taehyeungkim98
+                    {user_name} / @{user_id}
                 </div>
                 <div className = {styles.buttonsContainer}>
                     <button id = {styles.myInfo}>내 정보</button>

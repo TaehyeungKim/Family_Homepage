@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 import RootPage from './pages/RootPage/Root'
-import LoginPage from './pages/LoginPage/Loginpage'
+import LoginPage from './pages/LoginPage/LoginPage'
 import MainPage from './pages/MainPage/MainPage';
 import CreatePage from './pages/CreatePage/CreatePage'
 
