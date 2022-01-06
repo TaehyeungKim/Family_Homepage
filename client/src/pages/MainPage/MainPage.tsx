@@ -7,13 +7,13 @@ import Feed from '../../components/Feed/Feed';
 
 function MainPage() {
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
+    const [profileImage, setProfileImage] = useState<Blob>();
 
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
     }
 
     const session = sessionStorage;
-    
 
     return (
         <>

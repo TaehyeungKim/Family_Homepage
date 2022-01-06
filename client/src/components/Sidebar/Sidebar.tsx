@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
-import testProfile from '../../images/testProfile.jpeg'
+
 
 interface SidebarProps {
     onClick: () => void;
@@ -15,9 +15,13 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
     const session = sessionStorage;
     let navigate = useNavigate();
     const loginPage = `/login`
+    const profilePage = `/profile`
     const Logout = () => {
-        session.islogin = 'false';
+        session.clear();
         navigate(loginPage, {replace: true})
+    }
+    const moveToProfile = () => {
+        navigate(profilePage, {replace: true})
     }
 
 
@@ -31,13 +35,13 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
             </div>
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
-                    <img src = {testProfile}/>
+                    <img src = {`http://localhost:8080/family-homepage/server/readImageFile.php?user_id=${session.user_id}`} alt = 'profile'/>
                 </div>
                 <div className = {styles.profileName}>
                     {user_name} / @{user_id}
                 </div>
                 <div className = {styles.buttonsContainer}>
-                    <button id = {styles.myInfo}>내 정보</button>
+                    <button id = {styles.myInfo} onClick = {moveToProfile}>내 정보</button>
                     <button id = {styles.logout} onClick={Logout}>로그아웃</button>
                 </div>
 

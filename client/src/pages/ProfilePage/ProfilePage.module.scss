@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Nunito&display=swap');
+
+@function toRem($value) {
+    $remValue: ($value/16) + rem;
+    @return $remValue;
+}
+
+.frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    min-height: toRem(800);
+    background-color: rgba(238, 223, 223, 0.7);
+
+    #deactivate {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background-color: black;
+        opacity: 0.2;
+        z-index: 5;
+    }
+
+    .profileCard {
+        margin: toRem(30) auto 0;
+        border: 2px solid rgb(238, 223, 223);
+        width: toRem(900);
+        border-radius: toRem(30);
+        background-color: white;
+
+        .header {
+            height: toRem(60);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: toRem(25);
+            font-family: 'Nunito', 'Fuzzy Bubbles', sans-serif;
+            border-bottom: 1px solid gray;
+
+            button {
+                position: absolute;
+            }
+        }
+
+        .body {
+            font-family: 'Nunito', 'Fuzzy Bubbles', sans-serif;
+            .profileImageAndId {
+                .imageContainer {
+                    width: toRem(100);
+                    height: toRem(100);
+                    border: 2px solid purple;
+                    border-radius: toRem(50);
+                    margin: toRem(30) auto 0;
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .profileChange {
+                    margin: toRem(20) auto 0;
+                    width: fit-content;
+                    
+                    button {
+                        font-size: toRem(18);
+                        background-color: white;
+                        border:1px solid white;
+                        color:rgb(16, 147, 253);
+                        cursor: pointer;
+                    }
+                }
+                .idContainer {
+                    width: fit-content;
+                    margin: toRem(10) auto 0;
+                    font-size: toRem(25);
+                    margin-bottom: toRem(20);
+                }
+            }
+            .userInfo {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                div {
+                    display: flex;
+                    align-items: center;
+                        ul {
+                            list-style-type: none;
+                            li {
+                                display: flex;
+                                align-items: center;
+                                height: toRem(50);
+                                font-size: toRem(20);
+                                label {
+                                    margin-left: toRem(10);
+                                }
+                                input, textarea {
+                                    margin-left: toRem(20);
+                                    height: toRem(30);
+                                    width: toRem(300);
+                                };
+
+                                textarea {
+                                    height: toRem(50);
+                                    resize: none;
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        .footer {
+            .submitButtonContainer {
+                margin: toRem(40) auto toRem(20);
+                width: fit-content;
+                input {
+                    font-size: toRem(20);
+                    background-color: rgb(16, 147, 253);
+                    border: white;
+                    color: white;
+                    padding: toRem(10);
+                    cursor: pointer;
+                    border-radius: toRem(10);
+                    &:hover {
+                        opacity: 0.5;
+                    }
+                    &:active {
+                        opacity: 0.9;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@
 .pnp.js
 /client/src/images
 /server/connectDB.php
+/server/profileImage
 
 # testing
 /coverage

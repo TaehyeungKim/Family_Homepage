@@ -11,6 +11,7 @@ function LoginPage() {
     const inpId = useRef<HTMLInputElement>(null);
     const inpPw = useRef<HTMLInputElement>(null);
     let navigate = useNavigate();
+    console.log(house);
 
     const loginUrl = "http://localhost:8080/family-homepage/server/login.php"
 

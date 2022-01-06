@@ -44,6 +44,7 @@ function PhotoSelect({back, next, status}:PhotoSelectProps) {
             reader.readAsDataURL(image as File);
             reader.onloadend = () => {
                 setPreviewImage(reader.result as string);
+                console.log((reader.result as string).length);
             }
         }
 
@@ -83,7 +84,7 @@ function PhotoSelect({back, next, status}:PhotoSelectProps) {
         }} next = {next}/>
         <div className = {styles.body}>
             <div className={styles.imageContainer}>
-                <img src={previewImage}/>
+                <img src={previewImage} alt = 'preview'/>
             </div>
         </div>
         </>}
