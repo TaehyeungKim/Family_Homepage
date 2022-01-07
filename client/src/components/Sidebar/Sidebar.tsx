@@ -21,7 +21,7 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
         navigate(loginPage, {replace: true})
     }
     const moveToProfile = () => {
-        navigate(profilePage, {replace: true})
+        navigate(profilePage)
     }
 
 
@@ -38,7 +38,7 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
                     <img src = {`http://localhost:8080/family-homepage/server/readImageFile.php?user_id=${session.user_id}`} alt = 'profile'/>
                 </div>
                 <div className = {styles.profileName}>
-                    {user_name} / @{user_id}
+                    {user_name} / {user_id}
                 </div>
                 <div className = {styles.buttonsContainer}>
                     <button id = {styles.myInfo} onClick = {moveToProfile}>내 정보</button>

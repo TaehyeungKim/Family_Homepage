@@ -11,25 +11,9 @@ function ProfilePage() {
     const imageAfterChange = useRef<HTMLImageElement>(null);
     const url = "http://localhost:8080/family-homepage/server/setProfileImage.php"
 
+
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
-    }
-
-    const jsonData = {
-        'user_id' : session.user_id,
-        'image' : profileImageData
-    }
-
-    const profileImageSubmit = async(url: string, data: any) => {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type' : 'application/json'
-            }
-        })
-        const json = response.json();
-        console.log(json);
     }
 
     return(
@@ -38,7 +22,7 @@ function ProfilePage() {
             <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
             <Nav onClick={sidebarMove}/>
-            <form method='post' action = "http://localhost:8080/family-homepage/server/setProfileImage.php" encType='multipart/form-data'>
+            <form method='post' action = "http://localhost:8080/family-homepage/server/profileChange.php" encType='multipart/form-data'>
             <div className = {styles.profileCard}>
                 <div className = {styles.header}>
                     내 프로필
@@ -67,7 +51,7 @@ function ProfilePage() {
                         </div>
                         
                         <div className = {styles.idContainer}>
-                            @{session.user_id}
+                            <input name = 'user_id' value = {session.user_id} readOnly/>
                         </div>
                     </div>
                     <div className = {styles.userInfo}>
@@ -96,10 +80,7 @@ function ProfilePage() {
                 </div>
                 <div className = {styles.footer}>
                     <div className = {styles.submitButtonContainer}>
-                        <input type = 'submit' value='저장하기' name = 'submit' onClick = {() => {
-                            console.log(changeProfile.current?.files?.item(0));
-                            // profileImageSubmit(url, jsonData);
-                        }}/>
+                        <input type = 'submit' value='저장하기' name = 'submit'/>
                     </div>
                 </div>
             </div>

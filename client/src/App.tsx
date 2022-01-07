@@ -6,6 +6,8 @@ import MainPage from './pages/MainPage/MainPage';
 import CreatePage from './pages/CreatePage/CreatePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 
+import MainProxyPage from './pages/MainPage/MainProxyPage';
+
 function App() {
   return (
     <>
@@ -16,6 +18,8 @@ function App() {
         <Route path = '/main' element = {<MainPage/>}/>
         <Route path = '/create' element = {<CreatePage/>}/>
         <Route path = '/profile' element = {<ProfilePage/>}/>
+        
+        <Route path = '/main_proxy' element = {<MainProxyPage/>}/>
       </Routes>
     </Router>
     </>

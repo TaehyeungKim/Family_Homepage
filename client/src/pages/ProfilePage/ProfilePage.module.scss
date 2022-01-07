@@ -76,8 +76,12 @@
                 .idContainer {
                     width: fit-content;
                     margin: toRem(10) auto 0;
-                    font-size: toRem(25);
                     margin-bottom: toRem(20);
+                    input {
+                        text-align: center;
+                        font-size: toRem(30);
+                        border: white;
+                    }
                 }
             }
             .userInfo {

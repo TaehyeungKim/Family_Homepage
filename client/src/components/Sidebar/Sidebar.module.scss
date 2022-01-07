@@ -37,7 +37,8 @@
         .profileImageContainer {
             width: toRem(100);
             height: toRem(100);
-            border: 1px solid black;
+            border: 1px solid white;
+            background-color: white;
             border-radius: toRem(50);
             margin: toRem(50) auto 0;
             overflow: hidden;
