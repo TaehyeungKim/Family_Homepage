@@ -1,12 +1,28 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import styles from './Description.module.scss'
 
+interface SubmitDescProps {
+    setDescription: (desc: string) => void;
+    desc: string;
+}
+
+function SubmitDesc({setDescription, desc}:SubmitDescProps) {
+    useEffect(() => {
+        setDescription(desc);
+    })
+    return(
+        <></>
+    )
+}
 
 interface DescriptionProps {
     status: string;
+    setDescription: (desc: string) => void;
+    fetchData: boolean;
 }
 
-function Description({status}:DescriptionProps) {
+function Description({status, setDescription, fetchData}:DescriptionProps) {
+    const session = sessionStorage;
     return(
         <>
         <div className = {styles.frame} id = {status === 'write' ? styles.frameWidthAtDescription : styles.frameWidthBeforeDescription}>
@@ -15,15 +31,17 @@ function Description({status}:DescriptionProps) {
 
                 </div>
                 <div className = {styles.name}>
-                    taehyeungkim98
+                    <input name = 'user_id' defaultValue={session.user_id} disabled/>
                 </div>
             </div>
             <div className = {styles.descContainer} id = {status === 'write' ? styles.descWidthAtDescription: styles.descWidthBeforeDescription}>
-                <textarea placeholder='문구 입력...'/>
+                <textarea placeholder='문구 입력...' name = 'desc' onChange={(event) => {
+                    session.desc = event.target.value;
+                }
+                }/>
             </div>
-            
-
         </div>
+        {fetchData === true ? <SubmitDesc setDescription={setDescription} desc={session.desc}/> : null}
         </>
     )
 }

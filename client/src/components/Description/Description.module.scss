@@ -31,6 +31,13 @@ $descHeight: 365;
         .name {
             position: absolute;
             left: toRem(50);
+
+            input {
+                font-size: toRem(20);
+                border: white;
+                transition: 0.5s;
+                background: none;
+            }
         }
         
     }
@@ -54,16 +61,24 @@ $descHeight: 365;
 
 #frameWidthBeforeDescription {
     width: toRem(0);
+
+    input {
+        width: toRem(0);
+    }
 }
 
 #frameWidthAtDescription {
     width: toRem(400);
+
+    input {
+        width: toRem(290);
+    }
 }
 
 #descWidthBeforeDescription {
     width: toRem(0);
 
-    textarea {
+    textarea{
         display: none;
     }
 }
@@ -71,7 +86,7 @@ $descHeight: 365;
 #descWidthAtDescription {
     width: toRem(400);
 
-    textarea {
+    textarea{
         display: block;
     }
 }

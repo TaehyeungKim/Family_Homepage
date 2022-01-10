@@ -24,10 +24,10 @@ function CreatePage() {
                         </svg>
                     </button>
                     <Write/>
+
                 </div>
                 <MainPage/>
             </div>
-            
         </>
     )
 }

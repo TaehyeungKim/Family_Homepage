@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './MainPage.module.scss'
+import {Navigate} from 'react-router-dom'
 
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Nav from '../../components/Nav/Nav'
@@ -31,6 +32,7 @@ function MainPage() {
 
     return (
         <>
+            {session.islogin === 'true' ? 
             <div className = {styles.frame} onLoad={() => {
                 loadUserInfo(url, data)
             }}>
@@ -42,6 +44,10 @@ function MainPage() {
                     <Feed/>
                 </div>
             </div>
+            :
+            <Navigate to = {`/login`}/>
+            }
+            
         </>
     )
 }
