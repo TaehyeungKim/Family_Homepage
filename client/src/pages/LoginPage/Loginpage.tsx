@@ -7,7 +7,6 @@ import house from '../../images/christmas_house.png'
 
 
 function LoginPage() {
-    const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
     const inpId = useRef<HTMLInputElement>(null);
     const inpPw = useRef<HTMLInputElement>(null);
     let navigate = useNavigate();

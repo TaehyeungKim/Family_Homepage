@@ -5,12 +5,10 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 
 function ProfilePage() {
     const session = sessionStorage;
-    const [profileImageData, setProfileImageData] = useState<string>(`http://localhost:8080/family-homepage/server/readImageFile.php?user_id=${session.user_id}`);
+    const [profileImageData, setProfileImageData] = useState<string>(`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`);
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     const changeProfile = useRef<HTMLInputElement>(null);
     const imageAfterChange = useRef<HTMLImageElement>(null);
-    const url = "http://localhost:8080/family-homepage/server/setProfileImage.php"
-
 
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)

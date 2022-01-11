@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
 import styles from './Write.module.scss'
 import PhotoSelect from '../PhotoSelect/PhotoSelect';
 import Description from '../Description/Description';
@@ -9,6 +10,9 @@ interface FetchDataProps {
 }
 
 function FetchData({imgFiles, desc}: FetchDataProps) {
+    const navigate = useNavigate();
+
+    const session = sessionStorage
 
     const url = "http://localhost:8080/family-homepage/server/postFeed.php"
 
@@ -17,8 +21,7 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
             method: 'POST',
             body: data
         })
-        const text = await response.text();
-        console.log(text);
+        const text = await response.text().then(()=>{navigate(`/main`)});
     }
 
     useEffect(() => {
@@ -26,6 +29,7 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
         const formData = new FormData();
         formData.append("image", fileList[0]);
         formData.append("description", desc);
+        formData.append("user_id", session.user_id);
         fetchData(formData);
     })
     return(
@@ -68,10 +72,8 @@ function Write() {
     return(
         <>
             <div className = {styles.container} id = {status === 'write' ? styles.containerWrite : styles.containerSelect}>
-                <form method='post' action="http://localhost:8080/family-homepage/server/postFeed.php" encType='multipart/form-data'>
-                    <PhotoSelect next={moveToWrite} back={backToImageSelect} status={status} submit={submitData} fetchData={submit} setImg={setImg}/>
-                    <Description status={status} setDescription={setDescription} fetchData={submit}/>
-                </form>
+                <PhotoSelect next={moveToWrite} back={backToImageSelect} status={status} submit={submitData} fetchData={submit} setImg={setImg}/>
+                <Description status={status} setDescription={setDescription} fetchData={submit}/>
             </div>
             {submit === true && imgFiles != undefined ? <FetchData imgFiles={imgFiles} desc={desc}/>: null}
         </>

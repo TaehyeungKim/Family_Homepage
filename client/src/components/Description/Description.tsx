@@ -28,7 +28,7 @@ function Description({status, setDescription, fetchData}:DescriptionProps) {
         <div className = {styles.frame} id = {status === 'write' ? styles.frameWidthAtDescription : styles.frameWidthBeforeDescription}>
             <div className = {styles.profile}>
                 <div className = {styles.imageContainer}>
-
+                    <img src = {`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/>
                 </div>
                 <div className = {styles.name}>
                     <input name = 'user_id' defaultValue={session.user_id} disabled/>

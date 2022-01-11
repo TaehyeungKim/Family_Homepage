@@ -80,7 +80,6 @@ function PhotoSelect({back, next, status, submit, fetchData, setImg}:PhotoSelect
 
     }, [image]);
     
-    const url = "http://localhost:8080/family-homepage/server/postFeed.php";
 
     return(
         <>

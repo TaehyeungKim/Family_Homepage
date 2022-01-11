@@ -24,8 +24,14 @@ $descHeight: 365;
         .imageContainer {
             width: toRem(40);
             height: toRem(40);
-            border: 1px solid black;
+            border: 1px white;
             border-radius: toRem(25);
+            background-color: white;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+            }
         }
 
         .name {
@@ -64,6 +70,7 @@ $descHeight: 365;
 
     input {
         width: toRem(0);
+        opacity: 0;
     }
 }
 
@@ -72,6 +79,7 @@ $descHeight: 365;
 
     input {
         width: toRem(290);
+        opacity: 1.0;
     }
 }
 

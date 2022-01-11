@@ -35,7 +35,7 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
             </div>
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
-                    <img src = {`http://localhost:8080/family-homepage/server/readImageFile.php?user_id=${session.user_id}`} alt = 'profile'/>
+                    <img src = {`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/>
                 </div>
                 <div className = {styles.profileName}>
                     {user_name} / {user_id}
