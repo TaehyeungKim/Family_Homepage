@@ -1,76 +1,96 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
 .feed_container {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height:600px;
-}
+    height:toRem(600);
 
-.feed {
-    position: absolute;
-    width: 370px;
-    height: 600px ;
-    border: 2px solid rgba(100,100,100,0.5);
-    border-radius: 5px 5px 5px 5px;
-}
+    .feed {
+        position: absolute;
+        width: toRem(370);
+        height: toRem(600) ;
+        border: 2px solid rgba(100,100,100,0.5);
+        border-radius: toRem(10);
 
-.feed_header {
-    position: relative;
-    width: 100%;
-    height: 50px;
-}
+        .feed_header {
+            position: relative;
+            width: 100%;
+            height: toRem(50);
 
-.profile_image_container {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 40px;
-    width: 40px;
-}
+            .profile_image_container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: toRem(40);
+                width: toRem(40);
 
-.profile_image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 5px;
-    left: 5px;
-    border: 2px solid plum;
-    background: white;
-    border-radius: 50% 50% 50% 50%;
-    overflow: hidden;
+                .profile_image {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: toRem(5);
+                    left: toRem(5);
+                    border: 2px solid white;
+                    background: white;
+                    border-radius: 50% 50% 50% 50%;
+                    overflow: hidden;
+                
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
 
-    img {
-        width: 100%;
+            .profile_name {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                left: toRem(60);
+            }
+            
+            .profile_name p {
+                font-size: toRem(20);
+                line-height: 0.5;
+                font-family: 'Nunito';
+            }
+
+            .feed_delete_button {
+                position: absolute;
+                top: toRem(11.5);
+                right: toRem(5);
+                font-size: toRem(18);
+                border: white;
+                background-color: white;
+                color: rgb(16, 147, 253);
+                cursor: pointer;
+             
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+        }
+
+        .feed_photo {
+            position:relative;
+            width: 100%;
+            height: toRem(350);
+            overflow: hidden;
+            img {
+                width: 100%;
+            }
+        }
+        
+        .feed_content {
+            position: relative;
+            width: 100%;
+            height: toRem(200);
+        }
     }
-}
-
-.profile_name {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    left: 60px;
-}
-
-.profile_name p {
-    font-size: 20px;
-    line-height: 0.5;
-    font-family: 'Nunito';
-}
-
-.feed_photo {
-    position:relative;
-    width: 100%;
-    height: 350px;
-    overflow: hidden;
-    img {
-        width: 100%;
-    }
-}
-
-.feed_content {
-    position: relative;
-    width: 100%;
-    height: 200px;
 }

@@ -32,6 +32,11 @@ while($r = mysqli_fetch_array($queryResult)) {
     array_push($data_array, $r);
 }
 
-$json = json_encode(array('data' => $data_array));
+if(empty($data_array)) {
+    $json = json_encode(array('data' => 'empty'));
+} else {
+    $json = json_encode(array('data' => $data_array));
+}
+
 echo $json;
 ?>

@@ -80,14 +80,20 @@ function MainPage() {
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                 <Nav onClick = {sidebarMove}/>
                 <div className={styles.jumbotron}> </div>
-                <div className= {styles.feed_area}>
-                    {jsonData === undefined ? 
-                    <div style={{width: '100px', height: '100px', border: '2px solid black'}}/>
-                    :   
-                    jsonData.data.map((feedData: any) => (
+                {jsonData === undefined || jsonData.data === 'empty' ? 
+                    <div className= {styles.feed_area}>
+                        <div className = {styles.noFeed}>
+                            아직 우리 가족 피드가 없어요!<br/>새로운 피드를 추가해보세요!
+                        </div>
+                    </div>
+                    :
+                    <div className = {styles.feed_area} id ={styles.notEmpty}>
+                        {jsonData.data.map((feedData: any) => (
                         <Feed feedData={feedData}/>
-                    ))}
-                </div>
+                    ))
+                        }
+                    </div>   
+                    }
             </div>
             {stopLoading === false ? <LoadUserFeed setFeedData={setFeedData} stopLoading={stopLoadingData}/> : null}
             </>

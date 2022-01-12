@@ -41,8 +41,21 @@ body {
 .feed_area {
     position: relative;
     width: 800px;
+    margin: toRem(20) auto toRem(20);
+
+    .noFeed {
+        position: relative;
+        width: fit-content;
+        margin: toRem(70) auto 0;
+        font-size: toRem(30);
+        text-align: center;
+        line-height: 2.0;
+        font-family: Nunito;
+    }
+}
+
+#notEmpty {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-row-gap: 30px;
-    margin: toRem(20) auto toRem(20);
 }
