@@ -3,12 +3,32 @@ import {useNavigate} from 'react-router-dom'
 import styles from './LoginPage.module.scss'
 import house from '../../images/christmas_house.png'
 
+interface WrongLoginAlertProps {
+    onClick: () => void;
+    message: string;
+}
+
+
+function WrongLoginAlert({onClick, message}:WrongLoginAlertProps) {
+    return(
+        <>
+            <div className = {styles.deactivate}>
+            <div className = {styles.popUp}>
+                <p>{message === "Wrong User Id" ? '아이디가 존재하지 않습니다.' : '비밀번호가 틀렸습니다.'}</p>
+                <button className = {styles.popUpClose} onClick={onClick}>확인</button>
+            </div>
+            </div>
+        </>
+    )
+}
+
 
 
 
 function LoginPage() {
     const inpId = useRef<HTMLInputElement>(null);
     const inpPw = useRef<HTMLInputElement>(null);
+    const [loginState, setLoginState] = useState<string>("");
     let navigate = useNavigate();
     console.log(house);
 
@@ -31,7 +51,11 @@ function LoginPage() {
             session.user_status = json.userStat
             session.islogin = 'true';
             navigate('/main');
-        } 
+        } else if (json.message === 'Wrong User Id') {
+            setLoginState("Wrong User Id");
+        } else if (json.message === 'Wrong Password') {
+            setLoginState("Wrong Password");
+        }
     }
 
     const handleLogin = () => {
@@ -46,6 +70,11 @@ function LoginPage() {
     return (
         <>
         <div className = {styles.frame}>
+            {loginState === "Wrong User Id" || loginState === "Wrong Password" ? 
+                <WrongLoginAlert onClick = {()=> setLoginState("")} message = {loginState}/>
+            :
+            null
+            }
         <div className= {styles.login}>
                 <div className= {styles.login_image}>
                     <img src={house} alt = 'house' id={styles.login_image}/>
