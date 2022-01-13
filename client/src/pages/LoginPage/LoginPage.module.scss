@@ -6,64 +6,80 @@
 }
 
 .frame {
+    position: absolute;
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .login {
+        position: absolute;
+        width: toRem(400);
+        @for $i from 7 through 5 {
+            @media (max-height: ($i * 100px)) {
+                width: toRem(($i*40));
+                top: toRem(30);
+                @media (min-width: 900px) {
+                    top: auto;
+                }
+            }
+        }
+
+        .login_image {
+            position:relative;
+            width: 100%;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .login_title {
+            margin: toRem(10) auto toRem(40);
+            text-align: center;
+            line-height: 0;
+            font-family: 'Nunito', 'sans-serif';
+
+            h3 {
+                font-size: toRem(35);
+                @for $i from 7 through 5 {
+                    @media (max-height: ($i * 100px)) {
+                        font-size: toRem($i * 5);
+                    }
+                }
+            }
+        }
+
+        .login_form {
+            position: relative;
+            width: 70%;
+            margin: 0 auto 0;
+
+            input {
+                width: 100%;
+                height: toRem(30);
+            }
+
+            #submit_button {
+                width: 60%;
+                margin: toRem(20) auto 0;
+
+               input {
+                    border-radius: toRem(15);
+                    height: toRem(35);
+                    font-size: toRem(15);
+                    background-color: rgb(255, 230, 204);
+                    border: white;                
+                }
+            }
+        }
+    }
 }
 
-.login {
-    width: 400px;
-}
 
-.login .login_image {
-    position:relative;
-    width: 100%;
-    height: 300px;
-}
-
-#login_image {
-    width: 100%;
-    height: 100%;
-}
-
-.login .login_title {
-    margin: 0 auto 0;
-    text-align: center;
-    line-height: 0.5;
-    font-family: 'Nunito', 'sans-serif';
-}
-
-.login .login_title h3 {
-    font-size: 35px;
-}
-
-.login .login_form {
-    position: relative;
-    width: 70%;
-    margin: 0 auto 0;
-}
-
-.login .login_form input {
-    width: 100%;
-    height: 30px;
-}
-
-#submit_button {
-    width: 60%;
-    margin: 0 auto 0;
-    margin-top: 20px;
-}
-
-#submit_button input {
-    border-radius: 15px 15px 15px 15px;
-    height: 35px;
-    font-size: 15px;
-    background-color: rgb(255, 230, 204);
-    border: white;
-}
-
+//Wrong Login Alert
 .deactivate {
     position: absolute;
     display: flex;
@@ -95,6 +111,53 @@
             border: white;
             color: rgb(16, 147, 253);
             cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .frame {
+        .login {
+            width: toRem(600);
+            top: auto;
+
+            @media (max-height: 500px) {
+                top: toRem(20);
+            }
+
+            .login_form {
+                margin-bottom: toRem(30);
+            }
+        }
+    }   
+}
+
+@media (max-width: 800px) {
+    .frame {
+        .login {
+            width: toRem(400);
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    .frame {
+        .login {
+            width: toRem(250);
+        }
+    }
+}
+
+@media (max-width: 300px) {
+    .frame {
+        .login {
+            width: toRem(200);
+
+            .login_title {
+                h3 {
+                    font-size: toRem(30);
+                }
+            }
         }
     }
 }
