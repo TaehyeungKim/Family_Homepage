@@ -9,26 +9,18 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
+    @media(max-height: 500px) {
+        height: auto;
+    }
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-
-    .login {
-        position: absolute;
-        width: toRem(400);
-        @for $i from 7 through 5 {
-            @media (max-height: ($i * 100px)) {
-                width: toRem(($i*40));
-                top: toRem(30);
-                @media (min-width: 900px) {
-                    top: auto;
-                }
-            }
-        }
+    justify-content: center;
 
         .login_image {
-            position:relative;
-            width: 100%;
+            position: relative;
+            width: toRem(300);
+            margin-top: toRem(50);
 
             img {
                 width: 100%;
@@ -37,36 +29,50 @@
         }
 
         .login_title {
-            margin: toRem(10) auto toRem(40);
+            position: relative;
             text-align: center;
             line-height: 0;
             font-family: 'Nunito', 'sans-serif';
 
             h3 {
-                font-size: toRem(35);
-                @for $i from 7 through 5 {
-                    @media (max-height: ($i * 100px)) {
-                        font-size: toRem($i * 5);
-                    }
-                }
+                font-size: toRem(50);
             }
         }
 
         .login_form {
             position: relative;
-            width: 70%;
-            margin: 0 auto 0;
+            margin-bottom: toRem(100);
 
-            input {
-                width: 100%;
-                height: toRem(30);
+            .form_floating {
+                position: relative;
+            }
+
+            
+            .idInp, .pwInp {
+                border: 1px solid rgba(0,0,0,0.4);
+                border-radius: toRem(10);
+                width: toRem(500);
+                height: toRem(50);
+                font-size: toRem(25);
+                transition: 0.1s;
+                outline: none;
+
+                &:focus {
+                    border: 3px solid rgb(16, 147, 253);
+                    font-size: toRem(15);
+                }
+            }
+
+            ::placeholder {
+                font-size: toRem(25);
             }
 
             #submit_button {
-                width: 60%;
-                margin: toRem(20) auto 0;
+                width: toRem(300);
+                margin: toRem(30) auto 0;
 
                input {
+                    width: 100%;
                     border-radius: toRem(15);
                     height: toRem(35);
                     font-size: toRem(15);
@@ -75,7 +81,6 @@
                 }
             }
         }
-    }
 }
 
 
@@ -115,49 +120,80 @@
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
     .frame {
-        .login {
-            width: toRem(600);
-            top: auto;
+        .login_image {
+            width: toRem(200);
+        }
 
-            @media (max-height: 500px) {
-                top: toRem(20);
+        .login_title {
+            h3 {
+                font-size: toRem(40);
             }
+        }
+        .login_form {
+            margin-bottom: toRem(30);
 
-            .login_form {
-                margin-bottom: toRem(30);
+            .idInp, .pwInp {
+                width: toRem(450);
             }
         }
     }   
 }
 
-@media (max-width: 800px) {
+@media (max-width: 500px) {
     .frame {
-        .login {
-            width: toRem(400);
-        }
-    }
-}
-
-@media (max-width: 450px) {
-    .frame {
-        .login {
-            width: toRem(250);
-        }
-    }
-}
-
-@media (max-width: 300px) {
-    .frame {
-        .login {
-            width: toRem(200);
-
-            .login_title {
-                h3 {
-                    font-size: toRem(30);
-                }
+        .login_form {
+            .idInp, .pwInp {
+                width: toRem(350);
             }
         }
+    }
+}
+
+.deactivate {
+    .popUp {
+        width: toRem(300);
+    }
+}
+
+@media (max-width: 400px) {
+    .frame {
+        .login_form {
+            .idInp, .pwInp {
+                width: toRem(250);
+                height: toRem(30);
+            }
+            ::placeholder {
+                font-size: toRem(15);
+            }
+
+            #submit_button {
+                width: toRem(200);
+            }
+        }
+    }
+}
+@media (max-width: 300px) {
+    .frame {
+        .login_title {
+            h3 {
+                font-size: toRem(30);
+            }
+        }
+        .login_form {
+            .idInp, .pwInp {
+                width: toRem(200);
+            }
+            #submit_button {
+                width: toRem(150);
+            }
+        }
+    }
+}
+
+.deactivate {
+    .popUp {
+        width: toRem(250);
     }
 }

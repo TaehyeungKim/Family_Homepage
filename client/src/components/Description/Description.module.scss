@@ -9,9 +9,8 @@ $profileHeight: 60;
 $descHeight: 365;
 
 .frame {
-    position: absolute;
+    position: relative;
     right: 0%;
-    top: toRem($headerHeight);
     height: toRem($bodyHeight);
     transition: 0.5s;
 
@@ -50,7 +49,8 @@ $descHeight: 365;
 
     .descContainer {
         position: absolute;
-        height: toRem($descHeight);
+        top: toRem($profileHeight);
+        bottom: 0;
         transition: 0.5s;
         right: 0%;
 
@@ -92,9 +92,24 @@ $descHeight: 365;
 }
 
 #descWidthAtDescription {
-    width: toRem(400);
+    width: 100%;
 
     textarea{
         display: block;
+    }
+}
+
+@media (max-width: 950px) {
+    .frame {
+        height: toRem($bodyHeight - 100);
+    }
+
+    #frameWidthAtDescription {
+        width: toRem(350);
+    
+        input {
+            width: toRem(290);
+            opacity: 1.0;
+        }
     }
 }

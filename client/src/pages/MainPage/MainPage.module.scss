@@ -7,55 +7,88 @@
 
 $navHeight: 80;
 
-body {
-    width: 100vw;
-    height: auto;
-}
 
+// .frame {
+//     border: 2px solid black;
+//     position: relative;
+//     width: 100%;
+//     height: auto;
+//     border: 2px solid black;
 
-.frame {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    overflow-y: hidden;
-}
-
-#deactivate {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
-    background-color: black;
-    opacity: 0.2;
-    z-index: 5;
-}
-
-.jumbotron{
-    position:relative;
-    width: 100%;
-    height: 450px;
-    background-image: url('../../images/christmas_back.jpg')
-}
-
-
-.feed_area {
-    position: relative;
-    width: 800px;
-    margin: toRem(20) auto toRem(20);
-
-    .noFeed {
-        position: relative;
-        width: fit-content;
-        margin: toRem(70) auto 0;
-        font-size: toRem(30);
-        text-align: center;
-        line-height: 2.0;
-        font-family: Nunito;
+    #deactivate {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background-color: black;
+        opacity: 0.2;
+        z-index: 15;
     }
-}
+
+    .bodyWrapper {
+        position: relative;
+        top: toRem(80);
+        width: 100%;
+        height: auto;
+
+        .jumbotron{
+            position:relative;
+            width: 100%;
+            height: toRem(450);
+            background-image: url('../../images/christmas_back.jpg')
+        }
+
+        .feed_area {
+            position: relative;
+            width: toRem(800);
+            margin: toRem(20) auto toRem(20);
+            padding-bottom: toRem(30);
+        
+            .noFeed {
+                position: relative;
+                width: fit-content;
+                margin: toRem(70) auto 0;
+                font-size: toRem(30);
+                text-align: center;
+                line-height: 2.0;
+            }
+        }
+        
+        
+    }
+// }
+
+
 
 #notEmpty {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-row-gap: 30px;
+}
+
+@media (max-width: 800px) {
+    .bodyWrapper {
+        .jumbotron {
+            height: toRem(350);
+        }
+
+        .feed_area {
+            width: toRem(600);
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .bodyWrapper {
+        .jumbotron {
+            display: none;
+        }
+
+        .feed_area {
+            width: 100%;
+        }
+    }
+    #notEmpty {
+        display: block;
+    }
 }

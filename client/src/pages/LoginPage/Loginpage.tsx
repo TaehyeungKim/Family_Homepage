@@ -75,25 +75,27 @@ function LoginPage() {
             :
             null
             }
-        <div className= {styles.login}>
-                <div className= {styles.login_image}>
-                    <img src={house} alt = 'house' id={styles.login_image}/>
-                </div>
-                <div className={styles.login_title}>
-                    <h3>Knock Knock!</h3>
-                </div>
-                <div className={styles.login_form}>
-                    <form method='post'>
-                        <input name='user_id' type='text' placeholder='아이디' ref={inpId}/>
-                        <input name='user_password' type='password' placeholder='비밀번호' ref={inpPw}/>
-                        <div id={styles.submit_button}>
-                            <input type='submit' id='submit' name = 'submit' value='로그인' onClick={(event) => {
-                                event.preventDefault();
-                                handleLogin();
-                            }}/>
-                        </div>
-                    </form>
-                </div>
+            <div className= {styles.login_image}>
+                <img src={house} alt = 'house' id={styles.login_image}/>
+            </div>
+            <div className={styles.login_title}>
+                <h3>Knock Knock!</h3>
+            </div>
+            <div className={styles.login_form}>
+                <form method='post'>
+                    <div className={styles.form_floating}>
+                    <input className = {styles.idInp} name='user_id' type='text' ref={inpId} placeholder='아이디'/>
+                    </div>
+                    <div className = {styles.form_floating}>
+                    <input className = {styles.pwInp} name='user_password' type='password' ref={inpPw} placeholder='비밀번호'/>
+                    </div>
+                    <div id={styles.submit_button}>
+                        <input type='submit' id='submit' name = 'submit' value='로그인' onClick={(event) => {
+                            event.preventDefault();
+                            handleLogin();
+                        }}/>
+                    </div>
+                </form>
             </div>
         </div>
             

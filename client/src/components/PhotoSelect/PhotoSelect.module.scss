@@ -6,56 +6,21 @@
 
 $containerHeight: 500;
 
-$headerHeight: 55;
+
 $bodyHeight: 445;
 
-.header {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.wrapper {
+    position: relative;
+    margin: 0 auto 0;
     width: 100%;
-    height: toRem($headerHeight);
-    border-bottom: 1px solid gray;
-    border-radius: toRem(20) toRem(20) 0 0;
-    font-size: toRem(17);
-
-    p {
-        top: 0;
-        position: absolute;
-        width: fit-content;
-        text-align: center;
-    }
-    .headerButton {
-        position: absolute;
-
-        font-size: toRem(17);
-        border: white;
-        background-color: white;
-        color:rgb(16, 147, 253);
-        cursor: pointer;
-    }
-
-    #back {
-        left: toRem(10);
-    }
-    #next {
-        right: toRem(10);
-    }
-}
-
-.body {
-    position: absolute;
-    width: toRem(500);
-    top: toRem($headerHeight);
-    height: auto;
-    left: 0;
 
     .cameraContainer {
+        position: relative;
         $cameraWidth: 180;  
         width: toRem($cameraWidth);
         height: auto;  
         margin: toRem(100) auto 0;
+        bottom: toRem(40);
         img {
             width: toRem($cameraWidth);
         }
@@ -66,6 +31,7 @@ $bodyHeight: 445;
         margin: toRem(30) auto 0;
         width: toRem(130);
         height: toRem(40);
+        bottom: toRem(50);
     
         .chooseButton {
             width: 100%;
@@ -80,16 +46,29 @@ $bodyHeight: 445;
     
         }
     }
+    
+}
 
+
+
+
+.imageContainer {
+    height: toRem(450);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    width: fit-content;
+    margin: 0 auto 0;
+    img {
+        height: 95%;
+    }
+}
+
+@media (max-width: 950px) {
     .imageContainer {
-        height: toRem($bodyHeight);
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img {
-            height: 95%;
-        }
+        height: toRem(350);
     }
 }
 

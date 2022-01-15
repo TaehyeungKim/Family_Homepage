@@ -20,48 +20,21 @@ function SubmitImage({file, setImg}: SubmitImageProps) {
     )
 }
 
-interface PhotoSelectHeaderProps {
-    backButtonDisplay:string;
-    back?: (event: any) => void;
-    nextButtonDisplay:string;
-    next?: (event: any) => void;
-    status: string;
-    submit?:(event: any) => void;
-}
-
-function PhotoSelectHeader({backButtonDisplay, back, nextButtonDisplay, next, status, submit}:PhotoSelectHeaderProps) {
-    return(
-        <>
-            <div className = {styles.header}>
-                <button className = {styles.headerButton} id = {styles.back} style={{display: backButtonDisplay}} onClick = {back}>취소</button>
-                <p>새 게시물 만들기</p>
-                {status === 'write' ? 
-                <button className = {styles.headerButton} id = {styles.next} style={{display: nextButtonDisplay}} onClick={submit} name='submit'>게시</button>
-                :
-                <button className = {styles.headerButton} id = {styles.next} style={{display: nextButtonDisplay}} onClick = {next}>다음</button>
-                }
-            </div>
-        </>
-    )
-}
 
 interface PhotoSelectProps {
-    back?:(event: any) => void;
-    next?:(event: any) => void;
     status: string;
-    submit: (event: any) => void;
     fetchData: boolean;
     setImg: (files: FileList) => void;
+    photoSelectFinished:() => void;
 }
 
 
-function PhotoSelect({back, next, status, submit, fetchData, setImg}:PhotoSelectProps) {
+function PhotoSelect({status, fetchData, setImg, photoSelectFinished}:PhotoSelectProps) {
     const Select = (event: any) => {
        event.preventDefault();
        photoInput.current?.click();
     }
     const photoInput = useRef<HTMLInputElement>(null);
-    const [selectDone, setSelectDone] = useState<boolean>(false);
     const [previewImage, setPreviewImage] = useState<string>("");
     const [image, setImage] = useState<File>();
     const [storedFiles, setStoredFiles] = useState<FileList>();
@@ -83,10 +56,9 @@ function PhotoSelect({back, next, status, submit, fetchData, setImg}:PhotoSelect
 
     return(
         <>
-        {selectDone === false ?
+        {status === "beforeUploadImage" ?
         <>
-        <PhotoSelectHeader backButtonDisplay='none' nextButtonDisplay='none' status={status}/>
-        <div className = {styles.body}>
+        <div className = {styles.wrapper}>
             <div className = {styles.cameraContainer}>
                 <img src = {camera} alt = 'camera'/>
             </div>
@@ -98,26 +70,18 @@ function PhotoSelect({back, next, status, submit, fetchData, setImg}:PhotoSelect
                     if (file) {
                         setImage(file);
                     }
-                    setSelectDone(true);
+                    photoSelectFinished();
                 }} ref={photoInput}/>
             </div>
-        </div>
+        </div>    
         </>
         :
         <>
-        <PhotoSelectHeader backButtonDisplay='block' nextButtonDisplay='block' status={status} back={
-            status === 'write' ? back
-        :
-        (e) => {
-            e.preventDefault();
-            setSelectDone(false);
-        }} next = {next} submit={submit}/>
-        <div className = {styles.body}>
             <div className={styles.imageContainer}>
                 <img src={previewImage} alt = 'preview'/>
                 {status === 'write' ? <input hidden type = 'file'/> : null}
             </div>
-        </div>
+
         </>}
         {fetchData === true ? <SubmitImage file={storedFiles} setImg={setImg}/> : null}
         </>

@@ -37,10 +37,35 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
     )
 }
 
+interface WriteHeaderProps {
+    backButtonDisplay:string;
+    back?: (event: any) => void;
+    nextButtonDisplay:string;
+    next?: (event: any) => void;
+    status: string;
+    submit?:(event: any) => void;
+}
+
+function WriteHeader({backButtonDisplay, back, nextButtonDisplay, next, status, submit}:WriteHeaderProps) {
+    return(
+        <>
+            <div className = {styles.header}>
+                <button className = {styles.headerButton} id = {styles.back} style={{display: backButtonDisplay}} onClick = {back}>취소</button>
+                <p>새 게시물 만들기</p>
+                {status === 'write' ? 
+                <button className = {styles.headerButton} id = {styles.next} style={{display: nextButtonDisplay}} onClick={submit} name='submit'>게시</button>
+                :
+                <button className = {styles.headerButton} id = {styles.next} style={{display: nextButtonDisplay}} onClick = {next}>다음</button>
+                }
+            </div>
+        </>
+    )
+}
+
 
 function Write() {
 
-    const [status, setStatus] = useState<string>('uploadImage');
+    const [status, setStatus] = useState<string>('beforeUploadImage');
     const [submit, setSubmit] = useState<boolean>(false);
 
     const [imgFiles, setImgFiles] = useState<FileList>();
@@ -60,22 +85,33 @@ function Write() {
     }
     const backToImageSelect = (event: any) => {
         event.preventDefault();
-        setStatus('uploadImage')
+        setStatus('beforeUploadImage')
     }
 
-    const submitData = (event: any) => {
-        event.preventDefault();
-        console.log('submit');
-        setSubmit(true);
+    const photoSelectFinished = () => {
+        setStatus('imagePreview');
+        console.log('upload finished');
     }
 
     return(
         <>
             <div className = {styles.container} id = {status === 'write' ? styles.containerWrite : styles.containerSelect}>
-                <PhotoSelect next={moveToWrite} back={backToImageSelect} status={status} submit={submitData} fetchData={submit} setImg={setImg}/>
-                <Description status={status} setDescription={setDescription} fetchData={submit}/>
+                {status === 'beforeUploadImage' ? 
+                <WriteHeader backButtonDisplay='none' nextButtonDisplay='none' status={status}/>
+                :
+                <WriteHeader backButtonDisplay='block' nextButtonDisplay='block' status={status} back={
+                    status === 'imagePreview' ? backToImageSelect
+                :
+                (e) => {
+                    e.preventDefault();
+                    photoSelectFinished();
+                }} next = {moveToWrite} submit={()=>setSubmit(true)}/> }
+                <div className = {styles.bodyContainer}>
+                    <PhotoSelect status={status} fetchData={submit} setImg={setImg} photoSelectFinished={photoSelectFinished}/>
+                    <Description status={status} setDescription={setDescription} fetchData={submit}/>
+                </div>
             </div>
-            {submit === true && imgFiles != undefined ? <FetchData imgFiles={imgFiles} desc={desc}/>: null}
+            {submit === true && imgFiles != undefined && desc !=="" ? <FetchData imgFiles={imgFiles} desc={desc}/>: null}
         </>
     )
 }
