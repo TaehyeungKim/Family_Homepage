@@ -6,7 +6,6 @@
 
 .sidebar {
     position: fixed;
-    width: 0px; /*350px*/
     height: 100%;
     right: 0;
     top: 0;
@@ -73,3 +72,27 @@
     }
 }
 
+#sidebar_closed {
+    width: toRem(0);
+}
+
+#sidebar_visible {
+    width: toRem(350);
+}
+
+
+@media (max-width: 800px) {
+    .sidebar {
+        .close_mark {
+            left: toRem(200);
+        }
+    
+        .sidebarProfileArea {
+            width: toRem(250);
+        }
+    }
+
+    #sidebar_visible {
+        width: toRem(250);
+    }
+} 

@@ -8,13 +8,6 @@
 $navHeight: 80;
 
 
-// .frame {
-//     border: 2px solid black;
-//     position: relative;
-//     width: 100%;
-//     height: auto;
-//     border: 2px solid black;
-
     #deactivate {
         position: fixed;
         width: 100%;
@@ -35,7 +28,9 @@ $navHeight: 80;
             position:relative;
             width: 100%;
             height: toRem(450);
-            background-image: url('../../images/christmas_back.jpg')
+            background-image: url('../../images/winter_bg.jpg');
+            background-size: 100%;
+            background-position-y: center;
         }
 
         .feed_area {

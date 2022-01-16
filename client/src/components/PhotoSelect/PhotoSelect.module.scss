@@ -10,19 +10,21 @@ $containerHeight: 500;
 $bodyHeight: 445;
 
 .wrapper {
-    position: relative;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: auto;
     margin: 0 auto 0;
     width: 100%;
 
     .cameraContainer {
         position: relative;
-        $cameraWidth: 180;  
-        width: toRem($cameraWidth);
+        width: toRem(220);
         height: auto;  
-        margin: toRem(100) auto 0;
+        margin: toRem(120) auto 0;
         bottom: toRem(40);
         img {
-            width: toRem($cameraWidth);
+            width: 100%;
         }
     }
     
@@ -67,8 +69,63 @@ $bodyHeight: 445;
 }
 
 @media (max-width: 950px) {
+    .wrapper {
+        .cameraContainer {
+            margin-top: toRem(90);
+            width: toRem(180);
+        }
+    }
     .imageContainer {
         height: toRem(350);
     }
 }
 
+@media (max-width: 800px) {
+    .imageContainer {
+        height: toRem(320);
+    }
+}
+
+@media (max-width: 600px) {
+    .wrapper {
+        .cameraContainer {
+            margin-top: toRem(70);
+            width: toRem(140);
+        }
+        .chooseButtonContainer {
+            width: toRem(100);
+            height: toRem(30);
+            .chooseButton {
+                border-radius: toRem(7);
+                font-size: toRem(12);
+            }
+        }
+    }
+    
+    .imageContainer {
+        height: toRem(250);
+    }
+}
+
+@media (max-width: 400px) {
+    .wrapper {
+        .cameraContainer {
+            width: toRem(100);
+        }
+
+        .chooseButtonContainer {
+            width: toRem(80);
+            .chooseButton {
+                font-size: toRem(10);
+            }
+        }
+    }
+
+    .imageContainer {
+        height: toRem(180);
+    }
+}
+
+@media (max-width: 300px) {
+    
+}

@@ -35,19 +35,6 @@ $headerHeight: 55;
     width: toRem($write-containerWidth);
 }
 
-@media (max-width: 950px) {
-    .container {
-        height: toRem($containerHeight - 100);
-    }
-
-    #containerSelect {
-        width: toRem($select-containerWidth - 100);
-    }
-
-    #containerWrite {
-        width: toRem($write-containerWidth - 100);
-    }
-}
 
 
 
@@ -62,14 +49,12 @@ $headerHeight: 55;
     border-radius: toRem(20) toRem(20) 0 0;
     font-size: toRem(17);
     p {
-        top: 0;
         position: absolute;
         width: fit-content;
         text-align: center;
     }
     .headerButton {
         position: absolute;
-
         font-size: toRem(17);
         border: white;
         background-color: white;
@@ -82,5 +67,82 @@ $headerHeight: 55;
     }
     #next {
         right: toRem(10);
+    }
+}
+
+@media (max-width: 950px) {
+    .container {
+        height: toRem($containerHeight - 100);
+    }
+
+    #containerSelect {
+        width: toRem($select-containerWidth - 100);
+    }
+
+    #containerWrite {
+        width: toRem($write-containerWidth - 100);
+    }
+}
+
+@media (max-width: 800px) {
+    .container {
+        height: toRem(400);
+    }
+    #containerSelect {
+        width: toRem(400);
+    }
+    #containerWrite {
+        width: toRem(600);
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        .bodyContainer {
+            flex-direction: column;
+        }
+    }
+
+    #containerSelect {
+        width: toRem(400);
+        height: toRem(300);
+    }
+
+    #containerWrite {
+        width: toRem(400);
+        height: toRem(500);
+    }
+}
+
+@media (max-width: 400px) {
+    #containerSelect {
+        width: toRem(300);
+        height: toRem(250);
+    }
+
+    #containerWrite {
+        width: toRem(300);
+        height: toRem(450);
+    }
+}
+
+@media (max-width: 300px) {
+    #containerSelect {
+        width: toRem(200);
+        height: toRem(260);
+    }
+
+    #containerWrite {
+        width: toRem(200);
+        height: toRem(460);
+    }
+
+    .header {
+        font-size: toRem(13);
+        height: toRem(45);
+
+        .headerButton {
+            font-size: toRem(13);
+        }
     }
 }

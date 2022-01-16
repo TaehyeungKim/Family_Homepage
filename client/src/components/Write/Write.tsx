@@ -71,6 +71,7 @@ function Write() {
     const [imgFiles, setImgFiles] = useState<FileList>();
     const [desc, setDesc] = useState<string>("");
 
+
     const setImg = (files: FileList) => {
         setImgFiles(files);
     }
@@ -111,7 +112,7 @@ function Write() {
                     <Description status={status} setDescription={setDescription} fetchData={submit}/>
                 </div>
             </div>
-            {submit === true && imgFiles != undefined && desc !=="" ? <FetchData imgFiles={imgFiles} desc={desc}/>: null}
+            {submit === true && imgFiles !== undefined && desc !=="" ? <FetchData imgFiles={imgFiles} desc={desc}/>: null}
         </>
     )
 }

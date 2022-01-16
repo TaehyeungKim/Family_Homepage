@@ -34,7 +34,7 @@ function FeedHeader({feedData}: FeedHeaderProps) {
             <div className={styles.feed_header}>
                 <div className = {styles.profile_image_container}>
                     <div className={styles.profile_image}>
-                        <img src={`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${feedData.user_id}`}/>
+                        <img src={`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${feedData.user_id}`} alt='profile'/>
                     </div>
                 </div>
                 <div className ={styles.profile_name}>
@@ -63,7 +63,7 @@ function Feed({feedData}: FeedProps) {
                 <FeedHeader feedData={feedData}/>
                 <hr/>
                 <div className={styles.feed_photo}>
-                    <img src={`http://localhost:8080/family-homepage/server/readFeedPhoto.php?photo_path=${feedData.photo_path}`}/>
+                    <img src={`http://localhost:8080/family-homepage/server/readFeedPhoto.php?photo_path=${feedData.photo_path}`} alt='feed_image'/>
                 </div>
                 <hr/>
                 <div className={styles.feed_content}>

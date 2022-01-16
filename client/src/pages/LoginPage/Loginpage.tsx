@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom'
 import styles from './LoginPage.module.scss'
 import house from '../../images/christmas_house.png'
+import winter_house from '../../images/winter_house.png'
+
 
 interface WrongLoginAlertProps {
     onClick: () => void;
@@ -76,7 +78,7 @@ function LoginPage() {
             null
             }
             <div className= {styles.login_image}>
-                <img src={house} alt = 'house' id={styles.login_image}/>
+                <img src={winter_house} alt = 'house' id={styles.login_image}/>
             </div>
             <div className={styles.login_title}>
                 <h3>Knock Knock!</h3>

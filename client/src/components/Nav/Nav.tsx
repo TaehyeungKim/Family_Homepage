@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from './Nav.module.scss'
-import house from '../../images/christmas_house.png'
+// import house from '../../images/christmas_house.png'
 import { useNavigate } from 'react-router-dom';
+import winter_house from '../../images/winter_house.png'
 
 
 interface NavProps {
@@ -20,9 +21,11 @@ function Nav({onClick}:NavProps) {
         <>
             <div className= {styles.nav}>
                 <div className = {styles.logo}>
-                    <img src = {house} alt = 'logo'/>
+                    <img src = {winter_house} alt = 'logo'/>
                 </div>
-                <div className = {styles.title}>
+                <div className = {styles.title} onClick={() => {
+                    navigate('/main');
+                }}>
                     <p>Knock Knock!</p>
                 </div>
                 <button className = {styles.write_button} onClick = {Create}>

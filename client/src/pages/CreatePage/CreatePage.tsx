@@ -13,6 +13,7 @@ function CreatePage() {
         navigate(mainPage, {replace: true})
     }
 
+
     return(
         <>
             <div className = {styles.frame}>
@@ -24,7 +25,6 @@ function CreatePage() {
                         </svg>
                     </button>
                     <Write/>
-
                 </div>
                 <MainPage/>
             </div>

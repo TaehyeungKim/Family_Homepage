@@ -11,8 +11,9 @@
     left: 0;
     width: 100vw;
     height: auto;
-    min-height: toRem(800);
+    min-height: toRem(1100);
     background-color: rgba(238, 223, 223, 0.7);
+
 
     #deactivate {
         position: absolute;
@@ -25,7 +26,9 @@
     }
 
     .profileCard {
-        margin: toRem(30) auto 0;
+        position: relative;
+        top: toRem(100);
+        margin: 0 auto 0;
         border: 2px solid rgb(238, 223, 223);
         width: toRem(900);
         border-radius: toRem(30);
@@ -137,4 +140,110 @@
             }
         }
     }
+}
+
+@media (max-width: 900px) {
+    .frame {
+        .profileCard {
+            width: toRem(700);
+            .body {
+                .userInfo {
+                    div {
+                        ul {
+                            li {
+                                font-size: toRem(15);
+                                label {
+                                    margin-left: toRem(0);
+                                }
+
+                                input, textarea {
+                                    width: toRem(250);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .frame {
+        .profileCard {
+            width: toRem(600);
+            .body {
+                .userInfo {
+                    div {
+                        ul {
+                            li {
+                                font-size: toRem(15);
+                                label {
+                                    margin-left: toRem(0);
+                                }
+
+                                input, textarea {
+                                    width: toRem(200);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .frame {
+        height: auto;
+        .profileCard {
+            top: toRem(150);
+            width: 90%;
+            .body {
+                .userInfo {
+                    display: block;
+                    width: 90%;
+                    margin: 0 auto 0;
+                    div {
+                        ul {
+                            width: 100%;
+                            li {
+                                position: relative;
+                                font-size: toRem(15);
+                                right: 10%;
+                                label {
+                                    margin-left: toRem(0);
+                                }
+
+                                input, textarea {
+                                    width: 75%;
+                                    @media (max-width: 350px) {
+                                        width: 70%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .frame {
+        .profileCard {
+            .body {
+                .profileImageAndId {
+                    .idContainer {
+                        input {
+                            font-size: toRem(20);
+                        }
+                    }
+                }
+            }
+        }
+    };
+
 }

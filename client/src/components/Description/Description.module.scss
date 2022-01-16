@@ -13,6 +13,7 @@ $descHeight: 365;
     right: 0%;
     height: toRem($bodyHeight);
     transition: 0.5s;
+    overflow: hidden;
 
     .profile {
         width: 100%;
@@ -30,6 +31,7 @@ $descHeight: 365;
 
             img {
                 width: 100%;
+                transition: 0.5s;
             }
         }
 
@@ -65,7 +67,7 @@ $descHeight: 365;
     
 }
 
-#frameWidthBeforeDescription {
+#frameBeforeDescription {
     width: toRem(0);
 
     input {
@@ -74,7 +76,7 @@ $descHeight: 365;
     }
 }
 
-#frameWidthAtDescription {
+#frameAtDescription {
     width: toRem(400);
 
     input {
@@ -104,7 +106,7 @@ $descHeight: 365;
         height: toRem($bodyHeight - 100);
     }
 
-    #frameWidthAtDescription {
+    #frameAtDescription {
         width: toRem(350);
     
         input {
@@ -112,4 +114,46 @@ $descHeight: 365;
             opacity: 1.0;
         }
     }
+}
+
+@media(max-width: 600px) {
+    .frame {
+        margin-bottom: toRem(10);
+    }
+
+    #frameAtDescription {
+        width: 90%;
+        height: toRem(300);
+    }
+
+    #frameBeforeDescription {
+        width: 90%;
+        height: toRem(0);
+    }
+
+}
+
+@media (max-width: 300px) {
+    .frame {
+        .profile {
+            .imageContainer {
+                width: toRem(30);
+                height: toRem(30);
+            }
+
+            .name {
+                left: toRem(35);
+                input {
+                    font-size: toRem(15);
+                }
+            }
+        }
+
+        .descContainer {
+            textarea {
+                font-size: toRem(15);
+            }
+        }
+    }
+
 }
