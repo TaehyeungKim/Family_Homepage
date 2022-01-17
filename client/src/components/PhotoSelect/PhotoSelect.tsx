@@ -38,6 +38,7 @@ function PhotoSelect({status, fetchData, setImg, photoSelectFinished}:PhotoSelec
     const [previewImage, setPreviewImage] = useState<string>("");
     const [image, setImage] = useState<File>();
     const [storedFiles, setStoredFiles] = useState<FileList>();
+    const [previewImgSize, setPreviewImgSize] = useState<Array<number>>([]);
 
 
     useEffect(()=>{
@@ -45,12 +46,15 @@ function PhotoSelect({status, fetchData, setImg, photoSelectFinished}:PhotoSelec
             const reader = new FileReader();
             reader.readAsDataURL(image as File);
             reader.onloadend = () => {
+                const img = new Image();
+                img.src = reader.result as string;
+                img.onload = () => {
+                    setPreviewImgSize([img.height, img.width])
+                }
                 setPreviewImage(reader.result as string);
-                console.log((reader.result as string).length);
+                console.log(previewImgSize);
             }
         }
-        console.log(image);
-
     }, [image]);
     
 
@@ -78,7 +82,7 @@ function PhotoSelect({status, fetchData, setImg, photoSelectFinished}:PhotoSelec
         :
         <>
             <div className={styles.imageContainer}>
-                <img src={previewImage} alt = 'preview'/>
+                <img src={previewImage} alt = 'preview' id = {previewImgSize[0] > previewImgSize[1] ? styles.fitHeight : styles.fitWidth}/>
                 {status === 'write' ? <input hidden type = 'file'/> : null}
             </div>
 

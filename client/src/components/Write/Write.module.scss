@@ -41,20 +41,23 @@ $headerHeight: 55;
 .header {
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content:space-around;
     align-items: center;
+    flex-direction: row;
     width: 100%;
     height: toRem($headerHeight);
     border-bottom: 1px solid gray;
     border-radius: toRem(20) toRem(20) 0 0;
     font-size: toRem(17);
+
     p {
-        position: absolute;
+        position: relative;
         width: fit-content;
         text-align: center;
     }
+
     .headerButton {
-        position: absolute;
+        position: relative;
         font-size: toRem(17);
         border: white;
         background-color: white;
@@ -63,10 +66,10 @@ $headerHeight: 55;
     }
 
     #back {
-        left: toRem(10);
+        right: toRem(8);
     }
     #next {
-        right: toRem(10);
+        left: toRem(8);
     }
 }
 
@@ -143,6 +146,13 @@ $headerHeight: 55;
 
         .headerButton {
             font-size: toRem(13);
+        }
+
+        #back {
+            right: toRem(2);
+        }
+        #next {
+            left: toRem(2);
         }
     }
 }

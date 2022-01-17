@@ -95,6 +95,16 @@
             position: relative;
             width: 100%;
             height: auto;
+
+            #feedText {
+                margin-left: toRem(10);
+                margin-right: toRem(10);
+            }
+            #feedDate {
+                color: rgba(0,0,0,0.6);
+                float: right;
+                margin-right: toRem(20);
+            }
         }
     }
 }
@@ -102,7 +112,13 @@
 @media (max-width: 800px) {
     .feed_container {
         .feed {
-            width: 90%;
+            width: 95%;
+            .feed_header {
+                .profile_name p {
+                    font-size: toRem(18);
+                }
+            }
+
         }
     }
 }

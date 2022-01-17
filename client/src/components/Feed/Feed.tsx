@@ -56,6 +56,12 @@ interface FeedProps {
 
 function Feed({feedData}: FeedProps) {
 
+    //created_at date
+    const year = feedData.created_at.split(" ")[0].split("-")[0];
+    const month = feedData.created_at.split(" ")[0].split("-")[1];
+    const day = feedData.created_at.split(" ")[0].split("-")[2];
+    const time = feedData.created_at.split(" ")[1];
+
     return(
         <>
         <div className={styles.feed_container}>
@@ -67,7 +73,8 @@ function Feed({feedData}: FeedProps) {
                 </div>
                 <hr/>
                 <div className={styles.feed_content}>
-                    <p>{feedData.text}</p>
+                    <p id = {styles.feedText}>{feedData.text}</p>
+                    <p id = {styles.feedDate}>{year + "년 " + month + "월 " + day + "일"}</p>
                 </div>
             </div>
         </div>

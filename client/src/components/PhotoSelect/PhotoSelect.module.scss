@@ -48,24 +48,28 @@ $bodyHeight: 445;
     
         }
     }
-    
 }
 
 
 
 
 .imageContainer {
-    height: toRem(450);
+    height: toRem(420);
+    width: toRem(420);
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 0.5s;
-    width: fit-content;
     margin: 0 auto 0;
-    img {
-        height: 95%;
-    }
+}
+
+#fitHeight {
+    height: 95%;
+}
+
+#fitWidth {
+    width: 95%;
 }
 
 @media (max-width: 950px) {
@@ -76,15 +80,18 @@ $bodyHeight: 445;
         }
     }
     .imageContainer {
-        height: toRem(350);
+        width: toRem(320);
+        height: toRem(320);
     }
 }
 
 @media (max-width: 800px) {
     .imageContainer {
-        height: toRem(320);
+        width: toRem(280);
+        height: toRem(280);
     }
 }
+
 
 @media (max-width: 600px) {
     .wrapper {
@@ -103,7 +110,8 @@ $bodyHeight: 445;
     }
     
     .imageContainer {
-        height: toRem(250);
+        height: toRem(220);
+        width: toRem(220);
     }
 }
 
@@ -123,6 +131,7 @@ $bodyHeight: 445;
 
     .imageContainer {
         height: toRem(180);
+        width: toRem(180);
     }
 }
 
