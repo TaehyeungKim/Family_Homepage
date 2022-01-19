@@ -21,7 +21,8 @@ $fileType = explode("/", $_FILES['image']['type'])[1];
 $checkIfFeedExists = mysqli_query($con, "select feed_exists from members where user_id='$user_id'");
 $checkResult = mysqli_fetch_array($checkIfFeedExists);
 if ($checkResult['feed_exists'] != 'true')  {
-    mysqli_query($con, "create table feed_" . $user_id . " (feed_id int(11) auto_increment not null, user_id varchar(255) not null, created_at datetime, text varchar(10000), photo_path varchar(5000), photo_type varchar(10), primary key(feed_id))");
+    mysqli_query($con, "create table feed_" . $user_id . " (feed_id int(11) auto_increment not null, user_id varchar(255) not null, created_at datetime, text varchar(10000), photo_path varchar(5000), photo_type varchar(10), comment_exists varchar(4), primary key(feed_id))");
+    mysqli_query($con, "create table comment_to_$user_id (feed_id int(11) not null, comment_user varchar(255) not null, created_at datetime, comment varchar(5000), foreign key(feed_id) references feed_$user_id(feed_id) on delete cascade)");
     mysqli_query($con, "update members set feed_exists = 'true' where user_id = '$user_id'");   
 }
 

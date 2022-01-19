@@ -101,9 +101,78 @@
                 margin-right: toRem(10);
             }
             #feedDate {
+                position: relative;
+                text-align: right;
                 color: rgba(0,0,0,0.6);
-                float: right;
                 margin-right: toRem(20);
+            }
+        }
+
+        .feed_comment {
+            position: relative;
+
+            .commentLine {
+                position: relative;
+                margin: toRem(3) 0 toRem(3) toRem(10);
+                font-size: toRem(14);
+
+                span {
+                    font-weight: bold;
+                    margin-right: toRem(10);
+                }
+            }
+
+            .commentShowOrHideButton {
+                position: relative;
+                font-size: toRem(16);
+                background-color: white;
+                border: white;
+                color: #40241a;
+                cursor: pointer;
+                margin-left: toRem(10);
+            }
+
+            .comment_write {
+                display: flex;
+                align-items: center;
+                padding: toRem(10) 0 toRem(10);
+
+                .comment_profile_container {
+                    width: toRem(30);
+                    height: toRem(30);
+                    border-radius: toRem(15);
+                    overflow: hidden;
+                    margin-left: toRem(10);
+                    img {
+                        width: 100%;
+                    }
+                }
+                textarea {
+                    position: relative;
+                    margin-left: toRem(10);
+                    border: 1px solid gray;
+                    border-radius: toRem(6);
+                    width: toRem(260);
+                    height: toRem(25);
+                    resize: none;
+                    font-size: toRem(13);
+                }
+                button {
+                    background: white;
+                    border: white;
+                    color: #df78ef;
+                    margin-left: toRem(10);
+                    font-size: toRem(15);
+                    cursor: pointer;
+                }
+
+                #active {
+                    opacity: 1.0;
+                }
+
+                #notActive {
+                    opacity: 0.3;
+                }
             }
         }
     }
@@ -118,9 +187,24 @@
                     font-size: toRem(18);
                 }
             }
+            .feed_comment {
+                .comment_write {
+                    textarea {
+                        width: toRem(185);
+                    }
+                    button {
+                        font-size: toRem(13);
+                        margin-left: toRem(5);
+                    }
+                }
+            }
 
         }
     }
+}
+
+@media (max-width: 600px) {
+    
 }
 
 @media (max-width: 400px) {
