@@ -1,0 +1,35 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+.commentLine {
+    position: relative;
+    margin: toRem(3) toRem(5) toRem(5) toRem(10);
+    font-size: toRem(14);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .nameAndComment {
+        word-break: break-all;
+        span {
+            font-weight: bold;
+            margin-right: toRem(10);
+        }
+    }
+
+    .buttonContainer {
+        position: relative;
+        width: fit-content;
+        height: fit-content;
+
+        button {
+            font-size: toRem(13);
+            background: white;
+            border: white;
+            color:rgb(16, 147, 253);
+            width: toRem(50);
+        }
+    }
+   
+}

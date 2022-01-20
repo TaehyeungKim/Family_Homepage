@@ -2,56 +2,13 @@ import React, {useState, useRef} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styles from './Feed.module.scss'
 
-
-interface FeedHeaderProps {
-    feedData: any;
-}
+import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'
+import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
 
 
-function FeedHeader({feedData}: FeedHeaderProps) {
-
-    let navigate = useNavigate();
-    const session = sessionStorage
-
-    const url = "http://localhost:8080/family-homepage/server/deleteFeed.php";
-
-    const deleteFeed = async(url: string, user_id: string, feed_id: string, photo_type: string) => {
-        const formData = new FormData();
-        formData.append('user_id', user_id)
-        formData.append('feed_id', feed_id);
-        formData.append('photo_type', photo_type);
-        const response = await fetch(url, {
-            method: "POST",
-            body: formData
-        })
-        const text = await response.text()
-            .then((value) => {console.log(value)})
-            .then(() => navigate(`/main_proxy`));
-
-    }
-
-    return(
-        <>
-            <div className={styles.feed_header}>
-                <div className = {styles.profile_image_container}>
-                    <div className={styles.profile_image}>
-                        <img src={`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${feedData.user_id}`} alt='profile'/>
-                    </div>
-                </div>
-                <div className ={styles.profile_name}>
-                    <p>{feedData.user_id}</p>
-                </div>
-                {session.user_id === feedData.user_id ? <button className = {styles.feed_delete_button} onClick = {() => {
-                    deleteFeed(url, feedData.user_id, feedData.feed_id, feedData.photo_type);
-                }}>삭제</button> : null}
-
-            </div>
-        </>
-    )
-}
 
 interface FeedProps {
-    feedData: any;
+    feedData: any,
 }
 
 
@@ -69,7 +26,13 @@ function Feed({feedData}: FeedProps) {
         setButtonActive(false);
     }
 
-    const [commentShown, setCommentShown] = useState<any>(false);
+    const [commentData, setCommentData] = useState<any>();
+    const [commentShown, setCommentShown] = useState<boolean>(false);
+    const [commentUpdated, setCommentUpdated] = useState<boolean>(false);
+
+    const commentIsUpdated = () => {
+        setCommentUpdated(true);
+    }
 
     const showComment = async (feed_id: number, feed_user: string) => {
         const loadUrl = "http://localhost:8080/family-homepage/server/loadComment.php"
@@ -82,7 +45,8 @@ function Feed({feedData}: FeedProps) {
         })
         const json = await response.json()
         console.log(json);
-        setCommentShown(json);
+        setCommentData(json);
+        setCommentShown(true);
     }
 
     const hideComment = () => {
@@ -107,25 +71,12 @@ function Feed({feedData}: FeedProps) {
         const text = await fetchData.text().then((value)=>{
             showComment(feed_id, feed_user);
         }).then((value)=>{
-            setButtonActive(false)})
+            setButtonActive(false)
+            setCommentUpdated(true)});
 
         return ""
     }
 
-    const deleteComment = async (created_at: string, comment_user: string, feed_user: string, feed_id: number) => {
-        const data = new FormData();
-        const url = "http://localhost:8080/family-homepage/server/deleteComment.php";
-        data.append('created_at', created_at);
-        data.append('comment_user', comment_user);
-        data.append('feed_user', feed_user);
-        data.append('feed_id', feed_id.toString());
-        const response = await fetch(url, {
-            method: "POST",
-            body: data
-        })
-        const text= await response.text()
-        .then((value)=>{showComment(feed_id, feed_user)});
-    }
 
     const clearComInp = (clear: string, target: HTMLTextAreaElement) => {
         target.value = clear;
@@ -138,6 +89,7 @@ function Feed({feedData}: FeedProps) {
     const time = feedData.created_at.split(" ")[1];
 
     const session = sessionStorage;
+
 
     return(
         <>
@@ -154,31 +106,23 @@ function Feed({feedData}: FeedProps) {
                     <p id = {styles.feedDate}>{year + "년 " + month + "월 " + day + "일"}</p>
                 </div>
                 <div className={styles.feed_comment}>
-                    {feedData.comment_exists === 'true' ? 
+                    {/* button before comment updated */}
+                    {feedData.comment_exists === 'true' && commentUpdated === false ? 
                     <button className = {styles.commentShowOrHideButton} onClick = {commentShown === false ? 
                         () => {
                             showComment(feedData.feed_id, feedData.user_id)} : hideComment}>{commentShown === false ? "댓글 보기" : "댓글 감추기"}</button> 
                     : 
                     null}
-                    {commentShown === false ? null 
+                    {/* button after comment updated */}
+                    {commentUpdated === true && commentData !==undefined ? 
+                        commentData.data.length !== 0 ? 
+                        <button className = {styles.commentShowOrHideButton} onClick = {commentShown === false ? 
+                            () => {
+                                showComment(feedData.feed_id, feedData.user_id)} : hideComment}>{commentShown === false ? "댓글 보기" : "댓글 감추기"}</button> 
+                                : null
                     : 
-                    commentShown.data.map((em: any) =>(
-                        <div className = {styles.commentLine}>
-                            <div className = {styles.nameAndComment}>
-                                <span>{em.comment_user}</span>
-                                {em.comment}
-                            </div> 
-                            {em.comment_user === session.user_id ? 
-                            <div className = {styles.buttonContainer}>
-                            <button onClick={()=> {
-                                deleteComment(em.created_at, em.comment_user, feedData.user_id, em.feed_id);
-                            }}>삭제
-                            </button>
-                            </div>
-                            :
-                            null}
-                        </div>
-                    ))}
+                    null}
+                    <FeedCommentShow feedData={feedData} commentShown = {commentShown} commentData={commentData} showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                     <div className={styles.comment_write}>
                         <div className = {styles.comment_profile_container}>
                             <img src = {`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/>
