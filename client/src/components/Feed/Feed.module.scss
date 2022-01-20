@@ -113,13 +113,33 @@
 
             .commentLine {
                 position: relative;
-                margin: toRem(3) 0 toRem(3) toRem(10);
+                margin: toRem(3) toRem(5) toRem(5) toRem(10);
                 font-size: toRem(14);
-
-                span {
-                    font-weight: bold;
-                    margin-right: toRem(10);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .nameAndComment {
+                    word-break: break-all;
+                    span {
+                        font-weight: bold;
+                        margin-right: toRem(10);
+                    }
                 }
+
+                .buttonContainer {
+                    position: relative;
+                    width: fit-content;
+                    height: fit-content;
+
+                    button {
+                        font-size: toRem(13);
+                        background: white;
+                        border: white;
+                        color:rgb(16, 147, 253);
+                        width: toRem(50);
+                    }
+                }
+               
             }
 
             .commentShowOrHideButton {
@@ -147,27 +167,31 @@
                         width: 100%;
                     }
                 }
-                textarea {
+                .textareaContainer {
                     position: relative;
-                    margin-left: toRem(10);
-                    border: 1px solid gray;
-                    border-radius: toRem(6);
-                    width: toRem(260);
-                    height: toRem(25);
-                    resize: none;
-                    font-size: toRem(13);
+                    textarea {
+                        position: relative;
+                        margin-left: toRem(10);
+                        border: 1px solid gray;
+                        border-radius: toRem(6);
+                        width: toRem(260);
+                        height: toRem(25);
+                        resize: none;
+                        font-size: toRem(13);
+                    }
                 }
+                
                 button {
                     background: white;
                     border: white;
                     color: #df78ef;
                     margin-left: toRem(10);
                     font-size: toRem(15);
-                    cursor: pointer;
                 }
 
                 #active {
                     opacity: 1.0;
+                    cursor: pointer;
                 }
 
                 #notActive {
@@ -188,12 +212,22 @@
                 }
             }
             .feed_comment {
+
                 .comment_write {
-                    textarea {
-                        width: toRem(185);
+ 
+                    .textareaContainer {
+                        position: absolute;
+                        left: toRem(40);
+                        right: toRem(40);
+                        textarea {
+                            width: 80%;
+                        }
                     }
+
                     button {
-                        font-size: toRem(13);
+                        position: absolute;
+                        right: toRem(10);
+                        font-size: toRem(15);
                         margin-left: toRem(5);
                     }
                 }
