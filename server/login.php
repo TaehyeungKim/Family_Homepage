@@ -28,7 +28,7 @@ if ($info == null) {
         $pwerror = json_encode(array('message' => 'Wrong Password', 'error_desc' => "Password doesn't match"));
         echo $pwerror;
     } else {
-        $userData = json_encode(array('message' => 'Login Success', 'userId' => $info['user_id'], 'name' => $info['name'], 'userStat' => $info['status']));
+        $userData = json_encode(array('message' => 'Login Success', 'userId' => $info['user_id'], 'name' => $info['name'], 'userStat' => $info['status'], 'userDesc' => $info['self_description']));
         echo $userData;
     }
 }

@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react'
-import {useNavigate} from 'react-router-dom'
 import styles from './Feed.module.scss'
 
 import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'

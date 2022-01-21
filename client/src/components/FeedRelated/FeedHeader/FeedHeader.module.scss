@@ -3,70 +3,7 @@
     @return $remValue;
 }
 
-#alertVisible {
-    display: flex;
-}
 
-#alertNotVisible {
-    display: none;
-}
-
-.deleteFeedAlert {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.2);
-    z-index: 10;
-    align-items: center;
-
-    .alertContainer {
-        position: relative;
-        width: toRem(450);
-        margin: 0 auto 0;
-        background: white;
-        border-radius: toRem(10);
-
-        p {
-            position: relative;
-            text-align: center;
-            font-size: toRem(25);
-        }
-
-        .buttonContainer {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom:  toRem(10);
-            button {
-                font-size: toRem(25);
-                position: relative;
-                background: white;
-                border-radius: toRem(5);
-                width: fit-content;
-                border: white;
-                cursor: pointer;
-    
-                &:hover {
-                    opacity: 0.6;
-                }
-    
-                &:active {
-                    opacity: 0.2;
-                }
-            }
-
-            #yes {
-                color: #ff94c2;
-            }
-
-            #no {
-                color: rgb(16, 147, 253);
-            }
-
-        }
-    }
-}
 
 .feed_header {
     position: relative;
@@ -139,7 +76,7 @@
 }
 
 @media (max-width: 600px) {
-    .deleteFeedAlert {
+    .deleteAlert {
         .alertContainer {
             width: toRem(300);
             p {

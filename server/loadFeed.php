@@ -22,7 +22,7 @@ foreach ($user_id_array as $id) {
         $command = $command . "union select * from feed_$id ";
     }
 }
-$command = $command . "order by created_at asc";
+$command = $command . "order by created_at desc";
 
 $queryResult = mysqli_query($con, $command);
 

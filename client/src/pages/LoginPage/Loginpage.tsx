@@ -51,6 +51,7 @@ function LoginPage() {
             session.user_name = json.name
             session.user_id = json.userId
             session.user_status = json.userStat
+            session.user_description = json.userDesc;
             session.islogin = 'true';
             navigate('/main');
         } else if (json.message === 'Wrong User Id') {

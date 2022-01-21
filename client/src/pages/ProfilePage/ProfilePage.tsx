@@ -69,7 +69,7 @@ function ProfilePage() {
                             <ul>
                                 <li>
                                     <label>소개</label>
-                                    <textarea></textarea>    
+                                    <textarea name = 'self_description' defaultValue = {session.user_description === 'null' ? null : session.user_description} placeholder = '소개를 입력하세요'></textarea>    
                                 </li>
                             </ul>
 

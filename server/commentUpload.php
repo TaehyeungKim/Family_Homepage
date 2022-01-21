@@ -10,7 +10,7 @@ $feed_user = $_POST['feed_user'];
 $comment_user = $_POST['comment_user'];
 $comment = $_POST['comment'];
 
-if(!mysqli_query($con, "insert into comment_to_$feed_user values (
+if(!mysqli_query($con, "insert into comment_to_$feed_user (feed_id, comment_user, created_at, comment) values (
     $feed_id, 
     '$comment_user',
     NOW(),

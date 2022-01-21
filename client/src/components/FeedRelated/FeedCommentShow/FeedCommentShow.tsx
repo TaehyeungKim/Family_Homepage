@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './FeedCommentShow.module.scss'
+import {DeleteCommentAlert} from '../../DeleteAlert/DeleteAlert'
 
 interface FeedCommentShowProps {
     feedData: any,
@@ -11,29 +12,26 @@ interface FeedCommentShowProps {
 
 function FeedCommentShow({feedData, commentShown, commentData, showComment, commentIsUpdated}: FeedCommentShowProps) {
 
-    const deleteComment = async (created_at: string, comment_user: string, feed_user: string, feed_id: number) => {
-        const data = new FormData();
-        const url = "http://localhost:8080/family-homepage/server/deleteComment.php";
-        data.append('created_at', created_at);
-        data.append('comment_user', comment_user);
-        data.append('feed_user', feed_user);
-        data.append('feed_id', feed_id.toString());
-        const response = await fetch(url, {
-            method: "POST",
-            body: data
-        })
-        const text= await response.text()
-        .then((value)=>{
-            showComment(feed_id, feed_user)
-            commentIsUpdated()});
+    const session = sessionStorage;
+
+    const [alertVisible, setAlertVisible] = useState<boolean>(false);
+
+    const showAlert = () => {
+        setAlertVisible(true);
     }
 
-    const session = sessionStorage;
+    const hideAlert = () => {
+        setAlertVisible(false);
+    }
     return(
         <>
+
             {commentShown === false ? null 
                     : 
                     commentData.data.map((em: any) =>(
+                        <>
+                        <DeleteCommentAlert em={em} feedData={feedData} alertVisible={alertVisible} hideAlert={hideAlert} message={"댓글을 지우시겠습니까?"}
+                            showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                         <div className = {styles.commentLine}>
                             <div className = {styles.nameAndComment}>
                                 <span>{em.comment_user}</span>
@@ -41,14 +39,12 @@ function FeedCommentShow({feedData, commentShown, commentData, showComment, comm
                             </div> 
                             {em.comment_user === session.user_id ? 
                             <div className = {styles.buttonContainer}>
-                            <button onClick={()=> {
-                                deleteComment(em.created_at, em.comment_user, feedData.user_id, em.feed_id);
-                            }}>삭제
-                            </button>
+                            <button onClick={showAlert}>삭제</button>
                             </div>
                             :
                             null}
                         </div>
+                        </>
             ))}
         </>
     )

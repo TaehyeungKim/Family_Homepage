@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import {DeleteFeedAlert} from '../../DeleteAlert/DeleteAlert';
 import styles from './FeedHeader.module.scss'
-import {useNavigate} from 'react-router-dom'
+
 
 
 interface FeedHeaderProps {
@@ -16,10 +18,11 @@ function FeedHeader({feedData}: FeedHeaderProps) {
         setAlertVisible(true);
     }
 
-    let navigate = useNavigate();
-    const session = sessionStorage
+    const hideAlert = () => {
+        setAlertVisible(false);
+    }
 
-    const url = "http://localhost:8080/family-homepage/server/deleteFeed.php";
+    let navigate = useNavigate();
 
     const deleteFeed = async(url: string, user_id: string, feed_id: string, photo_type: string) => {
         const formData = new FormData();
@@ -36,20 +39,18 @@ function FeedHeader({feedData}: FeedHeaderProps) {
 
     }
 
+    
+
+
+    const session = sessionStorage
+
+    
+
+
     return(
         <>  
             {/* delete feed alert */}
-            <div className = {styles.deleteFeedAlert} id={alertVisible === true ? styles.alertVisible : styles.alertNotVisible}>
-                <div className = {styles.alertContainer}>
-                    <p>피드를 정말 삭제하시겠습니까?</p>
-                    <div className = {styles.buttonContainer}>
-                        <button id = {styles.yes} onClick={() => {
-                    deleteFeed(url, feedData.user_id, feedData.feed_id, feedData.photo_type);
-                }}>Yes</button>
-                        <button id = {styles.no} onClick={()=>{setAlertVisible(false)}}>No</button>
-                    </div>
-                </div>
-            </div>
+            <DeleteFeedAlert deleteFeed={deleteFeed} alertVisible={alertVisible} hideAlert={hideAlert} feedData={feedData} message={'피드를 정말 삭제하시겠습니까?'}/>
             <div className={styles.feed_header}>
                 <div className = {styles.profile_image_container}>
                     <div className={styles.profile_image}>
@@ -60,7 +61,6 @@ function FeedHeader({feedData}: FeedHeaderProps) {
                     <p>{feedData.user_id}</p>
                 </div>
                 {session.user_id === feedData.user_id ? <button className = {styles.feed_delete_button} onClick = {showAlert}>삭제</button> : null}
-
             </div>
         </>
     )
