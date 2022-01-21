@@ -89,8 +89,10 @@ function MainPage() {
                         </div>
                         :
                         <div className = {styles.feed_area} id ={styles.notEmpty}>
-                            {jsonData.data.map((feedData: any) => (
+                            {jsonData.data.map((feedData: any, idx: any) => (
+                            <React.Fragment key = {idx}>
                             <Feed feedData={feedData}/>
+                            </React.Fragment>
                         ))
                             }
                         </div>   
