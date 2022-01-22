@@ -1,14 +1,52 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import styles from './ProfilePage.module.scss'
 import Nav from '../../components/Nav/Nav'
 import Sidebar from '../../components/Sidebar/Sidebar';
+import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
+
+// interface LoadProfileImgProps {
+//     url: string,
+//     user_id: string,
+//     loadProfilePath: (json: any) => void,
+// }
+
+// function LoadProfileImg({url, user_id, loadProfilePath}:LoadProfileImgProps){
+//     const data = new FormData();
+//     data.append('user_id', user_id);
+
+//     const loadProfile = async(url: string) => {
+//         const response = await fetch(url, {
+//             method: "POST",
+//             body: data
+//         })
+//         const json = await response.json()
+//         .then((value)=>{
+//             loadProfilePath(value)
+//             console.log(value)});;
+//     }
+    
+//     useEffect(()=>{
+//         loadProfile(url);
+//     })
+//     return(
+//         <>
+//         </>
+//     )
+// }
 
 function ProfilePage() {
     const session = sessionStorage;
-    const [profileImageData, setProfileImageData] = useState<string>(`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`);
+    const [changedProfileImgPreview, setChangedProfileImgPreview] = useState<string>("");
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     const changeProfile = useRef<HTMLInputElement>(null);
-    const imageAfterChange = useRef<HTMLImageElement>(null);
+
+    const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
+    const [profileImagePath, setProfileImagePath] = useState<any>();
+
+    const loadProfilePath = (json: any) => {
+        setProfileImagePath(json);
+        setLoadProfileImg(false);
+    }
 
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
@@ -17,10 +55,10 @@ function ProfilePage() {
     return(
         <>
         <div className = {styles.frame}>
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status}/>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImagePath={profileImagePath}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
             <Nav onClick={sidebarMove}/>
-            <form method='post' action = "http://localhost:8080/family-homepage/server/profileChange.php" encType='multipart/form-data'>
+            <form method='post' action = "./server/profileChange.php" encType='multipart/form-data'>
             <div className = {styles.profileCard}>
                 <div className = {styles.header}>
                     내 프로필
@@ -28,7 +66,10 @@ function ProfilePage() {
                 <div className = {styles.body}>
                     <div className = {styles.profileImageAndId}>
                         <div className = {styles.imageContainer}>
-                            <img src = {profileImageData} alt = 'profileImage' ref={imageAfterChange}/>
+                            {changedProfileImgPreview === "" ? 
+                                profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>
+                            :
+                            <img src = {changedProfileImgPreview} alt = 'profile'/>}
                         </div>
                         <div className = {styles.profileChange}>
                             <button onClick = {(event) => {
@@ -42,7 +83,7 @@ function ProfilePage() {
                                     const reader = new FileReader();
                                     reader.readAsDataURL(file);
                                     reader.onloadend = () => {
-                                        setProfileImageData(reader.result as string)
+                                        setChangedProfileImgPreview(reader.result as string)
                                     }
                                 }
                             }}/>
@@ -84,6 +125,7 @@ function ProfilePage() {
             </div>
             </form>
         </div>
+        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfilePath={loadProfilePath}/> : null}
         </>
     )
 }

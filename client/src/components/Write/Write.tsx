@@ -14,7 +14,7 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
 
     const session = sessionStorage
 
-    const url = "http://localhost:8080/family-homepage/server/postFeed.php"
+    const url = "./server/postFeed.php"
 
     const fetchData = async(data: FormData) => {
         const response = await fetch(url, {

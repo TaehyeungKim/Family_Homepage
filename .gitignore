@@ -2,10 +2,12 @@
 
 # dependencies
 /client/node_modules
+/client/build
 /.pnp
 .pnp.js
 /server/connectDB.php
 /server/profileImage
+/server/feedImgs
 
 # testing
 /coverage

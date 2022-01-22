@@ -1,5 +1,37 @@
-import React,{useEffect} from 'react';
+import React,{useState, useEffect} from 'react';
+import { LoadProfileImg } from '../LoadProfileImg/LoadProfileImg';
 import styles from './Description.module.scss'
+
+// interface LoadProfileImgProps {
+//     url: string,
+//     user_id: string,
+//     loadProfilePath: (json: any) => void,
+// }
+
+// function LoadProfileImg({url, user_id, loadProfilePath}:LoadProfileImgProps){
+//     const data = new FormData();
+//     data.append('user_id', user_id);
+
+//     const loadProfile = async(url: string) => {
+//         const response = await fetch(url, {
+//             method: "POST",
+//             body: data
+//         })
+//         const json = await response.json()
+//         .then((value)=>{
+//             loadProfilePath(value)
+//             console.log(value)});;
+//     }
+    
+//     useEffect(()=>{
+//         loadProfile(url);
+//     })
+//     return(
+//         <>
+//         </>
+//     )
+// }
+
 
 interface SubmitDescProps {
     setDescription: (desc: string) => void;
@@ -22,13 +54,22 @@ interface DescriptionProps {
 }
 
 function Description({status, setDescription, fetchData}:DescriptionProps) {
+    const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
+    const [profileImagePath, setProfileImagePath] = useState<any>();
+
+    const loadProfilePath = (json: any) => {
+        setProfileImagePath(json);
+        setLoadProfileImg(false);
+    }
+
     const session = sessionStorage;
     return(
         <>
+        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id={session.user_id} loadProfilePath={loadProfilePath}/> : null}
         <div className = {styles.frame} id = {status === 'write' ? styles.frameAtDescription : styles.frameBeforeDescription}>
             <div className = {styles.profile}>
                 <div className = {styles.imageContainer}>
-                    <img src = {`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/>
+                {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}
                 </div>
                 <div className = {styles.name}>
                     <input name = 'user_id' defaultValue={session.user_id} disabled/>

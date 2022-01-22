@@ -13,7 +13,7 @@ interface DeleteFeedAlertProps {
 function DeleteFeedAlert({deleteFeed, alertVisible, hideAlert, feedData, message}:DeleteFeedAlertProps) {
 
 
-    const url = "http://localhost:8080/family-homepage/server/deleteFeed.php"
+    const url = "./server/deleteFeed.php"
 
     return(
         <>
@@ -46,7 +46,7 @@ function DeleteCommentAlert({em, feedData, alertVisible, hideAlert, message, sho
 
     const deleteComment = async (created_at: string, comment_user: string, feed_user: string, feed_id: number) => {
         const data = new FormData();
-        const url = "http://localhost:8080/family-homepage/server/deleteComment.php";
+        const url = "./server/deleteComment.php";
         data.append('created_at', created_at);
         data.append('comment_user', comment_user);
         data.append('feed_user', feed_user);

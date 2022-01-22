@@ -1,7 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Location: http://localhost:3000/main_proxy");
+header("Location: ../main_proxy");
 
 include 'connectDB.php';
 

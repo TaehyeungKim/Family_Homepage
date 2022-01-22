@@ -1,7 +1,38 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LoadProfileImg } from '../../LoadProfileImg/LoadProfileImg';
 import {DeleteFeedAlert} from '../../DeleteAlert/DeleteAlert';
-import styles from './FeedHeader.module.scss'
+import styles from './FeedHeader.module.scss';
+
+// interface LoadFeedUserProfileImgProps {
+//     url: string,
+//     feed_user_id: string,
+//     loadProfilePath: (path: string)=>void;
+// }
+
+// function LoadFeedUserProfileImg({url, feed_user_id, loadProfilePath}:LoadFeedUserProfileImgProps) {
+
+//     const data = new FormData();
+//     data.append('user_id', feed_user_id);
+
+//     const loadData = async() => {
+//         const response = await fetch(url, {
+//             method: "POST",
+//             body: data
+//         })
+
+//         const json = await response.json()
+//         .then((value)=>{loadProfilePath(value.path)});
+//     }
+
+//     useEffect(()=>{
+//         loadData();
+//     })
+//     return(
+//         <>
+//         </>
+//     )
+// }
 
 
 
@@ -13,6 +44,14 @@ interface FeedHeaderProps {
 function FeedHeader({feedData}: FeedHeaderProps) {
 
     const [alertVisible, setAlertVisible] = useState<boolean>(false);
+    
+    const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
+    const [profileImagePath, setProfileImagePath] = useState<any>();
+
+    const loadProfilePath = (json: any) => {
+        setProfileImagePath(json);
+        setLoadProfileImg(false);
+    }
 
     const showAlert = () => {
         setAlertVisible(true);
@@ -44,17 +83,22 @@ function FeedHeader({feedData}: FeedHeaderProps) {
 
     const session = sessionStorage
 
+   
+
     
 
 
     return(
         <>  
+            {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {feedData.user_id} loadProfilePath={loadProfilePath}/> : null}
+        {/* {profileImagePath !== "" ? null : <LoadFeedUserProfileImg url={"./server/readProfileImg.php"} feed_user_id={feedData.user_id} loadProfilePath={loadProfilePath}/>} */}
             {/* delete feed alert */}
             <DeleteFeedAlert deleteFeed={deleteFeed} alertVisible={alertVisible} hideAlert={hideAlert} feedData={feedData} message={'피드를 정말 삭제하시겠습니까?'}/>
             <div className={styles.feed_header}>
                 <div className = {styles.profile_image_container}>
                     <div className={styles.profile_image}>
-                        <img src={`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${feedData.user_id}`} alt='profile'/>
+                        {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}
+                        {/* <img src={profileImagePath} alt='profile'/> */}
                     </div>
                 </div>
                 <div className ={styles.profile_name}>

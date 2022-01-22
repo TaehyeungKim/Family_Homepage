@@ -8,10 +8,11 @@ import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
 
 interface FeedProps {
     feedData: any,
+    profileImagePath: any
 }
 
 
-function Feed({feedData}: FeedProps) {
+function Feed({feedData, profileImagePath}: FeedProps) {
 
     const [buttonActive, setButtonActive] = useState<boolean>(false);
 
@@ -34,7 +35,7 @@ function Feed({feedData}: FeedProps) {
     }
 
     const showComment = async (feed_id: number, feed_user: string) => {
-        const loadUrl = "http://localhost:8080/family-homepage/server/loadComment.php"
+        const loadUrl = "./server/loadComment.php"
         const data = new FormData();
         data.append('feed_id', feed_id.toString());
         data.append('feed_user', feed_user);
@@ -55,7 +56,7 @@ function Feed({feedData}: FeedProps) {
     const comment = useRef<HTMLTextAreaElement>(null);
 
     const uploadComment = async (feed_id: number, feed_user: string, comment_user: string, comment: string) => {
-        const url = "http://localhost:8080/family-homepage/server/commentUpload.php"
+        const url = "./server/commentUpload.php"
         const data = new FormData();
         data.append('feed_id', feed_id.toString());
         data.append('feed_user', feed_user);
@@ -97,7 +98,7 @@ function Feed({feedData}: FeedProps) {
                 <FeedHeader feedData={feedData}/>
                 <hr/>
                 <div className={styles.feed_photo}>
-                    <img src={`http://localhost:8080/family-homepage/server/readFeedPhoto.php?photo_path=${feedData.photo_path}`} alt='feed_image'/>
+                    <img src={feedData.photo_path} alt='feed_image'/>
                 </div>
                 <hr/>
                 <div className={styles.feed_content}>
@@ -124,7 +125,7 @@ function Feed({feedData}: FeedProps) {
                     <FeedCommentShow feedData={feedData} commentShown = {commentShown} commentData={commentData} showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                     <div className={styles.comment_write}>
                         <div className = {styles.comment_profile_container}>
-                            <img src = {`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/>
+                            {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}
                         </div>
                         <div className = {styles.textareaContainer}>
                         <textarea placeholder='댓글 달기' ref={comment} onChange={(e)=> {

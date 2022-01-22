@@ -1,6 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Headers: Content-Type");
 
 include 'connectDB.php';
 
@@ -42,17 +40,19 @@ while($queryFeedIdResult = mysqli_fetch_array($queryFeedId)) {
 $newFeedId = end($feedIdArray)['feed_id'];
 
 //check if individual user folder exists
-if(!(file_exists('./feedImgs/' . $user_id))) {
-    mkdir('./feedImgs/' . $user_id);
+if(!(file_exists("./feedImgs/$user_id"))) {
+    mkdir("./feedImgs/$user_id");
 }
 
 $newImgDir = "feedImgs/$user_id/$newFeedId";
 mkdir($newImgDir);
 move_uploaded_file($_FILES['image']['tmp_name'], $newImgDir . "/" . $newFeedId . "." . $fileType);
 
-$setPhotoPath = "update feed_$user_id set photo_path = '$newImgDir/$newFeedId.$fileType' where feed_id=$newFeedId";
+$setPhotoPath = "update feed_$user_id set photo_path = './server/$newImgDir/$newFeedId.$fileType' where feed_id=$newFeedId";
 $setPhotoType = "update feed_$user_id set photo_type = '.$fileType' where feed_id=$newFeedId";
 
 mysqli_query($con, $setPhotoPath);
 mysqli_query($con, $setPhotoType);
+
+
 ?>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 
@@ -10,10 +10,12 @@ interface SidebarProps {
     visible: boolean;
     user_name: string;
     user_id: string;
-    user_status: string;
+    user_status: string,
+    profileImagePath: any
 }
 
-function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProps) {
+function Sidebar({onClick, visible, user_name, user_id, user_status, profileImagePath}:SidebarProps) {
+
     const session = sessionStorage;
     let navigate = useNavigate();
     const loginPage = `/login`
@@ -26,7 +28,6 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
         navigate(profilePage)
     }
 
-
     return(
         <>
         <div className={styles.sidebar} id={visible === true ? styles.sidebar_visible : styles.sidebar_closed}>
@@ -35,7 +36,8 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
             </div>
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
-                    <img src = {`http://localhost:8080/family-homepage/server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/>
+                    {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}        
+                    {/* <img src = {`./server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/> */}
                 </div>
                 <div className = {styles.profileName}>
                     {user_name} / {user_id}
@@ -46,9 +48,7 @@ function Sidebar({onClick, visible, user_name, user_id, user_status}:SidebarProp
                 </div>
 
             </div>
-
         </div>
-
         </>
     )
 }

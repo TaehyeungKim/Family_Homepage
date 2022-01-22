@@ -34,7 +34,7 @@ function LoginPage() {
     let navigate = useNavigate();
     console.log(house);
 
-    const loginUrl = "http://localhost:8080/family-homepage/server/login.php"
+    const loginUrl = "/server/login.php"
 
     const session = sessionStorage
 
