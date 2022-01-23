@@ -8,11 +8,11 @@ import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
 
 interface FeedProps {
     feedData: any,
-    profileImagePath: any
+    profileImageData: any
 }
 
 
-function Feed({feedData, profileImagePath}: FeedProps) {
+function Feed({feedData, profileImageData}: FeedProps) {
 
     const [buttonActive, setButtonActive] = useState<boolean>(false);
 
@@ -125,7 +125,7 @@ function Feed({feedData, profileImagePath}: FeedProps) {
                     <FeedCommentShow feedData={feedData} commentShown = {commentShown} commentData={commentData} showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                     <div className={styles.comment_write}>
                         <div className = {styles.comment_profile_container}>
-                            {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}
+                            {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                         </div>
                         <div className = {styles.textareaContainer}>
                         <textarea placeholder='댓글 달기' ref={comment} onChange={(e)=> {

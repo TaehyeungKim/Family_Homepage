@@ -68,7 +68,7 @@ function PhotoSelect({status, fetchData, setImg, photoSelectFinished}:PhotoSelec
             </div>
             <div className = {styles.chooseButtonContainer}>
                 <button className = {styles.chooseButton} onClick={Select}>사진 선택하기</button>
-                <input type = 'file' hidden id = 'file' accept='image/*' multiple onChange={(event) => {
+                <input type = 'file' hidden id = 'file' accept='image/*' onChange={(event) => {
                     setStoredFiles(event.target?.files as FileList);
                     const file = event.target?.files?.item(0)
                     if (file) {

@@ -4,35 +4,6 @@ import Nav from '../../components/Nav/Nav'
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
 
-// interface LoadProfileImgProps {
-//     url: string,
-//     user_id: string,
-//     loadProfilePath: (json: any) => void,
-// }
-
-// function LoadProfileImg({url, user_id, loadProfilePath}:LoadProfileImgProps){
-//     const data = new FormData();
-//     data.append('user_id', user_id);
-
-//     const loadProfile = async(url: string) => {
-//         const response = await fetch(url, {
-//             method: "POST",
-//             body: data
-//         })
-//         const json = await response.json()
-//         .then((value)=>{
-//             loadProfilePath(value)
-//             console.log(value)});;
-//     }
-    
-//     useEffect(()=>{
-//         loadProfile(url);
-//     })
-//     return(
-//         <>
-//         </>
-//     )
-// }
 
 function ProfilePage() {
     const session = sessionStorage;
@@ -41,10 +12,10 @@ function ProfilePage() {
     const changeProfile = useRef<HTMLInputElement>(null);
 
     const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
-    const [profileImagePath, setProfileImagePath] = useState<any>();
+    const [profileImageData, setProfileImageData] = useState<any>();
 
-    const loadProfilePath = (json: any) => {
-        setProfileImagePath(json);
+    const loadProfileData = (json: any) => {
+        setProfileImageData(json);
         setLoadProfileImg(false);
     }
 
@@ -55,7 +26,7 @@ function ProfilePage() {
     return(
         <>
         <div className = {styles.frame}>
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImagePath={profileImagePath}/>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
             <Nav onClick={sidebarMove}/>
             <form method='post' action = "./server/profileChange.php" encType='multipart/form-data'>
@@ -67,9 +38,9 @@ function ProfilePage() {
                     <div className = {styles.profileImageAndId}>
                         <div className = {styles.imageContainer}>
                             {changedProfileImgPreview === "" ? 
-                                profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>
+                                profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>
                             :
-                            <img src = {changedProfileImgPreview} alt = 'profile'/>}
+                            <img src = {changedProfileImgPreview} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                         </div>
                         <div className = {styles.profileChange}>
                             <button onClick = {(event) => {
@@ -125,7 +96,7 @@ function ProfilePage() {
             </div>
             </form>
         </div>
-        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfilePath={loadProfilePath}/> : null}
+        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
         </>
     )
 }

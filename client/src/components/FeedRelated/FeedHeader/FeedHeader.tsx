@@ -46,10 +46,10 @@ function FeedHeader({feedData}: FeedHeaderProps) {
     const [alertVisible, setAlertVisible] = useState<boolean>(false);
     
     const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
-    const [profileImagePath, setProfileImagePath] = useState<any>();
+    const [profileImageData, setProfileImageData] = useState<any>();
 
-    const loadProfilePath = (json: any) => {
-        setProfileImagePath(json);
+    const loadProfileData = (json: any) => {
+        setProfileImageData(json);
         setLoadProfileImg(false);
     }
 
@@ -90,14 +90,14 @@ function FeedHeader({feedData}: FeedHeaderProps) {
 
     return(
         <>  
-            {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {feedData.user_id} loadProfilePath={loadProfilePath}/> : null}
+            {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {feedData.user_id} loadProfileData={loadProfileData}/> : null}
         {/* {profileImagePath !== "" ? null : <LoadFeedUserProfileImg url={"./server/readProfileImg.php"} feed_user_id={feedData.user_id} loadProfilePath={loadProfilePath}/>} */}
             {/* delete feed alert */}
             <DeleteFeedAlert deleteFeed={deleteFeed} alertVisible={alertVisible} hideAlert={hideAlert} feedData={feedData} message={'피드를 정말 삭제하시겠습니까?'}/>
             <div className={styles.feed_header}>
                 <div className = {styles.profile_image_container}>
                     <div className={styles.profile_image}>
-                        {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}
+                        {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                         {/* <img src={profileImagePath} alt='profile'/> */}
                     </div>
                 </div>

@@ -24,15 +24,26 @@ $descHeight: 365;
         .imageContainer {
             width: toRem(40);
             height: toRem(40);
-            border: 1px white;
+            border: 1px solid #e0e0e0;
             border-radius: toRem(25);
             background-color: white;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             img {
-                width: 100%;
-                transition: 0.5s;
+                display: block;
             }
+        
+            #toHeight {
+                height: 100%;
+            }
+
+            #toWidth {
+                width: 100%;
+            }
+
         }
 
         .name {

@@ -70,10 +70,10 @@ function MainPage() {
     }
 
     const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
-    const [profileImagePath, setProfileImagePath] = useState<any>();
+    const [profileImageData, setProfileImageData] = useState<any>();
 
-    const loadProfilePath = (json: any) => {
-        setProfileImagePath(json);
+    const loadProfileData = (json: any) => {
+        setProfileImageData(json);
         setLoadProfileImg(false);
     }
 
@@ -87,7 +87,7 @@ function MainPage() {
         <>
             {session.islogin === 'true' ?
             <> 
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImagePath={profileImagePath}/>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                 <Nav onClick = {sidebarMove}/>
                 <div className = {styles.bodyWrapper}>
@@ -102,7 +102,7 @@ function MainPage() {
                         <div className = {styles.feed_area} id ={styles.notEmpty}>
                             {jsonData.data.map((feedData: any, idx: any) => (
                             <React.Fragment key = {idx}>
-                            <Feed feedData={feedData} profileImagePath={profileImagePath}/>
+                            <Feed feedData={feedData} profileImageData={profileImageData}/>
                             </React.Fragment>
                         ))
                             }
@@ -110,7 +110,7 @@ function MainPage() {
                         }
                 </div>
             {stopLoading === false ? <LoadUserFeed setFeedData={setFeedData} stopLoading={stopLoadingData}/> : null}
-            {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfilePath={loadProfilePath}/> : null}
+            {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
             </>
             :
             <Navigate to = {`/login`}/>

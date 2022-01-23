@@ -55,21 +55,21 @@ interface DescriptionProps {
 
 function Description({status, setDescription, fetchData}:DescriptionProps) {
     const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
-    const [profileImagePath, setProfileImagePath] = useState<any>();
+    const [profileImageData, setProfileImageData] = useState<any>();
 
-    const loadProfilePath = (json: any) => {
-        setProfileImagePath(json);
+    const loadProfileData = (json: any) => {
+        setProfileImageData(json);
         setLoadProfileImg(false);
     }
 
     const session = sessionStorage;
     return(
         <>
-        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id={session.user_id} loadProfilePath={loadProfilePath}/> : null}
+        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id={session.user_id} loadProfileData={loadProfileData}/> : null}
         <div className = {styles.frame} id = {status === 'write' ? styles.frameAtDescription : styles.frameBeforeDescription}>
             <div className = {styles.profile}>
                 <div className = {styles.imageContainer}>
-                {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}
+                    {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                 </div>
                 <div className = {styles.name}>
                     <input name = 'user_id' defaultValue={session.user_id} disabled/>

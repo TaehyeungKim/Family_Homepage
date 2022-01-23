@@ -11,10 +11,10 @@ interface SidebarProps {
     user_name: string;
     user_id: string;
     user_status: string,
-    profileImagePath: any
+    profileImageData: any
 }
 
-function Sidebar({onClick, visible, user_name, user_id, user_status, profileImagePath}:SidebarProps) {
+function Sidebar({onClick, visible, user_name, user_id, user_status, profileImageData}:SidebarProps) {
 
     const session = sessionStorage;
     let navigate = useNavigate();
@@ -36,7 +36,7 @@ function Sidebar({onClick, visible, user_name, user_id, user_status, profileImag
             </div>
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
-                    {profileImagePath === undefined ? null : <img src = {profileImagePath.path} alt = 'profile'/>}        
+                {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                     {/* <img src = {`./server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/> */}
                 </div>
                 <div className = {styles.profileName}>

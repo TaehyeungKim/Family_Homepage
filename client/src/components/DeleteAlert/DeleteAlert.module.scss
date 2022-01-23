@@ -21,6 +21,37 @@
     z-index: 10;
     align-items: center;
 
+    .waitPopupBackground {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+
+        .waitPopup {
+            position: relative;
+            width: toRem(500);
+            height: toRem(100);
+            margin: 0 auto 0;
+            display: flex;
+            align-items: center;
+            background: white;
+    
+            p {
+                position: relative;
+                text-align: center;
+                margin: 0 auto 0;
+                color: black;
+                font-size: toRem(25);
+            }
+        }
+    }
+
+
     .alertContainer {
         position: relative;
         width: toRem(450);
@@ -71,6 +102,16 @@
 
 @media (max-width: 600px) {
     .deleteAlert {
+        .waitPopupBackground {
+            .waitPopup {
+                width: toRem(400);
+                height: toRem(80);
+        
+                p {
+                    font-size: toRem(22);
+                }
+            }
+        }
         .alertContainer {
             width: toRem(300);
             p {
@@ -86,7 +127,17 @@
 }
 
 @media (max-width: 400px) {
-    .deleteFeedAlert {
+    .deleteAlert {
+        .waitPopupBackground {
+            .waitPopup {
+                width: toRem(250);
+                height: toRem(80);
+        
+                p {
+                    font-size: toRem(20);
+                }
+            }
+        }
         .alertContainer {
             width: toRem(250);
             p {

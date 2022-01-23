@@ -33,7 +33,13 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
         fetchData(formData);
     })
     return(
-        <></>
+        <>
+        <div className = {styles.waitFrame}>
+            <div className = {styles.waitToUploadPopup}>
+                <p>업로드 중입니다. 잠시만 기다려주세요.</p>
+            </div>
+        </div>
+        </>
     )
 }
 

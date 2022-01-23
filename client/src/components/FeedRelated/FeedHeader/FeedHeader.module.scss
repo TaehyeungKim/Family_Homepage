@@ -26,14 +26,26 @@
             height: 100%;
             top: toRem(5);
             left: toRem(5);
-            border: 2px solid white;
+            border: 1px solid #e0e0e0;
             background: white;
             border-radius: 50% 50% 50% 50%;
             overflow: hidden;
-        
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
             img {
+                display: block;
+            }
+        
+            #toHeight {
+                height: 100%;
+            }
+
+            #toWidth {
                 width: 100%;
             }
+
         }
     }
 
