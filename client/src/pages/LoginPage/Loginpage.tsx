@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import {useNavigate} from 'react-router-dom'
+import {useRef, useState, useEffect} from 'react';
+import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './LoginPage.module.scss'
 import house from '../../images/christmas_house.png'
 import winter_house from '../../images/winter_house.png'
@@ -32,7 +32,7 @@ function LoginPage() {
     const inpPw = useRef<HTMLInputElement>(null);
     const [loginState, setLoginState] = useState<string>("");
     let navigate = useNavigate();
-    console.log(house);
+    const location = useLocation();
 
     const loginUrl = "/server/login.php"
 
@@ -68,6 +68,10 @@ function LoginPage() {
         }
         fetchData(loginUrl, data);
     }
+
+    useEffect(()=>{
+        session.page = location.pathname;
+    })
 
 
     return (

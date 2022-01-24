@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 
 import closeIcon from '../../icons/closeIcon.svg';
@@ -20,6 +19,7 @@ function Sidebar({onClick, visible, user_name, user_id, user_status, profileImag
     let navigate = useNavigate();
     const loginPage = `/login`
     const profilePage = `/profile`
+    const mainPage = `/main`
     const Logout = () => {
         session.clear();
         navigate(loginPage, {replace: true})
@@ -27,6 +27,12 @@ function Sidebar({onClick, visible, user_name, user_id, user_status, profileImag
     const moveToProfile = () => {
         navigate(profilePage)
     }
+
+    const moveToHome = () => {
+        navigate(mainPage);
+    }
+
+    const location = useLocation();
 
     return(
         <>
@@ -37,13 +43,16 @@ function Sidebar({onClick, visible, user_name, user_id, user_status, profileImag
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
                 {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
-                    {/* <img src = {`./server/readProfileImg.php?user_id=${session.user_id}`} alt = 'profile'/> */}
                 </div>
                 <div className = {styles.profileName}>
                     {user_name} / {user_id}
                 </div>
                 <div className = {styles.buttonsContainer}>
+                    {location.pathname === '/profile' ? 
+                    <button id = {styles.myInfo} onClick = {moveToHome}>홈으로</button>
+                    :
                     <button id = {styles.myInfo} onClick = {moveToProfile}>내 정보</button>
+                    }
                     <button id = {styles.logout} onClick={Logout}>로그아웃</button>
                 </div>
 

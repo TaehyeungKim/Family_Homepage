@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useState} from 'react';
 import styles from './DeleteAlert.module.scss';
 
 interface DeleteFeedAlertProps {

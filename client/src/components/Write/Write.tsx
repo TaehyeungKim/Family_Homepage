@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styles from './Write.module.scss'
 import PhotoSelect from '../PhotoSelect/PhotoSelect';
@@ -14,14 +14,14 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
 
     const session = sessionStorage
 
-    const url = "./server/postFeed.php"
+    const url = "../server/postFeed.php"
 
     const fetchData = async(data: FormData) => {
         const response = await fetch(url, {
             method: 'POST',
             body: data
         })
-        const text = await response.text().then(()=>{navigate(`/main`)});
+        const text = await response.text().then(()=>{navigate(`/main_proxy`)});
     }
 
     useEffect(() => {

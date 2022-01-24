@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
+import { useLocation } from 'react-router-dom';
 import styles from './ProfilePage.module.scss'
 import Nav from '../../components/Nav/Nav'
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -7,24 +8,29 @@ import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
 
 function ProfilePage() {
     const session = sessionStorage;
+    const location = useLocation();
     const [changedProfileImgPreview, setChangedProfileImgPreview] = useState<string>("");
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     const changeProfile = useRef<HTMLInputElement>(null);
 
-    const [loadProfileImg, setLoadProfileImg] = useState<boolean>(true);
+
     const [profileImageData, setProfileImageData] = useState<any>();
 
     const loadProfileData = (json: any) => {
         setProfileImageData(json);
-        setLoadProfileImg(false);
     }
 
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
     }
 
+    useEffect(()=>{
+        session.page = location.pathname;
+    })
+
     return(
         <>
+        {profileImageData === undefined ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
         <div className = {styles.frame}>
             <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
@@ -96,7 +102,6 @@ function ProfilePage() {
             </div>
             </form>
         </div>
-        {loadProfileImg === true ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
         </>
     )
 }

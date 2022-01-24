@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import {useState, useRef} from 'react'
 import styles from './Feed.module.scss'
 
 import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'

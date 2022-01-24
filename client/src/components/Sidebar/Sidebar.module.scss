@@ -94,6 +94,7 @@
 
 @media (max-width: 800px) {
     .sidebar {
+        transition: 0.5s;
         .close_mark {
             left: toRem(200);
         }

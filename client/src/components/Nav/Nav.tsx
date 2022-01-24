@@ -1,6 +1,5 @@
-import React from 'react'
 import styles from './Nav.module.scss'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import winter_house from '../../images/winter_house.png'
 import menuIcon from '../../icons/menuIcon.svg';
@@ -12,8 +11,10 @@ interface NavProps {
 }
 
 function Nav({onClick}:NavProps) {
-    const CreatePage = `/create`
+    const CreatePage = `/main/create`
     let navigate = useNavigate();
+
+    const location = useLocation();
 
     const Create = () => {
         navigate(CreatePage, {replace: true})
@@ -30,12 +31,15 @@ function Nav({onClick}:NavProps) {
                 }}>
                     <p>Knock Knock!</p>
                 </div>
+                {location.pathname === '/profile' ? null
+                : 
                 <button className = {styles.write_button} onClick = {Create}>
                     <div id = {styles.icon}>
                         <img src={writeIcon}/>
                     </div>
-                    <div id = {styles.label}>글쓰기</div>
+                <div id = {styles.label}>글쓰기</div>
                 </button>
+                }
                 <div className = {styles.menu} onClick={onClick}>
                     <img src={menuIcon}/>
                 </div>

@@ -14,8 +14,9 @@ function App() {
       <Routes>
         <Route path = '/' element = {<RootPage/>}/>
         <Route path = '/login' element = {<LoginPage/>}/>
-        <Route path = '/main' element = {<MainPage/>}/>
-        <Route path = '/create' element = {<CreatePage/>}/>
+          <Route path = '/main' element = {<MainPage/>}>
+            <Route path = 'create' element = {<CreatePage/>}/>
+          </Route>
         <Route path = '/profile' element = {<ProfilePage/>}/>
         
         <Route path = '/main_proxy' element = {<MainProxyPage/>}/>
