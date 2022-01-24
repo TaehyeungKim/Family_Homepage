@@ -45,7 +45,7 @@ function MainPage() {
     }
 
     const session = sessionStorage;
-    const url = "./server/loadUserInfo.php"
+    const url = "../server/loadUserInfo.php"
     const data = {'user_id' : session.user_id}
 
     const loadUserInfo = async (url: string, data: any) => {
