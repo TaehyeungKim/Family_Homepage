@@ -44,7 +44,6 @@ function Feed({feedData, profileImageData}: FeedProps) {
             body: data
         })
         const json = await response.json()
-        console.log(json);
         setCommentData(json);
         setCommentShown(true);
     }

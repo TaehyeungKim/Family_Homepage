@@ -98,7 +98,7 @@ function MainPage() {
                         <div className = {styles.feed_area} id ={styles.notEmpty}>
                             {feedJsonData.data.map((feedData: any, idx: any) => (
                             <React.Fragment key = {idx}>
-                            <Feed feedData={feedData} profileImageData={profileImageData}/>
+                                <Feed feedData={feedData} profileImageData={profileImageData}/>
                             </React.Fragment>
                         ))
                             }

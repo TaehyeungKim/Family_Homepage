@@ -2,13 +2,13 @@
 
 include 'connectDB.php';
 
-$comment_created_at = $_POST['created_at'];
-$comment_user = $_POST['comment_user'];
 $feed_user = $_POST['feed_user'];
 $feed_id = $_POST['feed_id'];
+$comment_id = $_POST['comment_id'];
 settype($feed_id, "integer");
+settype($comment_id, "integer");
 
-if(!mysqli_query($con, "delete from comment_to_$feed_user where created_at='$comment_created_at' and comment_user='$comment_user' and feed_id=$feed_id")) {
+if(!mysqli_query($con, "delete from comment_to_$feed_user where comment_id=$comment_id")) {
     echo mysqli_error($con);
 } else {
     echo "delete success";

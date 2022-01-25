@@ -15,6 +15,7 @@ function DeleteFeedAlert({deleteFeed, alertVisible, hideAlert, feedData, message
 
     const url = "./server/deleteFeed.php"
 
+
     return(
         <>
             <div className = {styles.deleteAlert} id={alertVisible === true ? styles.alertVisible : styles.alertNotVisible}>
@@ -52,12 +53,11 @@ interface DeleteCommentAlertProps {
 function DeleteCommentAlert({em, feedData, alertVisible, hideAlert, message, showComment, commentIsUpdated}:DeleteCommentAlertProps) {
     const [waitPopupVisible, setWaitPopupVisible] = useState<boolean>(false);
 
-    const deleteComment = async (created_at: string, comment_user: string, feed_user: string, feed_id: number) => {
+    const deleteComment = async (feed_user: string, feed_id: number, comment_id: number) => {
         const data = new FormData();
         const url = "./server/deleteComment.php";
-        data.append('created_at', created_at);
-        data.append('comment_user', comment_user);
         data.append('feed_user', feed_user);
+        data.append('comment_id', comment_id.toString());
         data.append('feed_id', feed_id.toString());
         const response = await fetch(url, {
             method: "POST",
@@ -65,10 +65,12 @@ function DeleteCommentAlert({em, feedData, alertVisible, hideAlert, message, sho
         })
         const text= await response.text()
         .then((value)=>{
+            setWaitPopupVisible(false);
             showComment(feed_id, feed_user)
             commentIsUpdated()
             hideAlert()});
     }
+
     return(
         <>
         <div className = {styles.deleteAlert} id={alertVisible === true ? styles.alertVisible : styles.alertNotVisible}>
@@ -82,7 +84,7 @@ function DeleteCommentAlert({em, feedData, alertVisible, hideAlert, message, sho
                     <p>{message}</p>
                     <div className = {styles.buttonContainer}>
                         <button id = {styles.yes} onClick={()=>{
-                            deleteComment(em.created_at, em.comment_user, feedData.user_id, em.feed_id);
+                            deleteComment(feedData.user_id, em.feed_id, em.comment_id);
                             setWaitPopupVisible(true);
                         }}>Yes</button>
                         <button id = {styles.no} onClick={hideAlert}>No</button>
