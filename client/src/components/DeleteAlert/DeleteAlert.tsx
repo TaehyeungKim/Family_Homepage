@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styles from './DeleteAlert.module.scss';
 
 interface DeleteFeedAlertProps {
@@ -65,11 +65,16 @@ function DeleteCommentAlert({em, feedData, alertVisible, hideAlert, message, sho
         })
         const text= await response.text()
         .then((value)=>{
-            setWaitPopupVisible(false);
             showComment(feed_id, feed_user)
             commentIsUpdated()
             hideAlert()});
     }
+
+    useEffect(()=>{
+        return ()=>{
+            setWaitPopupVisible(false);
+        }
+    },[waitPopupVisible]);
 
     return(
         <>

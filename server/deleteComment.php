@@ -26,4 +26,5 @@ if(empty($comment_data_array)) {
         echo mysqli_error($con);
     }
 }
+
 ?>
