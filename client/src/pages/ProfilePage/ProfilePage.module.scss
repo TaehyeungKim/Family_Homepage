@@ -34,6 +34,31 @@
         border-radius: toRem(30);
         background-color: white;
 
+        button {
+            position: relative;
+            font-size: toRem(18);
+            background-color: rgb(16, 147, 253);
+            border-style: hidden;
+            border-radius: toRem(10);
+            padding: toRem(12);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            margin: toRem(10);
+        
+            &:hover {
+                opacity: 0.7;
+            }
+        
+            &:active {
+                opacity: 0.2;
+            }
+        }
+        
+        #submitButton {
+            background: rgb(255, 138, 181);
+        }
+
         .header {
             height: toRem(60);
             display: flex;
@@ -79,13 +104,6 @@
                     margin: toRem(20) auto 0;
                     width: fit-content;
                     
-                    button {
-                        font-size: toRem(18);
-                        background-color: white;
-                        border:1px solid white;
-                        color:rgb(16, 147, 253);
-                        cursor: pointer;
-                    }
                 }
                 .idContainer {
                     width: fit-content;
@@ -133,21 +151,6 @@
             .submitButtonContainer {
                 margin: toRem(40) auto toRem(20);
                 width: fit-content;
-                input {
-                    font-size: toRem(20);
-                    background-color: rgb(16, 147, 253);
-                    border: white;
-                    color: white;
-                    padding: toRem(10);
-                    cursor: pointer;
-                    border-radius: toRem(10);
-                    &:hover {
-                        opacity: 0.5;
-                    }
-                    &:active {
-                        opacity: 0.9;
-                    }
-                }
             }
         }
     }
@@ -235,6 +238,21 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .frame {
+        .profileCard {
+            .body {
+                .profileImageAndId {
+                    .profileChange {
+                        display: flex;
+                        flex-direction: column;
                     }
                 }
             }

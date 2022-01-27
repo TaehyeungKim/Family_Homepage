@@ -4,7 +4,7 @@ header("Location: ../main_proxy");
 include 'connectDB.php';
 
 //if the user doesn't change the profile image
-if(!($_FILES['profile_image']['name'] === "")) {
+if(!(($_FILES['profile_image']['name'] === "") or (isset($_POST['default'])))) {
     include 'imageChange.php';
 };
 
@@ -21,5 +21,13 @@ mysqli_query($con, $sqlUpdateStatus);
 
 $sqlUpdateDescription = "update members set self_description='$changed_description' where user_id='$user_id'";
 mysqli_query($con, $sqlUpdateDescription);
+
+//check if the profile image is changed to default
+if (isset($_POST['default'])) {
+    $scandir = scandir("./profileImage/" . $user_id);
+    $file = end($scandir);
+    unlink("./profileImage/$user_id/$file");
+    echo 'delete success';
+}
 
 ?>

@@ -21,7 +21,8 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
             method: 'POST',
             body: data
         })
-        const text = await response.text().then(()=>{navigate(`/main_proxy`)});
+        const text = await response.text().then((value)=>{
+            navigate(`/main_proxy`)});
     }
 
     useEffect(() => {

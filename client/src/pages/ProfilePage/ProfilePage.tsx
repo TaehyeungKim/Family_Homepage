@@ -4,6 +4,7 @@ import styles from './ProfilePage.module.scss'
 import Nav from '../../components/Nav/Nav'
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
+import defaultImg from '../../images/default.jpg';
 
 
 function ProfilePage() {
@@ -64,6 +65,10 @@ function ProfilePage() {
                                     }
                                 }
                             }}/>
+                            <button onClick = {(e)=>{
+                                e.preventDefault();
+                                setChangedProfileImgPreview(defaultImg);
+                            }}>기본 이미지로 바꾸기</button>
                         </div>
                         
                         <div className = {styles.idContainer}>
@@ -96,7 +101,7 @@ function ProfilePage() {
                 </div>
                 <div className = {styles.footer}>
                     <div className = {styles.submitButtonContainer}>
-                        <input type = 'submit' value='저장하기' name = 'submit'/>
+                        <button type = 'submit' name = {changedProfileImgPreview === defaultImg ? 'default' : 'NotDefault'} id = {styles.submitButton}>저장하기</button>
                     </div>
                 </div>
             </div>
