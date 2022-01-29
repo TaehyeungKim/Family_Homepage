@@ -8,6 +8,8 @@ import Sidebar from '../../components/Sidebar/Sidebar'
 import Nav from '../../components/Nav/Nav'
 import Feed from '../../components/Feed/Feed';
 
+import Urls from '../../utils/Url';
+
 
 
 
@@ -16,7 +18,7 @@ interface LoadUserFeedProps {
 }
 
 function LoadUserFeed({setFeedData}:LoadUserFeedProps) {
-    const feedUrl = "./server/loadFeed.php"
+    const feedUrl = Urls.loadFeed;
 
     const loadFeedData = async() => {
         const response = await fetch(feedUrl, {
@@ -75,7 +77,7 @@ function MainPage() {
                 userInfoData !== undefined ?
             <> 
             {feedJsonData === undefined ? <LoadUserFeed setFeedData={setFeedData}/> : null}
-            {profileImageData === undefined ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
+            {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
             <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData}user_id={session.user_id} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                 <Nav onClick = {sidebarMove}/>

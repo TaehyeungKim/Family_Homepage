@@ -3,7 +3,7 @@ import styles from './Feed.module.scss'
 
 import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'
 import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
-
+import Urls from '../../utils/Url'
 
 
 interface FeedProps {
@@ -35,7 +35,7 @@ function Feed({feedData, profileImageData}: FeedProps) {
     }
 
     const showComment = async (feed_id: number, feed_user: string) => {
-        const loadUrl = "./server/loadComment.php"
+        const loadUrl = Urls.loadComment;
         const data = new FormData();
         data.append('feed_id', feed_id.toString());
         data.append('feed_user', feed_user);
@@ -55,7 +55,7 @@ function Feed({feedData, profileImageData}: FeedProps) {
     const comment = useRef<HTMLTextAreaElement>(null);
 
     const uploadComment = async (feed_id: number, feed_user: string, comment_user: string, comment: string) => {
-        const url = "./server/commentUpload.php"
+        const url = Urls.commentUpload;
         const data = new FormData();
         data.append('feed_id', feed_id.toString());
         data.append('feed_user', feed_user);

@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom'
 import styles from './Write.module.scss'
 import PhotoSelect from '../PhotoSelect/PhotoSelect';
 import Description from '../Description/Description';
+import Urls from '../../utils/Url';
+
 
 interface FetchDataProps {
     imgFiles: FileList | undefined;
@@ -14,7 +16,7 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
 
     const session = sessionStorage
 
-    const url = "../server/postFeed.php"
+    const url = Urls.postFeed;
 
     const fetchData = async(data: FormData) => {
         const response = await fetch(url, {

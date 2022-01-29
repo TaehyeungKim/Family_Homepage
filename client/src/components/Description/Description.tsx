@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import { LoadProfileImg } from '../LoadProfileImg/LoadProfileImg';
 import styles from './Description.module.scss'
+import Urls from '../../utils/Url';
 
 interface SubmitDescProps {
     setDescription: (desc: string) => void;
@@ -32,7 +33,7 @@ function Description({status, setDescription, fetchData}:DescriptionProps) {
     const session = sessionStorage;
     return(
         <>
-        {profileImageData === undefined ? <LoadProfileImg url = {"../server/readProfileImg.php"} user_id={session.user_id} loadProfileData={loadProfileData}/> : null}
+        {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id={session.user_id} loadProfileData={loadProfileData}/> : null}
         <div className = {styles.frame} id = {status === 'write' ? styles.frameAtDescription : styles.frameBeforeDescription}>
             <div className = {styles.profile}>
                 <div className = {styles.imageContainer}>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoadProfileImg } from '../../LoadProfileImg/LoadProfileImg';
 import {DeleteFeedAlert} from '../../DeleteAlert/DeleteAlert';
 import styles from './FeedHeader.module.scss';
+import Urls from '../../../utils/Url';
 
 
 interface FeedHeaderProps {
@@ -49,7 +50,7 @@ function FeedHeader({feedData}: FeedHeaderProps) {
 
     return(
         <>  
-            {profileImageData === undefined ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {feedData.user_id} loadProfileData={loadProfileData}/> : null}
+            {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {feedData.user_id} loadProfileData={loadProfileData}/> : null}
             {/* delete feed alert */}
             <DeleteFeedAlert deleteFeed={deleteFeed} alertVisible={alertVisible} hideAlert={hideAlert} feedData={feedData} message={'피드를 정말 삭제하시겠습니까?'}/>
             <div className={styles.feed_header}>

@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import styles from './DeleteAlert.module.scss';
+import Urls from '../../utils/Url'
 
 interface DeleteFeedAlertProps {
     deleteFeed:(url: string, user_id: string, feed_id: string, photo_type: string) => void;
@@ -13,7 +14,7 @@ function DeleteFeedAlert({deleteFeed, alertVisible, hideAlert, feedData, message
 
     const [waitPopupVisible, setWaitPopupVisible] = useState<boolean>(false);
 
-    const url = "./server/deleteFeed.php"
+    const url = Urls.deleteFeed;
 
 
     return(
@@ -55,7 +56,7 @@ function DeleteCommentAlert({em, feedData, alertVisible, hideAlert, message, sho
 
     const deleteComment = async (feed_user: string, feed_id: number, comment_id: number) => {
         const data = new FormData();
-        const url = "./server/deleteComment.php";
+        const url = Urls.deleteComment;
         data.append('feed_user', feed_user);
         data.append('comment_id', comment_id.toString());
         data.append('feed_id', feed_id.toString());

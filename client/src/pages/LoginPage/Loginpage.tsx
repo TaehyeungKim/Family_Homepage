@@ -2,6 +2,7 @@ import {useRef, useState, useEffect} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './LoginPage.module.scss'
 import winter_house from '../../images/winter_house.png'
+import Urls from '../../utils/Url';
 
 
 interface WrongLoginAlertProps {
@@ -33,7 +34,7 @@ function LoginPage() {
     let navigate = useNavigate();
     const location = useLocation();
 
-    const loginUrl = "/server/login.php"
+    const loginUrl = Urls.login;
 
     const session = sessionStorage
 

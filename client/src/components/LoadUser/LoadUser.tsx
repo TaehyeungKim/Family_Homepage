@@ -1,4 +1,5 @@
 import {useEffect} from 'react'
+import Urls from '../../utils/Url';
 
 interface LoadUserProps {
     loadUserInfoData:(json:any) => void;
@@ -21,7 +22,7 @@ function LoadUser({loadUserInfoData}:LoadUserProps) {
 
     const data = {'user_id' : session.user_id}
     useEffect(()=>{
-        loadUserInfo("../server/loadUserInfo.php", data)
+        loadUserInfo(Urls.loadUserInfo, data)
         console.log('loadFinished')
     },[])
     return(

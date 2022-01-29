@@ -6,6 +6,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
 import LoadUser from '../../components/LoadUser/LoadUser';
 import defaultImg from '../../images/default.jpg';
+import Urls from '../../utils/Url'
 
 interface ProfilePageDescAreaProps {
     jsonData: any;
@@ -104,12 +105,12 @@ function ProfilePage() {
         {userInfoData === undefined ? null
         :
         <>
-        {profileImageData === undefined ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
+        {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
         <div className = {styles.frame}>
             <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData} user_id={session.user_id} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
             <Nav onClick={sidebarMove}/>
-            <form method='post' action = "./server/profileChange.php" encType='multipart/form-data'>
+            <form method='post' action = {Urls.profileChange} encType='multipart/form-data'>
             <div className = {styles.profileCard}>
                 <div className = {styles.header}>
                     내 프로필
