@@ -3,7 +3,7 @@
 # dependencies
 /client/node_modules
 /client/build
-/client/src/utils/Url.tsx
+/client/src/utils
 /.pnp
 .pnp.js
 /server/connectDB.php

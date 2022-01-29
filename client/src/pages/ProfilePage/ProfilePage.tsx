@@ -6,7 +6,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
 import LoadUser from '../../components/LoadUser/LoadUser';
 import defaultImg from '../../images/default.jpg';
-import Urls from '../../utils/Url'
+import Urls from '../../utils/Url';
 
 interface ProfilePageDescAreaProps {
     jsonData: any;

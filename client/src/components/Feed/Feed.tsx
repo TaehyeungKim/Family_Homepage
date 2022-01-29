@@ -3,7 +3,7 @@ import styles from './Feed.module.scss'
 
 import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'
 import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
-import Urls from '../../utils/Url'
+import Urls from '../../utils/Url';
 
 
 interface FeedProps {

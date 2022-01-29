@@ -1,6 +1,6 @@
 import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 import RootPage from './pages/RootPage/Root'
-import LoginPage from './pages/LoginPage/LoginPage'
+import LoginPage from './pages/LoginPage/Loginpage';
 import MainPage from './pages/MainPage/MainPage';
 import CreatePage from './pages/CreatePage/CreatePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'

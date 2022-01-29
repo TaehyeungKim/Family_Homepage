@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import styles from './DeleteAlert.module.scss';
-import Urls from '../../utils/Url'
+import Urls from '../../utils/Url';
 
 interface DeleteFeedAlertProps {
     deleteFeed:(url: string, user_id: string, feed_id: string, photo_type: string) => void;
