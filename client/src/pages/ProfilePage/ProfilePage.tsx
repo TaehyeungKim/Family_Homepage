@@ -4,7 +4,72 @@ import styles from './ProfilePage.module.scss'
 import Nav from '../../components/Nav/Nav'
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
+import LoadUser from '../../components/LoadUser/LoadUser';
 import defaultImg from '../../images/default.jpg';
+
+interface ProfilePageDescAreaProps {
+    jsonData: any;
+}
+
+
+function ProfilePageDescArea({jsonData}:ProfilePageDescAreaProps) {
+    const [lineNumber, setLineNumber] = useState<number>(jsonData.desc.length);
+    const [changedOccured, setChangeOccured] = useState<boolean>(false);
+
+    useEffect(()=>{
+        setChangeOccured(true);
+        console.log('change occured')
+    },[])
+
+    return(
+        <div>
+            <ul>
+                {(()=>{
+                    let lines = []
+                    switch (lineNumber) {
+                        case 0:
+                            lines.push(
+                                <li>
+                                    <div className = {styles.labelAndInput}>
+                                    <label id = {styles.descLabel}>한 줄 소개1</label>
+                                    <input name = {`desc${1}`} placeholder = '소개를 입력하세요'></input>
+                                    </div>
+                                    <div className = {styles.descAddDelete}>
+                                    <button className = {styles.descButton} onClick = {(event)=>{
+                                        event.preventDefault();
+                                        setLineNumber(lineNumber+2);
+                                    }}>줄 추가</button></div>   
+                                </li>)
+                            break;
+                        default:
+                            for (let i = 0; i <= lineNumber-1; i++) {
+                                lines.push(
+                                <li>
+                                    <div className = {styles.labelAndInput}>
+                                    <label id = {styles.descLabel}>{`한 줄 소개${i+1}`}</label>
+                                    <input name = {`desc${i+1}`} defaultValue = { jsonData.desc.length === 0 || changedOccured === true ? null : 
+                                        i+1 <= jsonData.desc.length ? jsonData.desc[i] : null} placeholder = '소개를 입력하세요'></input>
+                                    </div>
+                                    <div className = {styles.descAddDelete}>
+                                    {i === lineNumber -1 && i !== 4 ? <button className = {styles.descButton} onClick = {(event)=>{
+                                        event.preventDefault();
+                                        setLineNumber(lineNumber+1);
+                                    }}>줄 추가</button> : null}
+                                    {i === lineNumber - 1 && i !==0 ? <button className = {styles.descButton} onClick = {(event)=>{
+                                        event.preventDefault();
+                                        setLineNumber(lineNumber-1);
+                                    }}>줄 삭제</button> : null}
+                                    </div>    
+                                </li>)
+                            }
+                            break;
+                    }
+                    return lines
+                })()}
+            </ul>
+        </div>
+    )
+}
 
 
 function ProfilePage() {
@@ -12,13 +77,17 @@ function ProfilePage() {
     const location = useLocation();
     const [changedProfileImgPreview, setChangedProfileImgPreview] = useState<string>("");
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
+    const [userInfoData, setUserInfoData] = useState<any>();
     const changeProfile = useRef<HTMLInputElement>(null);
-
 
     const [profileImageData, setProfileImageData] = useState<any>();
 
     const loadProfileData = (json: any) => {
         setProfileImageData(json);
+    }
+
+    const loadUserInfoData = (json: any) => {
+        setUserInfoData(json);
     }
 
     const sidebarMove = () => {
@@ -31,9 +100,13 @@ function ProfilePage() {
 
     return(
         <>
+        <LoadUser loadUserInfoData={loadUserInfoData}/>
+        {userInfoData === undefined ? null
+        :
+        <>
         {profileImageData === undefined ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
         <div className = {styles.frame}>
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImageData={profileImageData}/>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData} user_id={session.user_id} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
             <Nav onClick={sidebarMove}/>
             <form method='post' action = "./server/profileChange.php" encType='multipart/form-data'>
@@ -53,8 +126,8 @@ function ProfilePage() {
                             <button onClick = {(event) => {
                                 event.preventDefault();
                                 changeProfile.current?.click();
-                                console.log(changeProfile.current?.files);
                             }}>프로필 사진 바꾸기</button>
+
                             <input type = 'file' hidden ref = {changeProfile} accept = 'image/*' name="profile_image" onChange = {(event) => {
                                 const file = event.target.files?.item(0);
                                 if (file) {
@@ -79,24 +152,20 @@ function ProfilePage() {
                         <div>
                             <ul>
                                 <li>
+                                    <div className = {styles.labelAndInput}>
                                     <label>이름</label>
-                                    <input type='text' name = 'user_name' defaultValue = {session.user_name} placeholder = '이름을 입력하세요'></input>
+                                    <input type='text' name = 'user_name' defaultValue = {userInfoData.user_name} placeholder = '이름을 입력하세요'></input>
+                                    </div>
                                 </li>
                                 <li>
-                                     <label>지위</label>
-                                     <input type='text' name = 'user_status' defaultValue = {session.user_status} placeholder = '가족 내 지위를 입력하세요'></input>
+                                    <div className = {styles.labelAndInput}>
+                                    <label>지위</label>
+                                    <input type='text' name = 'user_status' defaultValue = {userInfoData.user_status} placeholder = '가족 내 지위를 입력하세요'></input>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <label>소개</label>
-                                    <textarea name = 'self_description' defaultValue = {session.user_description === 'null' ? null : session.user_description} placeholder = '소개를 입력하세요'></textarea>    
-                                </li>
-                            </ul>
-
-                        </div>
+                        <ProfilePageDescArea jsonData={userInfoData}/>
                     </div>
                 </div>
                 <div className = {styles.footer}>
@@ -107,6 +176,8 @@ function ProfilePage() {
             </div>
             </form>
         </div>
+        </>
+        }
         </>
     )
 }

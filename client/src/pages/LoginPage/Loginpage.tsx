@@ -1,7 +1,6 @@
 import {useRef, useState, useEffect} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './LoginPage.module.scss'
-import house from '../../images/christmas_house.png'
 import winter_house from '../../images/winter_house.png'
 
 
@@ -48,10 +47,7 @@ function LoginPage() {
         });
         const json = await response.json();
         if (json.message === 'Login Success') {
-            session.user_name = json.name
             session.user_id = json.userId
-            session.user_status = json.userStat
-            session.user_description = json.userDesc;
             session.islogin = 'true';
             navigate('/main');
         } else if (json.message === 'Wrong User Id') {

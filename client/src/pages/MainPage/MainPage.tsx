@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './MainPage.module.scss'
 import {Outlet, Navigate, useLocation} from 'react-router-dom'
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
+import LoadUser from '../../components/LoadUser/LoadUser';
 
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Nav from '../../components/Nav/Nav'
@@ -26,7 +27,7 @@ function LoadUserFeed({setFeedData}:LoadUserFeedProps) {
     }
     useEffect(() => {
         loadFeedData();
-    })
+    },[])
     return(
         <></>
     )
@@ -35,6 +36,11 @@ function LoadUserFeed({setFeedData}:LoadUserFeedProps) {
 function MainPage() {
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     const [feedJsonData, setFeedJsonData] = useState<any>();
+    const [userInfoData, setUserInfoData] = useState<any>();
+
+    const loadUserInfoData = (json: any) => {
+        setUserInfoData(json);
+    }
  
     const setFeedData = (data: any) => {
         setFeedJsonData(data);
@@ -45,21 +51,6 @@ function MainPage() {
     }
 
     const session = sessionStorage;
-    const url = "../server/loadUserInfo.php"
-    const data = {'user_id' : session.user_id}
-
-    const loadUserInfo = async (url: string, data: any) => {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        })
-        const json = await response.json();
-        session.user_name = json.user_name;
-        session.user_status = json.user_status;
-    }
 
     const [profileImageData, setProfileImageData] = useState<any>();
 
@@ -71,19 +62,21 @@ function MainPage() {
     const location = useLocation();
 
     useEffect(() => {
-        loadUserInfo(url, data);
         session.page = location.pathname;
     })
 
 
 
     return (
-        <>
+        <>  
+            {/* check if the user came through login */}
             {session.islogin === 'true' ?
+            // before loading userInfo, not loading the page content
+                userInfoData !== undefined ?
             <> 
             {feedJsonData === undefined ? <LoadUserFeed setFeedData={setFeedData}/> : null}
             {profileImageData === undefined ? <LoadProfileImg url = {"./server/readProfileImg.php"} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
-            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} user_id={session.user_id} user_name={session.user_name} user_status={session.user_status} profileImageData={profileImageData}/>
+            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData}user_id={session.user_id} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                 <Nav onClick = {sidebarMove}/>
                 <div className = {styles.bodyWrapper}>
@@ -105,7 +98,7 @@ function MainPage() {
                         </div>   
                         }
                 </div>
-            </>
+            </> : <LoadUser loadUserInfoData={loadUserInfoData}/>
             :
             <Navigate to = {`/login`}/>
             }

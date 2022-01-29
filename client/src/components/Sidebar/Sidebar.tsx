@@ -1,19 +1,20 @@
+import React from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 
 import closeIcon from '../../icons/closeIcon.svg';
+import pin_icon from '../../icons/pin_icon.png';
 
 
 interface SidebarProps {
     onClick: () => void;
     visible: boolean;
-    user_name: string;
+    userInfoData: any;
     user_id: string;
-    user_status: string,
     profileImageData: any
 }
 
-function Sidebar({onClick, visible, user_name, user_id, user_status, profileImageData}:SidebarProps) {
+function Sidebar({onClick, visible, userInfoData, user_id, profileImageData}:SidebarProps) {
 
     const session = sessionStorage;
     let navigate = useNavigate();
@@ -45,7 +46,19 @@ function Sidebar({onClick, visible, user_name, user_id, user_status, profileImag
                 {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                 </div>
                 <div className = {styles.profileName}>
-                    {user_name} / {user_id}
+                    {userInfoData.user_name} <br/> <span>{user_id}</span> <br/>
+                    <div className = {styles.descriptionContainer}>
+                    {userInfoData.desc.map((description: string, idx: any) => (
+                        <React.Fragment key = {idx}>
+                        <div className = {styles.description}>
+                            <img src = {pin_icon}/>
+                            <div className = {styles.descriptionContent}>
+                                <span>{description}</span>
+                            </div>
+                        </div>
+                        </React.Fragment>
+                    ))}
+                    </div>
                 </div>
                 <div className = {styles.buttonsContainer}>
                     {location.pathname === '/profile' ? 

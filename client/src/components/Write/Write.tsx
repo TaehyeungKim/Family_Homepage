@@ -98,7 +98,6 @@ function Write() {
 
     const photoSelectFinished = () => {
         setStatus('imagePreview');
-        console.log('upload finished');
     }
 
     return(

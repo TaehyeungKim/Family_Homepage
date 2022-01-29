@@ -14,7 +14,6 @@
     min-height: toRem(1100);
     background-color: rgba(238, 223, 223, 0.7);
 
-
     #deactivate {
         position: absolute;
         width: 100%;
@@ -103,6 +102,7 @@
                 .profileChange {
                     margin: toRem(20) auto 0;
                     width: fit-content;
+                    display: block;
                     
                 }
                 .idContainer {
@@ -121,26 +121,53 @@
                 grid-template-columns: 1fr 1fr;
                 div {
                     display: flex;
-                    align-items: center;
+                    flex-direction: column;
                         ul {
                             list-style-type: none;
+                            padding: 0;
+                            margin-left: toRem(15);
+                            
                             li {
-                                display: flex;
-                                align-items: center;
-                                height: toRem(50);
+                                position: relative;
+                                height: auto;
                                 font-size: toRem(20);
-                                label {
-                                    margin-left: toRem(10);
+                                margin: toRem(10) 0 toRem(10);
+                                
+                                .labelAndInput {
+                                    width: 100%;
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    label {
+                                        margin-left: toRem(10);
+                                        width: fit-content;
+                                    }
+    
+                                    #descLabel {
+                                        font-size: toRem(15);
+                                    }
+                                    input, textarea {
+                                        margin-left: toRem(30);
+                                        height: toRem(30);
+                                        width: toRem(250);
+                                    };
                                 }
-                                input, textarea {
-                                    margin-left: toRem(20);
-                                    height: toRem(30);
-                                    width: toRem(300);
-                                };
 
-                                textarea {
-                                    height: toRem(50);
-                                    resize: none;
+                                
+                                .descAddDelete {
+                                    margin-top: toRem(10);
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: space-around;
+
+                                    .descButton {
+                                        padding: toRem(10);
+                                        margin: initial;
+                                        font-weight: initial;
+                                        font-size: toRem(20);
+                                        background: white;
+                                        color:rgb(16, 147, 253);
+                                    }
                                 }
                             }
                         }
@@ -151,6 +178,21 @@
             .submitButtonContainer {
                 margin: toRem(40) auto toRem(20);
                 width: fit-content;
+                input {
+                    font-size: toRem(20);
+                    background-color: rgb(16, 147, 253);
+                    border: white;
+                    color: white;
+                    padding: toRem(10);
+                    cursor: pointer;
+                    border-radius: toRem(10);
+                    &:hover {
+                        opacity: 0.5;
+                    }
+                    &:active {
+                        opacity: 0.9;
+                    }
+                }
             }
         }
     }
@@ -166,13 +208,16 @@
                         ul {
                             li {
                                 font-size: toRem(15);
-                                label {
-                                    margin-left: toRem(0);
+                                .labelAndInput {
+                                    label {
+                                        margin-left: toRem(0);
+                                    }
+    
+                                    input, textarea {
+                                        width: toRem(200);
+                                    }
                                 }
-
-                                input, textarea {
-                                    width: toRem(250);
-                                }
+                                
                             }
                         }
                     }
@@ -192,13 +237,16 @@
                         ul {
                             li {
                                 font-size: toRem(15);
-                                label {
-                                    margin-left: toRem(0);
+                                .labelAndInput {
+                                    label {
+                                        margin-left: toRem(0);
+                                    }
+    
+                                    input, textarea {
+                                        width: toRem(150);
+                                    }
                                 }
-
-                                input, textarea {
-                                    width: toRem(200);
-                                }
+                                
                             }
                         }
                     }
@@ -219,23 +267,36 @@
                     display: block;
                     width: 90%;
                     margin: 0 auto 0;
+                    
                     div {
                         ul {
                             width: 100%;
+                            margin: initial;
                             li {
+                                
                                 position: relative;
                                 font-size: toRem(15);
-                                right: 10%;
-                                label {
-                                    margin-left: toRem(0);
-                                }
-
-                                input, textarea {
-                                    width: 75%;
-                                    @media (max-width: 350px) {
+                                .labelAndInput {
+                                    
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: space-around;
+                                    label {
+                                        margin-left: toRem(0);
+                                    }
+    
+                                    input, textarea {
+                                        
                                         width: 70%;
+                                        @media (max-width: 450px) {
+                                            width: 60%;
+                                        }
+                                        @media (max-width: 350px) {
+                                            width: 50%;
+                                        }
                                     }
                                 }
+                                
                             }
                         }
                     }
