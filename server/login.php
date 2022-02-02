@@ -30,7 +30,8 @@ if ($info == null) {
         echo $pwerror;
     } else {
         $_SESSION['isLogin'] = 'true';
-        $userData = json_encode(array('message' => 'Login Success', 'userId' => $info['user_id'], 'name' => $info['name'], 'userStat' => $info['status'], 'userDesc' => $info['self_description'], 'isLogin' => $_SESSION['isLogin']));
+        $_SESSION['user_id'] = $info['user_id'];
+        $userData = json_encode(array('message' => 'Login Success', 'user_id' => $_SESSION['user_id'], 'isLogin' => $_SESSION['isLogin']));
         echo $userData;
     }
 }

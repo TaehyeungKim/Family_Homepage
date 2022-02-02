@@ -71,10 +71,9 @@ function MainPage() {
 
     return (
         <>  
-            {/* check if the user came through login */}
-            {session.islogin === 'true' ?
-            // before loading userInfo, not loading the page content
-                userInfoData !== undefined ?
+            
+            {/* // before loading userInfo, not loading the page content */}
+            {userInfoData !== undefined ?
             <> 
             {feedJsonData === undefined ? <LoadUserFeed setFeedData={setFeedData}/> : null}
             {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
@@ -100,10 +99,7 @@ function MainPage() {
                         </div>   
                         }
                 </div>
-            </> : <LoadUser loadUserInfoData={loadUserInfoData}/>
-            :
-            <Navigate to = {`/login`}/>
-            }
+            </> : <LoadUser loadUserInfoData={loadUserInfoData}/>}
             <Outlet/>
         </>
     )

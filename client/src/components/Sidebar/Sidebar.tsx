@@ -4,6 +4,7 @@ import styles from './Sidebar.module.scss'
 
 import closeIcon from '../../icons/closeIcon.svg';
 import pin_icon from '../../icons/pin_icon.png';
+import Urls from '../../utils/Url';
 
 
 interface SidebarProps {
@@ -17,13 +18,22 @@ interface SidebarProps {
 function Sidebar({onClick, visible, userInfoData, user_id, profileImageData}:SidebarProps) {
 
     const session = sessionStorage;
+    const url = Urls.logout
     let navigate = useNavigate();
     const loginPage = `/login`
     const profilePage = `/profile`
     const mainPage = `/main`
-    const Logout = () => {
-        session.clear();
-        navigate(loginPage, {replace: true})
+    const Logout = async () => {
+        const response = await fetch (url, {
+            method: "GET"
+        })
+        const json = await response.json()
+        .then((value)=>{
+            console.log(value);
+            session.clear();
+            navigate(loginPage, {replace: true})
+        });
+       
     }
     const moveToProfile = () => {
         navigate(profilePage)

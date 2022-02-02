@@ -48,8 +48,7 @@ function LoginPage() {
         });
         const json = await response.json()
         if (json.message === 'Login Success') {
-            session.user_id = json.userId
-            session.islogin = 'true';
+            session.user_id = json.user_id;
             navigate('/main');
         } else if (json.message === 'Wrong User Id') {
             setLoginState("Wrong User Id");
