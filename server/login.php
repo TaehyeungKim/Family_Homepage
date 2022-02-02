@@ -4,6 +4,9 @@ include 'connectDB.php';
 
 session_start();
 
+if ($_SESSION['isLogin'] === 'true') {
+    exit();
+}
 
 $jsonData = file_get_contents("php://input");
 $dataObject = json_decode($jsonData);
@@ -26,7 +29,8 @@ if ($info == null) {
         $pwerror = json_encode(array('message' => 'Wrong Password', 'error_desc' => "Password doesn't match"));
         echo $pwerror;
     } else {
-        $userData = json_encode(array('message' => 'Login Success', 'userId' => $info['user_id'], 'name' => $info['name'], 'userStat' => $info['status'], 'userDesc' => $info['self_description']));
+        $_SESSION['isLogin'] = 'true';
+        $userData = json_encode(array('message' => 'Login Success', 'userId' => $info['user_id'], 'name' => $info['name'], 'userStat' => $info['status'], 'userDesc' => $info['self_description'], 'isLogin' => $_SESSION['isLogin']));
         echo $userData;
     }
 }

@@ -5,7 +5,7 @@ import winter_house from '../../images/winter_house.png'
 import Urls from '../../utils/Url';
 
 
-interface WrongLoginAlertProps {
+interface WrongLoginAlertProps { 
     onClick: () => void;
     message: string;
 }
@@ -46,7 +46,7 @@ function LoginPage() {
                 'Content-Type' : 'application/json'
             }
         });
-        const json = await response.json();
+        const json = await response.json()
         if (json.message === 'Login Success') {
             session.user_id = json.userId
             session.islogin = 'true';
