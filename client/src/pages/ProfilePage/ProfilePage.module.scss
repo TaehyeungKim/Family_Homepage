@@ -309,8 +309,16 @@
 @media (max-width: 500px) {
     .frame {
         .profileCard {
+            button {
+                font-size: toRem(15);
+            }
             .body {
                 .profileImageAndId {
+                    .idContainer {
+                        input {
+                            font-size: toRem(25);
+                        }
+                    }
                     .profileChange {
                         display: flex;
                         flex-direction: column;
