@@ -324,6 +324,28 @@
 @media (max-width: 400px) {
     .frame {
         .profileCard {
+            button {
+                font-size: toRem(15)
+            }
+            .body {
+                .profileImageAndId {
+                    .idContainer {
+                        input {
+                            font-size: toRem(23);
+                        }
+                    }
+                }
+            }
+        }
+    };
+}
+
+@media (max-width: 300px) {
+    .frame {
+        .profileCard {
+            button {
+                font-size: toRem(13)
+            }
             .body {
                 .profileImageAndId {
                     .idContainer {
@@ -334,6 +356,5 @@
                 }
             }
         }
-    };
-
+    }
 }
