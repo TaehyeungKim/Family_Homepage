@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: http://localhost:3000");
 session_start();
 
 if(isset($_SESSION['isLogin'])) {
-    $json = json_encode(array('isLogin' => 'true'));
+    $json = json_encode(array('isLogin' => 'true', 'user_id' => $_SESSION['user_id']));
     echo $json;
 } else {
     $json = json_encode(array('isLogin' => 'false'));

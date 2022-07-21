@@ -9,6 +9,7 @@ interface RedirectToMainProps {
 
 function RedirectToMain({redirectToLogin}:RedirectToMainProps) {
     const url = Urls.checkIsLogin;
+    const session = sessionStorage;
     const navigate = useNavigate();
     const checkLogin = async() => {
         const response = await fetch(url, {
@@ -18,6 +19,7 @@ function RedirectToMain({redirectToLogin}:RedirectToMainProps) {
         .then((value) => {
             console.log(value);
             if (value.isLogin === 'true') {
+                session.user_id = value.user_id;
                 navigate('/main');
             } else {
                 redirectToLogin();
