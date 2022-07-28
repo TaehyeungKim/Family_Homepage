@@ -1,0 +1,31 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+.photoIndex{
+    position: relative;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .dotContainer {
+        position: relative;
+        width: toRem(15);
+        height: toRem(15);
+
+        circle {
+            transition: fill 0.3s, r 0.3s;
+        }
+
+        #filled {
+            fill:#0087FF;
+            r: 35;
+        }
+
+        #notFilled {
+            fill: #98AFBA;
+        }
+    }
+}

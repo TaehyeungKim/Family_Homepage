@@ -9,6 +9,34 @@ $containerHeight: 500;
 
 $bodyHeight: 445;
 
+.prevButtonArea {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        svg {
+            width: toRem(40);
+            height: toRem(40);
+            fill: #0087FF;
+        }
+    }
+}
+
+#left {
+    left: 0;
+}
+
+#right {
+    right: 0;
+}
+
 .wrapper {
     position: absolute;
     top: 0;
@@ -51,44 +79,12 @@ $bodyHeight: 445;
 }
 
 
-
-
-.imageContainer {
-    height: toRem(420);
-    width: toRem(420);
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.5s;
-    margin: 0 auto 0;
-}
-
-#fitHeight {
-    height: 95%;
-}
-
-#fitWidth {
-    width: 95%;
-}
-
 @media (max-width: 950px) {
     .wrapper {
         .cameraContainer {
             margin-top: toRem(90);
             width: toRem(180);
         }
-    }
-    .imageContainer {
-        width: toRem(320);
-        height: toRem(320);
-    }
-}
-
-@media (max-width: 800px) {
-    .imageContainer {
-        width: toRem(280);
-        height: toRem(280);
     }
 }
 
@@ -108,11 +104,6 @@ $bodyHeight: 445;
             }
         }
     }
-    
-    .imageContainer {
-        height: toRem(220);
-        width: toRem(220);
-    }
 }
 
 @media (max-width: 400px) {
@@ -127,11 +118,6 @@ $bodyHeight: 445;
                 font-size: toRem(10);
             }
         }
-    }
-
-    .imageContainer {
-        height: toRem(180);
-        width: toRem(180);
     }
 }
 

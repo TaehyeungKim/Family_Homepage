@@ -3,31 +3,79 @@
     @return $remValue;
 }
 
+$feedArea1: 800;
+$feedArea2: 600;
+
+hr {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 .feed_container {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: toRem($feedArea1/2);
     height:auto;
     margin-bottom: toRem(20);
+    
 
     .feed {
         position: relative;
-        width: toRem(370);
+        width: 95%;
         height: auto ;
         border: 2px solid rgba(100,100,100,0.5);
         border-radius: toRem(10);
 
-
         .feed_photo {
             position:relative;
             width: 100%;
-            height: auto;
-            overflow: hidden;
-            img {
-                width: 100%;
+            height: toRem(350);
+            @media (max-width: 800px) {
+                height: toRem(250);
             }
+            @media (max-width: 600px) {
+                height: 80vw;
+            }
+            white-space: nowrap;
+
+            .buttonArea {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                position: absolute;
+                z-index: 10;
+
+                button {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+
+                    svg {
+                        width: toRem(40);
+                        height: toRem(40);
+                        fill: #0087FF;
+                    }
+                }
+            }
+            
+            #left {
+                left: toRem(5);
+            }
+            
+            #right {
+                right: toRem(5);
+            }
+
+            .wrapper {
+                // position: relative;
+                height: 90%;
+                overflow-x: hidden;
+                scroll-behavior: smooth;
+                margin-top: toRem(15);
+                
+            }            
         }
         
         .feed_content {
@@ -125,6 +173,7 @@
 
 @media (max-width: 800px) {
     .feed_container {
+        width: toRem($feedArea2/2);
         .feed {
             width: 95%;
             .feed_header {
@@ -159,6 +208,9 @@
 }
 
 @media (max-width: 600px) {
+    .feed_container {
+        width: 100%;
+    }
     
 }
 

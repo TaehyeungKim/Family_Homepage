@@ -1,0 +1,23 @@
+.index_0{
+    transform:translateX(0);
+}
+
+.index_1 {
+    transform:translate(-100%);
+}
+
+.index_2 {
+    transform:translate(-200%);
+}
+
+.index_3 {
+    transform:translate(-300%);
+}
+
+.index_4 {
+    transform:translate(-400%);
+}
+
+.mobile_swipe_duration {
+    transition-duration: 0ms;
+}

@@ -1,0 +1,65 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+.imageContainer {
+    height: toRem(420);
+    width: toRem(420);
+    position: relative;
+    transition: 0.5s;
+    margin: 0 auto 0;
+    white-space: nowrap;
+    overflow-x: hidden;
+
+    .imageFrame {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        transition: transform 0.5s;
+
+        .flexWrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #fitHeight {
+            height: 95%;
+        }
+        
+        #fitWidth {
+            width: 95%;
+        }
+    }
+}
+
+@media (max-width: 950px) {
+    .imageContainer {
+        width: toRem(320);
+        height: toRem(320);
+    }
+}
+
+@media (max-width: 800px) {
+    .imageContainer {
+        width: toRem(280);
+        height: toRem(280);
+    }
+}
+
+@media (max-width: 600px) {
+    .imageContainer {
+        height: toRem(220);
+        width: toRem(220);
+    }
+}
+
+@media (max-width: 400px) {
+    .imageContainer {
+        height: toRem(180);
+        width: toRem(180);
+    }
+}

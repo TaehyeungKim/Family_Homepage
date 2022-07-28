@@ -7,11 +7,11 @@ import Urls from '../../utils/Url';
 
 
 interface FetchDataProps {
-    imgFiles: FileList | undefined;
-    desc: string;
+    imgFiles: Array<File> | undefined;
+    description: string;
 }
 
-function FetchData({imgFiles, desc}: FetchDataProps) {
+function FetchData({imgFiles, description}: FetchDataProps) {
     const navigate = useNavigate();
 
     const session = sessionStorage
@@ -28,10 +28,12 @@ function FetchData({imgFiles, desc}: FetchDataProps) {
     }
 
     useEffect(() => {
-        const fileList = imgFiles as FileList;
+        const fileList = imgFiles as Array<File>;
         const formData = new FormData();
-        formData.append("image", fileList[0]);
-        formData.append("description", desc);
+        for(let i = 1; i <= fileList.length; i++) {
+            formData.append(`image${i}`, fileList[i-1]);
+        }
+        formData.append("description", description);
         formData.append("user_id", session.user_id);
         fetchData(formData);
     })
@@ -77,30 +79,8 @@ function Write() {
     const [status, setStatus] = useState<string>('beforeUploadImage');
     const [submit, setSubmit] = useState<boolean>(false);
 
-    const [imgFiles, setImgFiles] = useState<FileList>();
-    const [desc, setDesc] = useState<string>("");
-
-
-    const setImg = (files: FileList) => {
-        setImgFiles(files);
-    }
-
-    const setDescription = (desc: string) => {
-        setDesc(desc);
-    } 
-
-    const moveToWrite = (event: any) => {
-        event.preventDefault();
-        setStatus('write')
-    }
-    const backToImageSelect = (event: any) => {
-        event.preventDefault();
-        setStatus('beforeUploadImage')
-    }
-
-    const photoSelectFinished = () => {
-        setStatus('imagePreview');
-    }
+    const [imgFiles, setImgFiles] = useState<Array<File>>([]);
+    const [description, setDescription] = useState<string>("");
 
     return(
         <>
@@ -109,18 +89,18 @@ function Write() {
                 <WriteHeader backButtonDisplay='none' nextButtonDisplay='none' status={status}/>
                 :
                 <WriteHeader backButtonDisplay='block' nextButtonDisplay='block' status={status} back={
-                    status === 'imagePreview' ? backToImageSelect
+                    status === 'imagePreview' ? ()=>{setStatus('beforeUploadImage')}
                 :
                 (e) => {
                     e.preventDefault();
-                    photoSelectFinished();
-                }} next = {moveToWrite} submit={()=>setSubmit(true)}/> }
+                    setStatus('imagePreview');
+                }} next = {()=>{setStatus('write')}} submit={()=>setSubmit(true)}/> }
                 <div className = {styles.bodyContainer}>
-                    <PhotoSelect status={status} fetchData={submit} setImg={setImg} photoSelectFinished={photoSelectFinished}/>
+                    <PhotoSelect status={status} fetchData={submit} setImgFiles={setImgFiles} setStatus={setStatus}/>
                     <Description status={status} setDescription={setDescription} fetchData={submit}/>
                 </div>
             </div>
-            {submit === true && imgFiles !== undefined && desc !=="" ? <FetchData imgFiles={imgFiles} desc={desc}/>: null}
+            {submit === true && imgFiles !== undefined && description !=="" ? <FetchData imgFiles={imgFiles} description={description}/>: null}
         </>
     )
 }

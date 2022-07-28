@@ -5,12 +5,12 @@ import Urls from '../../utils/Url';
 
 interface SubmitDescProps {
     setDescription: (desc: string) => void;
-    desc: string;
+    description: string;
 }
 
-function SubmitDesc({setDescription, desc}:SubmitDescProps) {
+function SubmitDesc({setDescription, description}:SubmitDescProps) {
     useEffect(() => {
-        setDescription(desc);
+        setDescription(description);
     })
     return(
         <></>
@@ -19,7 +19,7 @@ function SubmitDesc({setDescription, desc}:SubmitDescProps) {
 
 interface DescriptionProps {
     status: string;
-    setDescription: (desc: string) => void;
+    setDescription: (description: string) => void;
     fetchData: boolean;
 }
 
@@ -50,7 +50,7 @@ function Description({status, setDescription, fetchData}:DescriptionProps) {
                 }/>
             </div>
         </div>
-        {fetchData === true ? <SubmitDesc setDescription={setDescription} desc={session.desc}/> : null}
+        {fetchData === true ? <SubmitDesc setDescription={setDescription} description={session.desc}/> : null}
         </>
     )
 }

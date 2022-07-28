@@ -13,7 +13,13 @@ for ($c = 1; $c <= (count($user_desc_array) - 1); $c++) {
 $user_desc = $user_desc . end($user_desc_array);
 
 $availableImgType = ['.jpeg', '.png', '.jpg', '.gif'];
-$fileType = explode("/", $_FILES['image']['type'])[1];
+$fileTypeArr = array();
+$number = 1;
+while(isset($_FILES["image$number"])) {
+    $fileType = explode("/", $_FILES["image$number"]['type'])[1];
+    array_push($fileTypeArr, $fileType);
+    $number = $number + 1;
+}
 
 //check if individual feed table exists
 $checkIfFeedExists = mysqli_query($con, "select feed_exists from members where user_id='$user_id'");
@@ -43,47 +49,57 @@ $newFeedId = end($feedIdArray)['feed_id'];
 if(!(file_exists("./feedImgs/$user_id"))) {
     mkdir("./feedImgs/$user_id");
 }
-$newImgDir = "feedImgs/$user_id/$newFeedId";
+$newImgDir = "./feedImgs/$user_id/$newFeedId";
 mkdir($newImgDir);
 
-$tmpFile = $_FILES['image']['tmp_name'];
 
+$imgPathGroup = "";
+$fileTypeGroup = "";
+for ($n=1; $n < $number; $n++) {
+    $tmpFile = $_FILES["image$n"]['tmp_name'];
+    $type = $fileTypeArr[$n-1];
+    //upload compressed image to the new path;
+    $imagePath = "$newImgDir/$newFeedId-$n.$type";
+    if($n==1) {
+        $imgPathGroup = $imgPathGroup . $imagePath;
+        $fileTypeGroup = $fileTypeGroup . $type;
+    } else {
+        $imgPathGroup = $imgPathGroup . "," . $imagePath; 
+        $fileTypeGroup = $fileTypeGroup . "," . $type;
+    }
 
-//upload compressed image to the new path;
-$imagePath = "$newImgDir/$newFeedId.$fileType";
-
-switch ($fileType) {
-    case 'jpeg':
-        //read exif header of jpeg file
-        $exif = exif_read_data($tmpFile);
-        $sourceImg= imagecreatefromjpeg($tmpFile);
-        switch ($exif['Orientation']) {
-            case 8:
-                $sourceImg = imagerotate($sourceImg,90,0); 
-                break;
-            case 3:
-                $sourceImg = imagerotate($sourceImg,180,0); 
-                break;
-            case 6:
-                $sourceImg = imagerotate($sourceImg,-90,0); 
-                break;
-        }
-        imagejpeg($sourceImg, $imagePath, 40);
-        break;
-    case 'png':
-        $sourceImg = imagecreatefrompng($tmpFile);
-        imagealphablending($sourceImg, true);
-        imagesavealpha($sourceImg, true);
-        imagepng($sourceImg, $imagePath, 5, -1);
-        break;
-    case 'gif':
-        move_uploaded_file($tmpFile, $imagePath);
-        break;
+    switch ($fileType) {
+        case 'jpeg':
+            //read exif header of jpeg file
+            $exif = exif_read_data($tmpFile);
+            $sourceImg= imagecreatefromjpeg($tmpFile);
+            switch ($exif['Orientation']) {
+                case 8:
+                    $sourceImg = imagerotate($sourceImg,90,0); 
+                    break;
+                case 3:
+                    $sourceImg = imagerotate($sourceImg,180,0); 
+                    break;
+                case 6:
+                    $sourceImg = imagerotate($sourceImg,-90,0); 
+                    break;
+            }
+            imagejpeg($sourceImg, $imagePath, 40);
+            break;
+        case 'png':
+            $sourceImg = imagecreatefrompng($tmpFile);
+            imagealphablending($sourceImg, true);
+            imagesavealpha($sourceImg, true);
+            imagepng($sourceImg, $imagePath, 5, -1);
+            break;
+        case 'gif':
+            move_uploaded_file($tmpFile, $imagePath);
+            break;
+    }
 }
 
-
-$setPhotoPath = "update feed_$user_id set photo_path = './server/$imagePath' where feed_id=$newFeedId";
-$setPhotoType = "update feed_$user_id set photo_type = '.$fileType' where feed_id=$newFeedId";
+$setPhotoPath = "update feed_$user_id set photo_path = '$imgPathGroup' where feed_id=$newFeedId";
+$setPhotoType = "update feed_$user_id set photo_type = '.$fileTypeGroup' where feed_id=$newFeedId";
 
 mysqli_query($con, $setPhotoPath);
 mysqli_query($con, $setPhotoType);

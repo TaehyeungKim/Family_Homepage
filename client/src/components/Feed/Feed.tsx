@@ -1,10 +1,12 @@
-import {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import styles from './Feed.module.scss'
 
 import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'
 import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
+import FeedPhoto from '../FeedRelated/FeedPhoto/FeedPhoto'
 import Urls from '../../utils/Url';
-
+import FeedPhotoIndex from '../FeedRelated/FeedPhotoIndex/FeedPhotoIndex'
+import {useMediaQuery} from 'react-responsive'; 
 
 interface FeedProps {
     feedData: any,
@@ -89,6 +91,52 @@ function Feed({feedData, profileImageData}: FeedProps) {
 
     const session = sessionStorage;
 
+    const frame = useRef<HTMLDivElement>(null);
+    const [photoShownIndex, setPhotoShownIndex] = useState<number>(0);
+
+    const switchShownPhotos = (direction:string) => {
+        const executeSwitch = (direction: string) => {
+            if(direction === 'left') {
+                if(photoShownIndex > 0) {
+                    setPhotoShownIndex(photoShownIndex-1)
+                }
+            } else if(direction === 'right') {
+                if(photoShownIndex < feedData.photo_path.split(',').length-1) {
+                    setPhotoShownIndex(photoShownIndex+1);   
+                }
+            }
+        }
+        executeSwitch(direction);
+    }
+
+    const isMobile = useMediaQuery({query: '(max-width: 600px)'})
+
+    const photoTouchFrame = useRef<HTMLDivElement>(null);
+    const touchStatus = useRef<string>("");
+    const [touchCoordinateX, setTouchCoordinateX] = useState<number>(0);
+    const touchEndCoordinateX = useRef<number>(0);
+
+    const touchStartMs = useRef<number>(0);
+
+    useEffect(()=>{
+        if(isMobile) {
+            photoTouchFrame.current?.addEventListener('touchstart', (e)=>{
+                touchStatus.current = "start"
+                setTouchCoordinateX(e.targetTouches[0].clientX);
+                touchStartMs.current = Date.now()
+            })
+            photoTouchFrame.current?.addEventListener('touchend', (e)=>{
+                touchStatus.current = "end";
+                touchEndCoordinateX.current = touchCoordinateX;
+                setTouchCoordinateX(0);
+            })
+            photoTouchFrame.current?.addEventListener('touchmove', (e)=>{
+                touchStatus.current = "moving"
+                setTouchCoordinateX(e.targetTouches[0].clientX);
+            })
+        }
+    },[isMobile])
+
 
     return(
         <>
@@ -96,8 +144,31 @@ function Feed({feedData, profileImageData}: FeedProps) {
             <div className={styles.feed}>
                 <FeedHeader feedData={feedData}/>
                 <hr/>
-                <div className={styles.feed_photo}>
-                    <img src={feedData.photo_path} alt='feed_image'/>
+                <div className={styles.feed_photo} ref={photoTouchFrame}>
+                {!isMobile && feedData.photo_path.split(",").length > 1 ? 
+                    <div className = {styles.buttonArea} id ={styles.left}>
+                        <button onClick = {()=>switchShownPhotos('left')}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z"/>
+                            </svg>
+                        </button>
+                    </div> : null}
+                {!isMobile && feedData.photo_path.split(",").length > 1 ? 
+                    <div className = {styles.buttonArea} id = {styles.right}>
+                        <button onClick = {()=>switchShownPhotos('right')}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+                            </svg>
+                </button></div> : null}
+                    <div className = {styles.wrapper} ref={frame} id="frame">
+                    {
+                    feedData.photo_path.split(',').map((i:any)=>{
+                        return <FeedPhoto feedData={feedData} index={feedData.photo_path.split(',').indexOf(i)} photoShownIndex={photoShownIndex} touchStatus={touchStatus.current} touchCoordinateX={touchCoordinateX} touchEndCoordinateX={touchEndCoordinateX.current} setPhotoShownIndex={setPhotoShownIndex} 
+                        isMobile={isMobile} touchStartMs={touchStartMs.current}/>
+                    })}
+                    </div>
+                    {feedData.photo_path.split(',').length > 1 ? 
+                    <FeedPhotoIndex feedData={feedData} photoShownIndex={photoShownIndex}/> : null}
                 </div>
                 <hr/>
                 <div className={styles.feed_content}>
