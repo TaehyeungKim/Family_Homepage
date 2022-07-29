@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { LoadProfileImg } from '../LoadProfileImg/LoadProfileImg';
 import styles from './Description.module.scss'
 import Urls from '../../utils/Url';
@@ -31,6 +31,18 @@ function Description({status, setDescription, fetchData}:DescriptionProps) {
     }
 
     const session = sessionStorage;
+    const descArea = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(()=>{
+        if(status === 'beforeUploadImage') {
+            session.desc = '';
+        }
+        if(status === 'beforeUploadImage' || status === 'imagePreview') {
+            if(descArea.current !== null) {
+                descArea.current.value = ''
+            }  
+        }
+    },[status])
     return(
         <>
         {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id={session.user_id} loadProfileData={loadProfileData}/> : null}
@@ -47,7 +59,7 @@ function Description({status, setDescription, fetchData}:DescriptionProps) {
                 <textarea placeholder='문구 입력...' name = 'desc' onChange={(event) => {
                     session.desc = event.target.value;
                 }
-                }/>
+                } ref={descArea}/>
             </div>
         </div>
         {fetchData === true ? <SubmitDesc setDescription={setDescription} description={session.desc}/> : null}

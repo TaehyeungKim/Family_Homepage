@@ -1,19 +1,23 @@
-.index_0{
+.preview_index_0{
     transform:translateX(0);
 }
 
-.index_1 {
+.preview_index_1 {
     transform:translate(-100%);
 }
 
-.index_2 {
+.preview_index_2 {
     transform:translate(-200%);
 }
 
-.index_3 {
+.preview_index_3 {
     transform:translate(-300%);
 }
 
-.index_4 {
+.preview_index_4 {
     transform:translate(-400%);
+}
+
+.preview_mobile_swipe_duration {
+    transition-duration: 0ms;
 }

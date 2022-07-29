@@ -62,10 +62,10 @@ for ($n=1; $n < $number; $n++) {
     $imagePath = "$newImgDir/$newFeedId-$n.$type";
     if($n==1) {
         $imgPathGroup = $imgPathGroup . $imagePath;
-        $fileTypeGroup = $fileTypeGroup . $type;
+        $fileTypeGroup = $fileTypeGroup . "." . $type;
     } else {
         $imgPathGroup = $imgPathGroup . "," . $imagePath; 
-        $fileTypeGroup = $fileTypeGroup . "," . $type;
+        $fileTypeGroup = $fileTypeGroup . "," . "." . $type;
     }
 
     switch ($fileType) {
@@ -99,7 +99,7 @@ for ($n=1; $n < $number; $n++) {
 }
 
 $setPhotoPath = "update feed_$user_id set photo_path = '$imgPathGroup' where feed_id=$newFeedId";
-$setPhotoType = "update feed_$user_id set photo_type = '.$fileTypeGroup' where feed_id=$newFeedId";
+$setPhotoType = "update feed_$user_id set photo_type = '$fileTypeGroup' where feed_id=$newFeedId";
 
 mysqli_query($con, $setPhotoPath);
 mysqli_query($con, $setPhotoType);

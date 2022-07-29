@@ -89,7 +89,8 @@ function Write() {
                 <WriteHeader backButtonDisplay='none' nextButtonDisplay='none' status={status}/>
                 :
                 <WriteHeader backButtonDisplay='block' nextButtonDisplay='block' status={status} back={
-                    status === 'imagePreview' ? ()=>{setStatus('beforeUploadImage')}
+                    status === 'imagePreview' ? ()=>{
+                        setStatus('beforeUploadImage')}
                 :
                 (e) => {
                     e.preventDefault();

@@ -4,12 +4,20 @@ include 'connectDB.php';
 
 $user_id = $_POST['user_id'];
 $feed_id = $_POST['feed_id'];
-$photo_type = $_POST['photo_type'];
+$photo_type_arr = explode(",", $_POST['photo_type']);
+
+
+$inquire = mysqli_query($con, "select photo_path from feed_$user_id where feed_id = '$feed_id'");
+$inquireResult = mysqli_fetch_array($inquire)['photo_path'];
+$numberOfImg = count(explode(",",$inquireResult));
 
 $deleteQuery = "delete from feed_$user_id where feed_id = '$feed_id'";
-
 mysqli_query($con, $deleteQuery);
-unlink("./feedImgs/$user_id/$feed_id/$feed_id$photo_type");
+//deleting feed image files and directory of feed
+for($i = 1; $i <= $numberOfImg; $i++) {
+    $e = $photo_type_arr[$i-1];
+    unlink("./feedImgs/$user_id/$feed_id/$feed_id-$i$e");
+}
 rmdir("./feedImgs/$user_id/$feed_id");
 
 echo "delete success!";
