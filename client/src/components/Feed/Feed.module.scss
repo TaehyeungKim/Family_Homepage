@@ -50,11 +50,24 @@ hr {
                     background: none;
                     border: none;
                     cursor: pointer;
+                    opacity: 0.4;
+                    
+                    &:hover {
+                        opacity: 0.7;
+                    }
+
+                    &:active {
+                        opacity: 1;
+                    }
 
                     svg {
                         width: toRem(40);
                         height: toRem(40);
-                        fill: #0087FF;
+                        fill: black;
+
+                        circle {
+                            opacity: 0.4;
+                        }
                     }
                 }
             }
