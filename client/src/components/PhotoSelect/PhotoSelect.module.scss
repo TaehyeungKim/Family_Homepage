@@ -6,7 +6,6 @@
 
 $containerHeight: 500;
 
-
 $bodyHeight: 445;
 
 .alertFrame {
@@ -88,32 +87,61 @@ $bodyHeight: 445;
     }
 }
 
-.prevButtonArea {
-    position: absolute;
-    height: 100%;
+.previewAreaWrapper {
     display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    transition: width 0.5s;
+    justify-content: space-between;
     align-items: center;
-    z-index: 10;
-
-    button {
-        background: none;
-        border: none;
-        cursor: pointer;
-
-        svg {
-            width: toRem(40);
-            height: toRem(40);
-            fill: #0087FF;
+    .prevButtonArea {
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        z-index: 10;
+        width: fit-content;
+    
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            height: fit-content;
+            
+    
+            svg {
+                width: toRem(40);
+                height: toRem(40);
+                @media(max-width: 600px) {
+                    width: toRem(30);
+                    height: toRem(30);
+                }
+                @media(max-width: 300px) {
+                    width: toRem(20);
+                    height: toRem(20);
+                }
+                fill: #0087FF;
+            }
         }
+    }
+    
+    #left {
+        order: 1;
+    }
+    
+    #right {
+        order: 3;
     }
 }
 
-#left {
-    left: 0;
-}
-
-#right {
-    right: 0;
+#shrink {
+    width: 60%;
+    @media(max-width: 600px) {
+        height: 50%;
+        width: 100%;
+    }
 }
 
 .wrapper {

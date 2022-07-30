@@ -21,3 +21,23 @@
 .mobile_swipe_duration {
     transition-duration: 0ms;
 }
+
+#feed_photo_position_0 {
+    left: 0%;
+}
+
+#feed_photo_position_1 {
+    left: 100%;
+}
+
+#feed_photo_position_2 {
+    left: 200%;
+}
+
+#feed_photo_position_3 {
+    left: 300%;
+}
+
+#feed_photo_position_4 {
+    left: 400%;
+}

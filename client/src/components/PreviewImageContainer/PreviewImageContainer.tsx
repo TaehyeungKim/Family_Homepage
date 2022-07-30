@@ -18,10 +18,11 @@ interface PreviewImageContainerProps {
 
 function PreviewImageContainer({previewImage, status, previewShownIndex, setPreviewShownIndex, isMobile, touchOffsetX, setTouchOffsetx, touchStatus, setTouchStatus, touchStartMs}:PreviewImageContainerProps) {
 
+
     return(
     <div className={styles.imageContainer}>
         {previewImage.current.map((i:any) => {
-            return(<PreviewImage i={i} key={i.index} previewShownIndex={previewShownIndex} setPreviewShownIndex={setPreviewShownIndex} isMobile={isMobile} touchOffsetX={touchOffsetX} setTouchOffsetX={setTouchOffsetx} touchStatus={touchStatus} setTouchStatus={setTouchStatus} numberOfPreviewPhotos={previewImage.current.length} touchStartMs={touchStartMs}/>)
+            return(<PreviewImage i={i} id = {previewImage.current.indexOf(i)} previewShownIndex={previewShownIndex} setPreviewShownIndex={setPreviewShownIndex} isMobile={isMobile} touchOffsetX={touchOffsetX} setTouchOffsetX={setTouchOffsetx} touchStatus={touchStatus} setTouchStatus={setTouchStatus} numberOfPreviewPhotos={previewImage.current.length} touchStartMs={touchStartMs}/>)
             }
         )}
     </div>
@@ -38,10 +39,11 @@ interface PreviewImageProps {
     touchStatus:string;
     setTouchStatus:(status:string) => void;
     numberOfPreviewPhotos: number;
-    touchStartMs:number
+    touchStartMs:number,
+    id:number;
 }
 
-function PreviewImage({i, previewShownIndex, setPreviewShownIndex, isMobile, touchOffsetX, setTouchOffsetX, touchStatus, setTouchStatus, numberOfPreviewPhotos, touchStartMs}:PreviewImageProps) {
+function PreviewImage({i, previewShownIndex, setPreviewShownIndex, isMobile, touchOffsetX, setTouchOffsetX, touchStatus, setTouchStatus, numberOfPreviewPhotos, touchStartMs, id}:PreviewImageProps) {
 
     const previewImageFrame = useRef<HTMLDivElement>(null);
     const previewShownIndexBefore = useRef<number>(0);
@@ -119,7 +121,7 @@ function PreviewImage({i, previewShownIndex, setPreviewShownIndex, isMobile, tou
 
     return(
         <>
-        <div className = {styles.imageFrame} ref = {previewImageFrame}>
+        <div className = {styles.imageFrame} ref = {previewImageFrame} id = {`original_position_${id+1}`}>
             <div className = {styles.flexWrapper}>
                 <img src={i.src} alt = 'preview' id = {i.height > i.width ? styles.fitHeight : styles.fitWidth}/>
             </div>

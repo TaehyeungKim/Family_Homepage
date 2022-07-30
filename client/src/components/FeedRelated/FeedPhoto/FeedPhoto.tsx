@@ -108,7 +108,7 @@ function FeedPhoto({feedData, index, photoShownIndex, touchStatus, touchCoordina
         <>
         {feedPhoto !== undefined ? 
         <>
-            <div className = {styles.photo_container} ref={photo_container}>
+            <div className = {styles.photo_container} ref={photo_container} id = {`feed_photo_position_${index}`}>
                 <div className = {styles.photo_wrapper}>
                 <img src={feedPhoto.src} alt='feed_image' id = {feedPhoto.height > feedPhoto.width ? styles.fitHeight : styles.fitWidth}/>
                 </div>

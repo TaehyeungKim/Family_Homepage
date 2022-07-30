@@ -31,14 +31,13 @@ hr {
         .feed_photo {
             position:relative;
             width: 100%;
-            height: toRem(350);
+            height: toRem(($feedArea1/2) * 0.95);
             @media (max-width: 800px) {
                 height: toRem(250);
             }
             @media (max-width: 600px) {
                 height: 80vw;
             }
-            white-space: nowrap;
 
             .buttonArea {
                 height: 100%;
@@ -69,8 +68,9 @@ hr {
             }
 
             .wrapper {
-                // position: relative;
-                // height: 90%;
+                position: relative;
+                height: 100%;
+                width: 100%;
                 overflow-x: hidden;
                 scroll-behavior: smooth;
                 margin-top: 0;
@@ -175,6 +175,9 @@ hr {
         width: toRem($feedArea2/2);
         .feed {
             width: 95%;
+            .feed_photo {
+                height: toRem(($feedArea2/2) * 0.95);
+            }
             .feed_header {
                 .profile_name p {
                     font-size: toRem(18);
@@ -209,6 +212,11 @@ hr {
 @media (max-width: 600px) {
     .feed_container {
         width: 100%;
+        .feed {
+            .feed_photo {
+                height: 95vw;
+            }
+        }
     }
     
 }

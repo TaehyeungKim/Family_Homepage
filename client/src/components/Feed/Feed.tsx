@@ -137,14 +137,6 @@ function Feed({feedData, profileImageData}: FeedProps) {
         }
     },[isMobile])
 
-    useEffect(()=>{
-        if(feedData.photo_path.split(",").length == 1 && frame.current !== null) {
-            frame.current.style.height = "100%"
-        }
-        else if (feedData.photo_path.split(",").length > 1 && frame.current !== null){
-            frame.current.style.height = "90%"
-        }
-    },[])
 
 
     return(
@@ -176,9 +168,9 @@ function Feed({feedData, profileImageData}: FeedProps) {
                         isMobile={isMobile} touchStartMs={touchStartMs.current}/>
                     })}
                     </div>
-                    {feedData.photo_path.split(',').length > 1 ? 
-                    <FeedPhotoIndex feedData={feedData} photoShownIndex={photoShownIndex}/> : null}
                 </div>
+                {feedData.photo_path.split(',').length > 1 ? 
+                    <FeedPhotoIndex feedData={feedData} photoShownIndex={photoShownIndex}/> : null}
                 <hr/>
                 <div className={styles.feed_content}>
                     <p id = {styles.feedText}>{feedData.text}</p>

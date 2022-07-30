@@ -157,6 +157,7 @@ function PhotoSelect({status, fetchData, setImgFiles, setStatus}:PhotoSelectProp
                     return(
                         <>  
                             {storedFiles.length > 5 ? <ImgExceedAlert setStatus={setStatus}/>:null}
+                            <div className = {styles.previewAreaWrapper} id = {status === 'write' ? styles.shrink : undefined}>
                             <div className = {styles.prevButtonArea} id = {styles.left}>
                                 <button onClick = {()=>{
                                 changePreviewShownIndex('left')
@@ -176,6 +177,7 @@ function PhotoSelect({status, fetchData, setImgFiles, setStatus}:PhotoSelectProp
                                 </button>
                                 </div>
                             <PreviewImageContainer previewImage={previewImage} status={status} previewShownIndex={previewShownIndex} setPreviewShownIndex={setPreviewShownIndex} isMobile={isMobile} touchOffsetX={touchOffsetX} setTouchOffsetx={setTouchOffsetX} touchStatus={touchStatus} setTouchStatus={setTouchStatus} touchStartMs={touchStartMs.current}/>
+                            </div>
                         </>
                     )           
             }})()}

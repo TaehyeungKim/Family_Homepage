@@ -3,21 +3,41 @@
 }
 
 .preview_index_1 {
-    transform:translate(-100%);
+    transform:translateX(-100%);
 }
 
 .preview_index_2 {
-    transform:translate(-200%);
+    transform:translateX(-200%);
 }
 
 .preview_index_3 {
-    transform:translate(-300%);
+    transform:translateX(-300%);
 }
 
 .preview_index_4 {
-    transform:translate(-400%);
+    transform:translateX(-400%);
 }
 
 .preview_mobile_swipe_duration {
     transition-duration: 0ms;
+}
+
+#original_position_1 {
+    left: 0%;
+}
+
+#original_position_2 {
+    left: 100%;
+}
+
+#original_position_3 {
+    left: 200%;
+}
+
+#original_position_4 {
+    left: 300%;
+}
+
+#original_position_5 {
+    left: 400%;
 }

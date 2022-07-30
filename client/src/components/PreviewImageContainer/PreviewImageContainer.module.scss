@@ -4,18 +4,21 @@
 }
 
 .imageContainer {
-    height: toRem(420);
-    width: toRem(420);
+    height: toRem(400);
+    width: toRem(400);
     position: relative;
     margin: 0 auto 0;
-    white-space: nowrap;
     overflow-x: hidden;
+    order: 2;
+    padding: 0;
+    
 
     .imageFrame {
+        position: absolute;
         width: 100%;
         height: 100%;
-        display: inline-block;
         transition: transform 0.5s;
+        top: 0;
 
         .flexWrapper {
             width: 100%;
@@ -37,22 +40,22 @@
 
 @media (max-width: 950px) {
     .imageContainer {
-        width: toRem(320);
-        height: toRem(320);
+        width: toRem(340);
+        height: toRem(340);
     }
 }
 
 @media (max-width: 800px) {
     .imageContainer {
-        width: toRem(280);
-        height: toRem(280);
+        width: toRem(250);
+        height: toRem(250);
     }
 }
 
 @media (max-width: 600px) {
     .imageContainer {
-        height: toRem(220);
-        width: toRem(220);
+        height: toRem(210);
+        width: toRem(210);
     }
 }
 
@@ -60,5 +63,12 @@
     .imageContainer {
         height: toRem(180);
         width: toRem(180);
+    }
+}
+
+@media (max-width: 300px) {
+    .imageContainer {
+        height: toRem(130);
+        width: toRem(130);
     }
 }
