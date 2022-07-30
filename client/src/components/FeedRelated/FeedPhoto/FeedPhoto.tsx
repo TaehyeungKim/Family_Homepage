@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from 'react'
 import styles from './FeedPhoto.module.scss';
 import './translate.css';
+import Urls from '../../../utils/Url'
 
 interface FeedPhotoProps {
     feedData: any;
@@ -27,7 +28,7 @@ function FeedPhoto({feedData, index, photoShownIndex, touchStatus, touchCoordina
 
     useEffect(()=>{
         const xhr = new XMLHttpRequest()
-        xhr.open("GET",`http://localhost:8080/family-homepage/server/${feedData.photo_path.split(',')[index]}`);
+        xhr.open("GET",`${Urls.hostPath}${feedData.photo_path.split(',')[index]}`);
         xhr.responseType= "blob";
         xhr.onload = () =>{ //asynchronous
             const reader = new FileReader();

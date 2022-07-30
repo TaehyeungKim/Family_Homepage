@@ -137,6 +137,15 @@ function Feed({feedData, profileImageData}: FeedProps) {
         }
     },[isMobile])
 
+    useEffect(()=>{
+        if(feedData.photo_path.split(",").length == 1 && frame.current !== null) {
+            frame.current.style.height = "100%"
+        }
+        else if (feedData.photo_path.split(",").length > 1 && frame.current !== null){
+            frame.current.style.height = "90%"
+        }
+    },[])
+
 
     return(
         <>

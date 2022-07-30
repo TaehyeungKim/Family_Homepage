@@ -49,7 +49,7 @@ $newFeedId = end($feedIdArray)['feed_id'];
 if(!(file_exists("./feedImgs/$user_id"))) {
     mkdir("./feedImgs/$user_id");
 }
-$newImgDir = "./feedImgs/$user_id/$newFeedId";
+$newImgDir = "feedImgs/$user_id/$newFeedId";
 mkdir($newImgDir);
 
 
@@ -61,10 +61,10 @@ for ($n=1; $n < $number; $n++) {
     //upload compressed image to the new path;
     $imagePath = "$newImgDir/$newFeedId-$n.$type";
     if($n==1) {
-        $imgPathGroup = $imgPathGroup . $imagePath;
+        $imgPathGroup = $imgPathGroup . "./server/$imagePath";
         $fileTypeGroup = $fileTypeGroup . "." . $type;
     } else {
-        $imgPathGroup = $imgPathGroup . "," . $imagePath; 
+        $imgPathGroup = $imgPathGroup . "," . "./server/$imagePath"; 
         $fileTypeGroup = $fileTypeGroup . "," . "." . $type;
     }
 
