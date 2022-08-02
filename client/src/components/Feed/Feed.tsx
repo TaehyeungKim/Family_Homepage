@@ -10,11 +10,13 @@ import {useMediaQuery} from 'react-responsive';
 
 interface FeedProps {
     feedData: any,
-    profileImageData: any
+    profileImageData: React.MutableRefObject<any>;
+    feedProfileImageData: React.MutableRefObject<any>;
+    feedProfileImageLoadStatus: string
 }
 
 
-function Feed({feedData, profileImageData}: FeedProps) {
+function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImageLoadStatus}: FeedProps) {
 
     const [buttonActive, setButtonActive] = useState<boolean>(false);
 
@@ -137,13 +139,15 @@ function Feed({feedData, profileImageData}: FeedProps) {
         }
     },[isMobile])
 
+    
+
 
 
     return(
         <>
         <div className={styles.feed_container}>
             <div className={styles.feed}>
-                <FeedHeader feedData={feedData}/>
+                <FeedHeader feedData={feedData} feedProfileImageData={feedProfileImageData} feedProfileImageLoadStatus={feedProfileImageLoadStatus}/>
                 <hr/>
                 <div className={styles.feed_photo} ref={photoTouchFrame}>
                 {!isMobile && feedData.photo_path.split(",").length > 1 ? 
@@ -198,7 +202,7 @@ function Feed({feedData, profileImageData}: FeedProps) {
                     <FeedCommentShow feedData={feedData} commentShown = {commentShown} commentData={commentData} showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                     <div className={styles.comment_write}>
                         <div className = {styles.comment_profile_container}>
-                            {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                            {profileImageData.current === undefined ? null : <img src = {profileImageData.current.src} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                         </div>
                         <div className = {styles.textareaContainer}>
                         <textarea placeholder='댓글 달기' ref={comment} onChange={(e)=> {

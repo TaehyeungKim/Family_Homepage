@@ -21,14 +21,16 @@ interface DescriptionProps {
     status: string;
     setDescription: (description: string) => void;
     fetchData: boolean;
+    userInfoData: React.MutableRefObject<any>;
+    profileImageData: React.MutableRefObject<any>;
 }
 
-function Description({status, setDescription, fetchData}:DescriptionProps) {
-    const [profileImageData, setProfileImageData] = useState<any>();
+function Description({status, setDescription, fetchData, userInfoData, profileImageData}:DescriptionProps) {
+    // const [profileImageData, setProfileImageData] = useState<any>();
 
-    const loadProfileData = (json: any) => {
-        setProfileImageData(json);
-    }
+    // const loadProfileData = (json: any) => {
+    //     setProfileImageData(json);
+    // }
 
     const session = sessionStorage;
     const descArea = useRef<HTMLTextAreaElement>(null);
@@ -45,11 +47,11 @@ function Description({status, setDescription, fetchData}:DescriptionProps) {
     },[status])
     return(
         <>
-        {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id={session.user_id} loadProfileData={loadProfileData}/> : null}
+        {/* {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id={session.user_id} loadProfileData={loadProfileData}/> : null} */}
         <div className = {styles.frame} id = {status === 'write' ? styles.frameAtDescription : styles.frameBeforeDescription}>
             <div className = {styles.profile}>
                 <div className = {styles.imageContainer}>
-                    {profileImageData === undefined ? null : <img src = {`.${profileImageData.path}`} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                    {profileImageData.current === undefined ? null : <img src = {`.${profileImageData.current.path}`} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                 </div>
                 <div className = {styles.name}>
                     <input name = 'user_id' defaultValue={session.user_id} disabled/>

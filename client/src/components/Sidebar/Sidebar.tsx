@@ -53,12 +53,12 @@ function Sidebar({onClick, visible, userInfoData, user_id, profileImageData}:Sid
             </div>
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
-                {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                {profileImageData.current === undefined ? null : <img src = {profileImageData.current.src} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                 </div>
                 <div className = {styles.profileName}>
-                    {userInfoData.user_name} <br/> <span>{user_id}</span> <br/>
+                    {userInfoData.current.user_name} <br/> <span>{user_id}</span> <br/>
                     <div className = {styles.descriptionContainer}>
-                    {userInfoData.desc.map((description: string, idx: any) => (
+                    {userInfoData.current.desc.map((description: string, idx: any) => (
                         <React.Fragment key = {idx}>
                         <div className = {styles.description}>
                             <img src = {pin_icon}/>

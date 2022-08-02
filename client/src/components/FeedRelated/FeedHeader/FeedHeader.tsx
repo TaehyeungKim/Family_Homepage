@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoadProfileImg } from '../../LoadProfileImg/LoadProfileImg';
 import {DeleteFeedAlert} from '../../DeleteAlert/DeleteAlert';
@@ -8,19 +8,16 @@ import Urls from '../../../utils/Url';
 
 interface FeedHeaderProps {
     feedData: any;
+    feedProfileImageData: React.MutableRefObject<any>;
+    feedProfileImageLoadStatus:string;
 }
 
 
-function FeedHeader({feedData}: FeedHeaderProps) {
+function FeedHeader({feedData, feedProfileImageData, feedProfileImageLoadStatus}: FeedHeaderProps) {
 
     const [alertVisible, setAlertVisible] = useState<boolean>(false);
+
     
-    const [profileImageData, setProfileImageData] = useState<any>();
-
-    const loadProfileData = (json: any) => {
-        setProfileImageData(json);
-    }
-
     const showAlert = () => {
         setAlertVisible(true);
     }
@@ -48,15 +45,17 @@ function FeedHeader({feedData}: FeedHeaderProps) {
 
     const session = sessionStorage
 
+
     return(
         <>  
-            {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {feedData.user_id} loadProfileData={loadProfileData}/> : null}
+            {/* {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {feedData.user_id} loadProfileData={loadProfileData}/> : null} */}
             {/* delete feed alert */}
             <DeleteFeedAlert deleteFeed={deleteFeed} alertVisible={alertVisible} hideAlert={hideAlert} feedData={feedData} message={'피드를 정말 삭제하시겠습니까?'}/>
             <div className={styles.feed_header}>
                 <div className = {styles.profile_image_container}>
                     <div className={styles.profile_image}>
-                        {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                        {/* {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>} */}
+                        {feedProfileImageLoadStatus === "toLoadFeedProfileImage" ? null : <img src = {feedProfileImageData.current[`${feedData.user_id}`].src} id = {feedProfileImageData.current[`${feedData.user_id}`].height > feedProfileImageData.current[`${feedData.user_id}`].width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                     </div>
                 </div>
                 <div className ={styles.profile_name}>

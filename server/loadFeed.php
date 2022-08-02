@@ -33,7 +33,7 @@ while($r = mysqli_fetch_array($queryResult)) {
 if(empty($data_array)) {
     $json = json_encode(array('data' => 'empty'));
 } else {
-    $json = json_encode(array('data' => $data_array));
+    $json = json_encode(array('data' => $data_array, 'user_id_array' => $user_id_array));
 }
 
 echo $json;

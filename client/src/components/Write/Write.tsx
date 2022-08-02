@@ -73,8 +73,13 @@ function WriteHeader({backButtonDisplay, back, nextButtonDisplay, next, status, 
     )
 }
 
+interface WriteProps {
+    userInfoData: React.MutableRefObject<any>;
+    profileImageData: React.MutableRefObject<any>;
+}
 
-function Write() {
+
+function Write({userInfoData, profileImageData}:WriteProps) {
 
     const [status, setStatus] = useState<string>('beforeUploadImage');
     const [submit, setSubmit] = useState<boolean>(false);
@@ -98,7 +103,7 @@ function Write() {
                 }} next = {()=>{setStatus('write')}} submit={()=>setSubmit(true)}/> }
                 <div className = {styles.bodyContainer}>
                     <PhotoSelect status={status} fetchData={submit} setImgFiles={setImgFiles} setStatus={setStatus}/>
-                    <Description status={status} setDescription={setDescription} fetchData={submit}/>
+                    <Description status={status} setDescription={setDescription} fetchData={submit} userInfoData={userInfoData} profileImageData={profileImageData}/>
                 </div>
             </div>
             {submit === true && imgFiles !== undefined && description !=="" ? <FetchData imgFiles={imgFiles} description={description}/>: null}

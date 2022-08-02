@@ -72,24 +72,20 @@ function ProfilePageDescArea({jsonData}:ProfilePageDescAreaProps) {
     )
 }
 
+interface ProfilePageProps {
+    userInfoData: React.MutableRefObject<any>;
+    profileImageData: React.MutableRefObject<any>;
+}
 
-function ProfilePage() {
+
+function ProfilePage({userInfoData, profileImageData}:ProfilePageProps) {
     const session = sessionStorage;
     const location = useLocation();
     const [changedProfileImgPreview, setChangedProfileImgPreview] = useState<string>("");
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
-    const [userInfoData, setUserInfoData] = useState<any>();
+    
     const changeProfile = useRef<HTMLInputElement>(null);
 
-    const [profileImageData, setProfileImageData] = useState<any>();
-
-    const loadProfileData = (json: any) => {
-        setProfileImageData(json);
-    }
-
-    const loadUserInfoData = (json: any) => {
-        setUserInfoData(json);
-    }
 
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
@@ -101,11 +97,9 @@ function ProfilePage() {
 
     return(
         <>
-        <LoadUser loadUserInfoData={loadUserInfoData}/>
-        {userInfoData === undefined ? null
+        {userInfoData.current === undefined ? null
         :
         <>
-        {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null}
         <div className = {styles.frame}>
             <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData} user_id={session.user_id} profileImageData={profileImageData}/>
             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
@@ -119,9 +113,10 @@ function ProfilePage() {
                     <div className = {styles.profileImageAndId}>
                         <div className = {styles.imageContainer}>
                             {changedProfileImgPreview === "" ? 
-                                profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>
+                                profileImageData.current === undefined ? null : <img src = {profileImageData.current.src} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>
                             :
-                            <img src = {changedProfileImgPreview} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                            //should change to fit 'changedProfileImgPreview'****
+                            <img src = {changedProfileImgPreview} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                         </div>
                         <div className = {styles.profileChange}>
                             <button onClick = {(event) => {
@@ -155,18 +150,18 @@ function ProfilePage() {
                                 <li>
                                     <div className = {styles.labelAndInput}>
                                     <label>이름</label>
-                                    <input type='text' name = 'user_name' defaultValue = {userInfoData.user_name} placeholder = '이름을 입력하세요'></input>
+                                    <input type='text' name = 'user_name' defaultValue = {userInfoData.current.user_name} placeholder = '이름을 입력하세요'></input>
                                     </div>
                                 </li>
                                 <li>
                                     <div className = {styles.labelAndInput}>
                                     <label>지위</label>
-                                    <input type='text' name = 'user_status' defaultValue = {userInfoData.user_status} placeholder = '가족 내 지위를 입력하세요'></input>
+                                    <input type='text' name = 'user_status' defaultValue = {userInfoData.current.user_status} placeholder = '가족 내 지위를 입력하세요'></input>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePageDescArea jsonData={userInfoData}/>
+                        <ProfilePageDescArea jsonData={userInfoData.current}/>
                     </div>
                 </div>
                 <div className = {styles.footer}>
