@@ -103,9 +103,9 @@ function MainPage({userInfoData, profileImageData}:MainPageProps) {
                                         </div>
                                         :
                                         <div className = {styles.feed_area} id ={styles.notEmpty}>
-                                            {userFeedData.current.data.map((feedData: any, idx: any) => (
+                                            {userFeedData.current.data.map((feedData: any, idx: number) => (
                                             <React.Fragment key = {idx}>
-                                                <Feed feedData={feedData} profileImageData={profileImageData} feedProfileImageData={feedProfileImageData} feedProfileImageLoadStatus={feedProfileImageLoadStatus}/>
+                                                <Feed feedData={feedData} profileImageData={profileImageData} feedProfileImageData={feedProfileImageData} feedProfileImageLoadStatus={feedProfileImageLoadStatus} idx={idx}/>
                                             </React.Fragment>
                                         ))
                                             }
@@ -116,34 +116,6 @@ function MainPage({userInfoData, profileImageData}:MainPageProps) {
                                 )
                             }
             })()}
-            {/* // before loading userInfo, not loading the page content */}
-            {/* {loadStatus == "toLoadUserInfo" ? <LoadUser setLoadStatus={setLoadStatus} userInfoData={userInfoData}/> : */}
-            {/* <>  */}
-            {/* {loadStatus === undefined ? <LoadUserFeed setFeedData={setFeedData}/> : null} */}
-            {/* {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {session.user_id} loadProfileData={loadProfileData}/> : null} */}
-            {/* <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData}user_id={session.user_id} profileImageData={profileImageData}/>
-            <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
-                <Nav onClick = {sidebarMove}/>
-                <div className = {styles.bodyWrapper}>
-                    <div className={styles.jumbotron}> </div>
-                    {feedJsonData === undefined || feedJsonData.data === 'empty' ? 
-                        <div className= {styles.feed_area}>
-                            <div className = {styles.noFeed}>
-                                아직 우리 가족 피드가 없어요!<br/>새로운 피드를 추가해보세요!
-                            </div>
-                        </div>
-                        :
-                        <div className = {styles.feed_area} id ={styles.notEmpty}>
-                            {feedJsonData.data.map((feedData: any, idx: any) => (
-                            <React.Fragment key = {idx}>
-                                <Feed feedData={feedData} profileImageData={profileImageData}/>
-                            </React.Fragment>
-                        ))
-                            }
-                        </div>   
-                        }
-                </div>
-            </> */}
             <Outlet/>
         </>
     )

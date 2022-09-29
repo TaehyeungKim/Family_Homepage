@@ -6,19 +6,29 @@ import FeedCommentShow from '../FeedRelated/FeedCommentShow/FeedCommentShow'
 import FeedPhoto from '../FeedRelated/FeedPhoto/FeedPhoto'
 import Urls from '../../utils/Url';
 import FeedPhotoIndex from '../FeedRelated/FeedPhotoIndex/FeedPhotoIndex'
+import './translate.css'
 import {useMediaQuery} from 'react-responsive'; 
 
 interface FeedProps {
     feedData: any,
     profileImageData: React.MutableRefObject<any>;
     feedProfileImageData: React.MutableRefObject<any>;
-    feedProfileImageLoadStatus: string
+    feedProfileImageLoadStatus: string;
+    idx: number;
 }
 
 
-function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImageLoadStatus}: FeedProps) {
+function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImageLoadStatus, idx}: FeedProps) {
 
     const [buttonActive, setButtonActive] = useState<boolean>(false);
+
+    const [commentData, setCommentData] = useState<any>();
+    const [commentShown, setCommentShown] = useState<boolean>(false);
+    const [commentUpdated, setCommentUpdated] = useState<boolean>(false);
+
+    const [photoShownIndex, setPhotoShownIndex] = useState<number>(0);
+
+    const isMobile = useMediaQuery({query: '(max-width: 600px)'})
 
     const activateButton = () => {
         if (buttonActive === false) {
@@ -30,9 +40,6 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
         setButtonActive(false);
     }
 
-    const [commentData, setCommentData] = useState<any>();
-    const [commentShown, setCommentShown] = useState<boolean>(false);
-    const [commentUpdated, setCommentUpdated] = useState<boolean>(false);
 
     const commentIsUpdated = () => {
         setCommentUpdated(true);
@@ -94,7 +101,6 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
     const session = sessionStorage;
 
     const frame = useRef<HTMLDivElement>(null);
-    const [photoShownIndex, setPhotoShownIndex] = useState<number>(0);
 
     const switchShownPhotos = (direction:string) => {
         const executeSwitch = (direction: string) => {
@@ -111,37 +117,85 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
         executeSwitch(direction);
     }
 
-    const isMobile = useMediaQuery({query: '(max-width: 600px)'})
+
 
     const photoTouchFrame = useRef<HTMLDivElement>(null);
-    const touchStatus = useRef<string>("");
-    const [touchCoordinateX, setTouchCoordinateX] = useState<number>(0);
-    const touchEndCoordinateX = useRef<number>(0);
+    
+    const touchStartCoordinateX = useRef<number>(0);
+    const touchTranslate = useRef<number>(0);
+    const photo_container = useRef<HTMLDivElement>(null);
 
     const touchStartMs = useRef<number>(0);
+    const prevIndex = useRef<number>(0);
+    const collection = useRef<HTMLCollectionOf<Element>>(document.getElementsByClassName(`photo_container_${idx}`))
+    const mapFunc = (f:Function) => {
+        for(let i = 0; i < collection.current.length; i++) {
+            f(collection.current.item(i))
+        }
+    }
+
+    
+    const funcRefStore = useRef<any>({
+        touchStartFunc: (e: TouchEvent) => {
+            touchStartMs.current = Date.now()
+            touchStartCoordinateX.current = e.targetTouches[0].clientX;
+            mapFunc((elm:Element)=>{
+                elm.classList.remove('desktop_switch_duration')
+                elm.classList.add('mobile_swipe_duration')})
+        },
+        touchMoveFunc: (e: TouchEvent) => {
+            if(photo_container.current) {
+                const swipeOffset = (e.targetTouches[0].clientX - touchStartCoordinateX.current)/photo_container.current.offsetWidth * 100     
+                touchTranslate.current = -(prevIndex.current * 100) + swipeOffset
+                if(!(prevIndex.current === 0 && swipeOffset >0)&&!(prevIndex.current === feedData.photo_path.split(',').length-1 && swipeOffset < 0)) {
+                    mapFunc((elm:Element)=>{elm.setAttribute('style',`transform: translateX(${touchTranslate.current}%)`)})
+                }
+            }
+        },
+        touchEndFunc: (e: TouchEvent) => {
+            mapFunc((elm:Element) =>{
+                elm.classList.remove('mobile_swipe_duration')
+                elm.classList.add('desktop_switch_duration')})
+            if(photo_container.current) {
+                const velocity = Math.abs((-(prevIndex.current * photo_container.current.offsetWidth) - touchTranslate.current)/(touchStartMs.current-Date.now()))
+                switch(true) {
+                    case (velocity >= 0.1):
+                        if(-(prevIndex.current * 100) - touchTranslate.current > 0 && prevIndex.current < feedData.photo_path.split(',').length-1) {
+                            setPhotoShownIndex(prevIndex.current+1)
+                 
+                        }
+                        else if(-(prevIndex.current * 100) - touchTranslate.current < 0 && prevIndex.current > 0) {
+                            setPhotoShownIndex(prevIndex.current-1)
+                 
+                        }
+                        break;
+                    default:
+                        setPhotoShownIndex(Math.round(-touchTranslate.current/100))
+                 
+                }
+                mapFunc((e:Element)=>e.removeAttribute('style'))
+            }
+            touchStartCoordinateX.current = 0;   
+        }
+    });
 
     useEffect(()=>{
         if(isMobile) {
-            photoTouchFrame.current?.addEventListener('touchstart', (e)=>{
-                touchStatus.current = "start"
-                setTouchCoordinateX(e.targetTouches[0].clientX);
-                touchStartMs.current = Date.now()
-            })
-            photoTouchFrame.current?.addEventListener('touchend', (e)=>{
-                touchStatus.current = "end";
-                touchEndCoordinateX.current = touchCoordinateX;
-                setTouchCoordinateX(0);
-            })
-            photoTouchFrame.current?.addEventListener('touchmove', (e)=>{
-                touchStatus.current = "moving"
-                setTouchCoordinateX(e.targetTouches[0].clientX);
-            })
+            photoTouchFrame.current?.addEventListener('touchstart', funcRefStore.current.touchStartFunc)
+            photoTouchFrame.current?.addEventListener('touchmove', funcRefStore.current.touchMoveFunc)
+            photoTouchFrame.current?.addEventListener('touchend', funcRefStore.current.touchEndFunc)   
+        }
+        else {
+            photoTouchFrame.current?.removeEventListener('touchstart', funcRefStore.current.touchStartFunc)
+            photoTouchFrame.current?.removeEventListener('touchmove', funcRefStore.current.touchMoveFunc)
+            photoTouchFrame.current?.removeEventListener('touchend', funcRefStore.current.touchEndFunc)   
         }
     },[isMobile])
 
-    
-
-
+    useEffect(()=>{
+        mapFunc((e:Element)=>e.classList.replace(`index_${prevIndex.current}`,`index_${photoShownIndex}`))
+        prevIndex.current = photoShownIndex;
+    },[photoShownIndex])
 
     return(
         <>
@@ -169,9 +223,11 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                 </button></div> : null}
                     <div className = {styles.wrapper} ref={frame} id="frame">
                     {
-                    feedData.photo_path.split(',').map((i:any)=>{
-                        return <FeedPhoto feedData={feedData} index={feedData.photo_path.split(',').indexOf(i)} photoShownIndex={photoShownIndex} touchStatus={touchStatus.current} touchCoordinateX={touchCoordinateX} touchEndCoordinateX={touchEndCoordinateX.current} setPhotoShownIndex={setPhotoShownIndex} 
-                        isMobile={isMobile} touchStartMs={touchStartMs.current}/>
+                    feedData.photo_path.split(',').map((i:any, index:number)=>{
+                        return (
+                        <div className = {`${styles.photo_container} photo_container_${idx} desktop_switch_duration index_${photoShownIndex}`} ref={photo_container} id = {`feed_photo_position_${index}`}>
+                            <FeedPhoto feedData={feedData} index={index}/>
+                        </div>)
                     })}
                     </div>
                 </div>

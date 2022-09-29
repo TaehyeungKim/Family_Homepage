@@ -3,23 +3,27 @@
 }
 
 .index_1 {
-    transform:translate(-100%);
+    transform:translateX(-100%);
 }
 
 .index_2 {
-    transform:translate(-200%);
+    transform:translateX(-200%);
 }
 
 .index_3 {
-    transform:translate(-300%);
+    transform:translateX(-300%);
 }
 
 .index_4 {
-    transform:translate(-400%);
+    transform:translateX(-400%);
+}
+
+.desktop_switch_duration {
+    transition: transform 5ms;
 }
 
 .mobile_swipe_duration {
-    transition-duration: 0ms;
+    transition: transform 0ms;
 }
 
 #feed_photo_position_0 {
