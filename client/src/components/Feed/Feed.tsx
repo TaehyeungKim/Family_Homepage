@@ -8,6 +8,7 @@ import Urls from '../../utils/Url';
 import FeedPhotoIndex from '../FeedRelated/FeedPhotoIndex/FeedPhotoIndex'
 import './translate.css'
 import {useMediaQuery} from 'react-responsive'; 
+import { ScriptElementKindModifier } from 'typescript'
 
 interface FeedProps {
     feedData: any,
@@ -133,8 +134,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
             f(collection.current.item(i))
         }
     }
-
-    
+  
     const funcRefStore = useRef<any>({
         touchStartFunc: (e: TouchEvent) => {
             touchStartMs.current = Date.now()
@@ -153,27 +153,54 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
             }
         },
         touchEndFunc: (e: TouchEvent) => {
-            mapFunc((elm:Element) =>{
-                elm.classList.remove('mobile_swipe_duration')
-                elm.classList.add('desktop_switch_duration')})
+            // mapFunc((elm:Element) =>{
+            //     elm.classList.remove('mobile_swipe_duration')
+            //     elm.classList.add('desktop_switch_duration')})
+            console.log(prevIndex.current,touchTranslate.current)
             if(photo_container.current) {
-                const velocity = Math.abs((-(prevIndex.current * photo_container.current.offsetWidth) - touchTranslate.current)/(touchStartMs.current-Date.now()))
-                switch(true) {
-                    case (velocity >= 0.1):
-                        if(-(prevIndex.current * 100) - touchTranslate.current > 0 && prevIndex.current < feedData.photo_path.split(',').length-1) {
-                            setPhotoShownIndex(prevIndex.current+1)
-                 
+                const storedIndex = prevIndex.current
+                const distance = -(prevIndex.current * 100) - touchTranslate.current
+                const velocity = Math.abs(distance/(touchStartMs.current-Date.now()))
+                const moveLeftCon = distance > 0 && storedIndex < feedData.photo_path.split(',').length-1
+                const moveRightCon = distance < 0 && storedIndex > 0
+                const swipeCompute = (arg:number, dir:string, forward:boolean) => {
+                    const forwardExp = dir === 'left' ? (arg:number) => {return (arg*0.01)*(arg-200)} : (arg:number) => {return -(arg*0.01)*(arg-200)}
+                    const backExp = dir === 'left' ? (arg:number)=>{return -(arg*0.01)*(arg)} : (arg:number)=>{return (arg*0.01)*(arg)}
+                    const swipeInterval = setInterval(()=>{
+                        const innerExp = forward ? forwardExp(arg)-storedIndex*100 : backExp(arg)-storedIndex*100
+                        mapFunc((elm: Element)=>{elm.setAttribute('style',`transform: translateX(${innerExp}%)`)})
+                        if(forward ? arg >= 100 : arg <= 0) {
+                            clearInterval(swipeInterval)
+                            mapFunc((e:Element)=>e.removeAttribute('style'))
+                            if(forward===true && dir==='left') touchTranslate.current=-(storedIndex+1)*100;
+                            else if(forward===true&&dir==='right') touchTranslate.current=-(storedIndex-1)*100;
+                            else if(forward===false) touchTranslate.current = -(storedIndex)*100;
                         }
-                        else if(-(prevIndex.current * 100) - touchTranslate.current < 0 && prevIndex.current > 0) {
+                        forward ? arg++ : arg--
+                    },5)
+                }
+                switch(true) {    
+                    case (velocity >= 0.1):
+                        if(moveLeftCon) {
+                            swipeCompute(-touchTranslate.current - prevIndex.current*100,'left',true)
+                            setPhotoShownIndex(prevIndex.current+1)
+                        }
+                        else if(moveRightCon) {
+                            swipeCompute(prevIndex.current*100 + touchTranslate.current,'right',true)
                             setPhotoShownIndex(prevIndex.current-1)
-                 
                         }
                         break;
                     default:
-                        setPhotoShownIndex(Math.round(-touchTranslate.current/100))
+                        if(moveLeftCon) {
+                            swipeCompute(-touchTranslate.current-prevIndex.current*100,'left',false)   
+                            
+                        } else if(moveRightCon) {
+                            swipeCompute(prevIndex.current*100 + touchTranslate.current,'right',false)
+                            
+                        }
+                        // setPhotoShownIndex(Math.round(-touchTranslate.current/100))
                  
                 }
-                mapFunc((e:Element)=>e.removeAttribute('style'))
             }
             touchStartCoordinateX.current = 0;   
         }
