@@ -19,7 +19,7 @@
 }
 
 .desktop_switch_duration {
-    transition: transform 5ms;
+    transition: transform 500ms;
 }
 
 .mobile_swipe_duration {

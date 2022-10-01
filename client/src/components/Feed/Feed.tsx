@@ -8,7 +8,21 @@ import Urls from '../../utils/Url';
 import FeedPhotoIndex from '../FeedRelated/FeedPhotoIndex/FeedPhotoIndex'
 import './translate.css'
 import {useMediaQuery} from 'react-responsive'; 
-import { ScriptElementKindModifier } from 'typescript'
+
+
+//chrome browser requires passive option when adding event
+var supportsPassiveOption = false;
+try {
+    window.addEventListener('test',()=>{return;},Object.defineProperty({},'passive',{
+        get: function() {supportsPassiveOption=true}
+    }))
+} catch(e:any) {
+    console.log(e.message)
+}
+const opt = supportsPassiveOption ? {passive:false, capture: true} : false;
+const preventDefault = (e:Event) => {
+    e.preventDefault();
+}
 
 interface FeedProps {
     feedData: any,
@@ -121,12 +135,18 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
 
 
     const photoTouchFrame = useRef<HTMLDivElement>(null);
-    
-    const touchStartCoordinateX = useRef<number>(0);
-    const touchTranslate = useRef<number>(0);
     const photo_container = useRef<HTMLDivElement>(null);
 
-    const touchStartMs = useRef<number>(0);
+    const swipeRefObject = useRef<any>({
+        touchStartCoordinateX:0,
+        touchStartCoordinateY:0,
+        touchTranslate:0,
+        touchStartMs:0,
+        swipe:false,
+        makeDecision:true,
+        currentFrame:0
+    })
+    
     const prevIndex = useRef<number>(0);
     const collection = useRef<HTMLCollectionOf<Element>>(document.getElementsByClassName(`photo_container_${idx}`))
     const mapFunc = (f:Function) => {
@@ -137,30 +157,35 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
   
     const funcRefStore = useRef<any>({
         touchStartFunc: (e: TouchEvent) => {
-            touchStartMs.current = Date.now()
-            touchStartCoordinateX.current = e.targetTouches[0].clientX;
-            mapFunc((elm:Element)=>{
-                elm.classList.remove('desktop_switch_duration')
-                elm.classList.add('mobile_swipe_duration')})
+            swipeRefObject.current.touchStartMs = Date.now()
+            swipeRefObject.current.touchStartCoordinateX = e.targetTouches[0].clientX;
+            swipeRefObject.current.touchStartCoordinateY = e.targetTouches[0].clientY;
         },
         touchMoveFunc: (e: TouchEvent) => {
-            if(photo_container.current) {
-                const swipeOffset = (e.targetTouches[0].clientX - touchStartCoordinateX.current)/photo_container.current.offsetWidth * 100     
-                touchTranslate.current = -(prevIndex.current * 100) + swipeOffset
+            //determine whether to swipe or scroll in the initial time
+            if(swipeRefObject.current.makeDecision) {
+                const hypotenuse = Math.sqrt((e.targetTouches[0].clientX-swipeRefObject.current.touchStartCoordinateX)**2+(e.targetTouches[0].clientY-swipeRefObject.current.touchStartCoordinateY)**2)
+                const opposite = Math.abs(e.targetTouches[0].clientY-swipeRefObject.current.touchStartCoordinateY)
+                opposite/hypotenuse < Math.sqrt(1/2) ? swipeRefObject.current.swipe = true : swipeRefObject.current.swipe = false;
+                swipeRefObject.current.makeDecision = false;
+            }
+            
+            if(photo_container.current && swipeRefObject.current.swipe) {
+                window.addEventListener('touchmove',preventDefault,opt)
+                const swipeOffset = (e.targetTouches[0].clientX - swipeRefObject.current.touchStartCoordinateX)/photo_container.current.offsetWidth * 100     
+                swipeRefObject.current.touchTranslate = -(prevIndex.current * 100) + swipeOffset
                 if(!(prevIndex.current === 0 && swipeOffset >0)&&!(prevIndex.current === feedData.photo_path.split(',').length-1 && swipeOffset < 0)) {
-                    mapFunc((elm:Element)=>{elm.setAttribute('style',`transform: translateX(${touchTranslate.current}%)`)})
+                    mapFunc((elm:Element)=>{elm.setAttribute('style',`transform: translateX(${swipeRefObject.current.touchTranslate}%)`)})
                 }
             }
         },
         touchEndFunc: (e: TouchEvent) => {
-            // mapFunc((elm:Element) =>{
-            //     elm.classList.remove('mobile_swipe_duration')
-            //     elm.classList.add('desktop_switch_duration')})
-            console.log(prevIndex.current,touchTranslate.current)
+            
             if(photo_container.current) {
                 const storedIndex = prevIndex.current
-                const distance = -(prevIndex.current * 100) - touchTranslate.current
-                const velocity = Math.abs(distance/(touchStartMs.current-Date.now()))
+                const distance = -(prevIndex.current * 100) - swipeRefObject.current.touchTranslate
+                const velocity = Math.abs(distance/(swipeRefObject.current.touchStartMs-Date.now()))
+                console.log(swipeRefObject.current.touchTranslate)
                 const moveLeftCon = distance > 0 && storedIndex < feedData.photo_path.split(',').length-1
                 const moveRightCon = distance < 0 && storedIndex > 0
                 const swipeCompute = (arg:number, dir:string, forward:boolean) => {
@@ -171,10 +196,10 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                         mapFunc((elm: Element)=>{elm.setAttribute('style',`transform: translateX(${innerExp}%)`)})
                         if(forward ? arg >= 100 : arg <= 0) {
                             clearInterval(swipeInterval)
-                            mapFunc((e:Element)=>e.removeAttribute('style'))
-                            if(forward===true && dir==='left') touchTranslate.current=-(storedIndex+1)*100;
-                            else if(forward===true&&dir==='right') touchTranslate.current=-(storedIndex-1)*100;
-                            else if(forward===false) touchTranslate.current = -(storedIndex)*100;
+                            mapFunc((elm:Element)=>elm.removeAttribute('style'))
+                            if(forward===true && dir==='left') swipeRefObject.current.touchTranslate=-(storedIndex+1)*100;
+                            else if(forward===true&&dir==='right') swipeRefObject.current.touchTranslate=-(storedIndex-1)*100;
+                            else if(forward===false) swipeRefObject.current.touchTranslate = -(storedIndex)*100;
                         }
                         forward ? arg++ : arg--
                     },5)
@@ -182,27 +207,35 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                 switch(true) {    
                     case (velocity >= 0.1):
                         if(moveLeftCon) {
-                            swipeCompute(-touchTranslate.current - prevIndex.current*100,'left',true)
+                            swipeCompute(-swipeRefObject.current.touchTranslate - prevIndex.current*100,'left',true)
                             setPhotoShownIndex(prevIndex.current+1)
                         }
                         else if(moveRightCon) {
-                            swipeCompute(prevIndex.current*100 + touchTranslate.current,'right',true)
+                            swipeCompute(prevIndex.current*100 + swipeRefObject.current.touchTranslate,'right',true)
                             setPhotoShownIndex(prevIndex.current-1)
                         }
                         break;
                     default:
                         if(moveLeftCon) {
-                            swipeCompute(-touchTranslate.current-prevIndex.current*100,'left',false)   
+                            swipeCompute(-swipeRefObject.current.touchTranslate-prevIndex.current*100,'left',false)   
                             
                         } else if(moveRightCon) {
-                            swipeCompute(prevIndex.current*100 + touchTranslate.current,'right',false)
+                            swipeCompute(prevIndex.current*100 + swipeRefObject.current.touchTranslate,'right',false)
                             
                         }
                         // setPhotoShownIndex(Math.round(-touchTranslate.current/100))
                  
                 }
             }
-            touchStartCoordinateX.current = 0;   
+            Object.defineProperties(swipeRefObject.current, {
+                touchStartCoordinateX: {value:0},
+                touchStartCoordinateY:{value:0},
+                touchStartMs:{value:0},
+                swipe:{value:false},
+                makeDecision:{value:true},
+                currentFrame:{value:0}
+            })
+            window.removeEventListener('touchmove',preventDefault,opt)
         }
     });
 
@@ -210,7 +243,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
         if(isMobile) {
             photoTouchFrame.current?.addEventListener('touchstart', funcRefStore.current.touchStartFunc)
             photoTouchFrame.current?.addEventListener('touchmove', funcRefStore.current.touchMoveFunc)
-            photoTouchFrame.current?.addEventListener('touchend', funcRefStore.current.touchEndFunc)   
+            photoTouchFrame.current?.addEventListener('touchend', funcRefStore.current.touchEndFunc)
         }
         else {
             photoTouchFrame.current?.removeEventListener('touchstart', funcRefStore.current.touchStartFunc)
@@ -220,7 +253,8 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
     },[isMobile])
 
     useEffect(()=>{
-        mapFunc((e:Element)=>e.classList.replace(`index_${prevIndex.current}`,`index_${photoShownIndex}`))
+        mapFunc((e:Element)=>{
+            e.classList.replace(`index_${prevIndex.current}`,`index_${photoShownIndex}`)})
         prevIndex.current = photoShownIndex;
     },[photoShownIndex])
 
@@ -252,7 +286,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                     {
                     feedData.photo_path.split(',').map((i:any, index:number)=>{
                         return (
-                        <div className = {`${styles.photo_container} photo_container_${idx} desktop_switch_duration index_${photoShownIndex}`} ref={photo_container} id = {`feed_photo_position_${index}`}>
+                        <div className = {`${styles.photo_container} photo_container_${idx} index_${photoShownIndex} ${isMobile ? 'mobile_swipe_duration':'desktop_switch_duration'}`} ref={photo_container} id = {`feed_photo_position_${index}`}>
                             <FeedPhoto feedData={feedData} index={index}/>
                         </div>)
                     })}
