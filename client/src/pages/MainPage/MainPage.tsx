@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import styles from './MainPage.module.scss'
 import {Outlet, Navigate, useLocation} from 'react-router-dom'
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
@@ -10,51 +10,47 @@ import Feed from '../../components/Feed/Feed';
 
 import Urls from '../../utils/Url';
 
+import  {HandlerContext} from '../../App'
+
 
 
 
 interface LoadUserFeedProps {
-    // setFeedData:(data: any) => void;
     setLoadStatus:(status:string) => void;
-    userFeedData:React.MutableRefObject<any>;
 }
 
-function LoadUserFeed({setLoadStatus, userFeedData}:LoadUserFeedProps) {
+function LoadUserFeed({setLoadStatus}:LoadUserFeedProps) {
     const feedUrl = Urls.loadFeed;
+    const context = useContext(HandlerContext)
 
     const loadFeedData = async() => {
         const response = await fetch(feedUrl, {
             method: "GET"
         })
         const json = await response.json().then((value)=>{
-            userFeedData.current = value;
-            console.log("loadFeed");
+            context.setFeedData(value);
             setLoadStatus("toLoadProfileImage");       
         });
-        // setFeedData(json);
     }
     useEffect(() => {
         loadFeedData();
+        console.log('load feed')
     },[])
     return(
         <></>
     )
 }
 
-interface MainPageProps {
-    userInfoData: React.MutableRefObject<any>;
-    profileImageData: React.MutableRefObject<any>;
-}
 
-function MainPage({userInfoData, profileImageData}:MainPageProps) {
+function MainPage() {
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
 
     const [loadStatus, setLoadStatus] = useState<string>("toLoadUserInfo");
 
-    
-    const userFeedData = useRef<any>();
+    const context = useContext(HandlerContext)
 
-    const feedProfileImageData = useRef<any>({user_id:"path"});
+    const bodyRef = useRef<HTMLDivElement>(null)
+
     const [feedProfileImageLoadStatus,setFeedProfileImageLoadStatus] = useState<string>("toLoadFeedProfileImage");
 
 
@@ -76,26 +72,26 @@ function MainPage({userInfoData, profileImageData}:MainPageProps) {
             {(()=>{
                 switch(loadStatus) {
                     case "toLoadUserInfo":
-                        return <LoadUser setLoadStatus={setLoadStatus} userInfoData={userInfoData}/>;
+                        return <LoadUser setLoadStatus={setLoadStatus}/>;
                     case "toLoadUserFeed":
-                        return <LoadUserFeed setLoadStatus={setLoadStatus} userFeedData={userFeedData}/>
+                        return <LoadUserFeed setLoadStatus={setLoadStatus}/>
                     case "toLoadProfileImage":
-                        return <LoadProfileImg url = {Urls.readProfileImg} user_id = {session.user_id} setLoadStatus={setLoadStatus} profileImageData={profileImageData}/>
+                        return <LoadProfileImg url = {Urls.readProfileImg} user_id = {context.getLoginUser('user_id')} target = {'profileImageData'} setLoadStatus={setLoadStatus}/>
                     case "loadingFinished":
                         return(
                             <>
-                            {Object.keys(feedProfileImageData.current).length === 1 ? 
-                            userFeedData.current.user_id_array.map((e:string)=> {
-                                return (<LoadProfileImg url = {Urls.readProfileImg} user_id = {e} setFeedProfileImageLoadStatus={setFeedProfileImageLoadStatus} feedProfileImageData={feedProfileImageData} userFeedData={userFeedData}/>)
+                            { !bodyRef.current ? 
+                            context.getFeedData('user_id_array').map((e:string, idx:number)=> {
+                                return (<LoadProfileImg url = {Urls.readProfileImg} user_id = {e} setFeedProfileImageLoadStatus={setFeedProfileImageLoadStatus} idx={idx} target={'feedProfileImageData'}/>)
                             }
                             )
                              : null}
-                            <Sidebar onClick = {sidebarMove} visible={visibleSidebar} userInfoData={userInfoData} user_id={session.user_id} profileImageData={profileImageData}/>
+                            <Sidebar onClick = {sidebarMove} visible={visibleSidebar}/>
                             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                                 <Nav onClick = {sidebarMove}/>
-                                <div className = {styles.bodyWrapper}>
+                                <div className = {styles.bodyWrapper} ref={bodyRef}>
                                     <div className={styles.jumbotron}> </div>
-                                    {userFeedData.current === undefined || userFeedData.current.data === 'empty' ? 
+                                    {context.getFeedData('data') === 'empty' ? 
                                         <div className= {styles.feed_area}>
                                             <div className = {styles.noFeed}>
                                                 아직 우리 가족 피드가 없어요!<br/>새로운 피드를 추가해보세요!
@@ -103,9 +99,9 @@ function MainPage({userInfoData, profileImageData}:MainPageProps) {
                                         </div>
                                         :
                                         <div className = {styles.feed_area} id ={styles.notEmpty}>
-                                            {userFeedData.current.data.map((feedData: any, idx: number) => (
+                                            {context.getFeedData('data').map((feedData: any, idx: number) => (
                                             <React.Fragment key = {idx}>
-                                                <Feed feedData={feedData} profileImageData={profileImageData} feedProfileImageData={feedProfileImageData} feedProfileImageLoadStatus={feedProfileImageLoadStatus} idx={idx}/>
+                                                <Feed feedData={feedData} feedProfileImageLoadStatus={feedProfileImageLoadStatus} idx={idx}/>
                                             </React.Fragment>
                                         ))
                                             }

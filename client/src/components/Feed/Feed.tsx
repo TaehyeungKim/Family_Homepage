@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useRef, useEffect, useMemo, useContext} from 'react'
 import styles from './Feed.module.scss'
 
 import FeedHeader from '../FeedRelated/FeedHeader/FeedHeader'
@@ -8,6 +8,8 @@ import Urls from '../../utils/Url';
 import FeedPhotoIndex from '../FeedRelated/FeedPhotoIndex/FeedPhotoIndex'
 import './translate.css'
 import {useMediaQuery} from 'react-responsive'; 
+
+import { HandlerContext } from '../../App'
 
 
 //chrome browser requires passive option when adding event
@@ -19,6 +21,7 @@ try {
 } catch(e:any) {
     console.log(e.message)
 }
+
 const opt = supportsPassiveOption ? {passive:false, capture: true} : false;
 const preventDefault = (e:Event) => {
     e.preventDefault();
@@ -26,14 +29,12 @@ const preventDefault = (e:Event) => {
 
 interface FeedProps {
     feedData: any,
-    profileImageData: React.MutableRefObject<any>;
-    feedProfileImageData: React.MutableRefObject<any>;
     feedProfileImageLoadStatus: string;
     idx: number;
 }
 
 
-function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImageLoadStatus, idx}: FeedProps) {
+function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
 
     const [buttonActive, setButtonActive] = useState<boolean>(false);
 
@@ -44,6 +45,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
     const [photoShownIndex, setPhotoShownIndex] = useState<number>(0);
 
     const isMobile = useMediaQuery({query: '(max-width: 600px)'})
+    const photoPathSplit = useMemo(()=>{return feedData.photo_path.split(',')},[feedData])
 
     const activateButton = () => {
         if (buttonActive === false) {
@@ -111,9 +113,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
     const year = feedData.created_at.split(" ")[0].split("-")[0];
     const month = feedData.created_at.split(" ")[0].split("-")[1];
     const day = feedData.created_at.split(" ")[0].split("-")[2];
-    const time = feedData.created_at.split(" ")[1];
 
-    const session = sessionStorage;
 
     const frame = useRef<HTMLDivElement>(null);
 
@@ -124,7 +124,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                     setPhotoShownIndex(photoShownIndex-1)
                 }
             } else if(direction === 'right') {
-                if(photoShownIndex < feedData.photo_path.split(',').length-1) {
+                if(photoShownIndex < photoPathSplit.length-1) {
                     setPhotoShownIndex(photoShownIndex+1);   
                 }
             }
@@ -170,23 +170,21 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                 swipeRefObject.current.makeDecision = false;
             }
             
-            if(photo_container.current && swipeRefObject.current.swipe) {
+            if(swipeRefObject.current.swipe) {
                 window.addEventListener('touchmove',preventDefault,opt)
-                const swipeOffset = (e.targetTouches[0].clientX - swipeRefObject.current.touchStartCoordinateX)/photo_container.current.offsetWidth * 100     
+                const swipeOffset = (e.targetTouches[0].clientX - swipeRefObject.current.touchStartCoordinateX)/ photo_container.current!.offsetWidth * 100     
                 swipeRefObject.current.touchTranslate = -(prevIndex.current * 100) + swipeOffset
-                if(!(prevIndex.current === 0 && swipeOffset >0)&&!(prevIndex.current === feedData.photo_path.split(',').length-1 && swipeOffset < 0)) {
+                if(!(prevIndex.current === 0 && swipeOffset >0)&&!(prevIndex.current === photoPathSplit.length-1 && swipeOffset < 0)) {
                     mapFunc((elm:Element)=>{elm.setAttribute('style',`transform: translateX(${swipeRefObject.current.touchTranslate}%)`)})
                 }
             }
         },
         touchEndFunc: (e: TouchEvent) => {
-            
             if(photo_container.current) {
                 const storedIndex = prevIndex.current
                 const distance = -(prevIndex.current * 100) - swipeRefObject.current.touchTranslate
                 const velocity = Math.abs(distance/(swipeRefObject.current.touchStartMs-Date.now()))
-                console.log(swipeRefObject.current.touchTranslate)
-                const moveLeftCon = distance > 0 && storedIndex < feedData.photo_path.split(',').length-1
+                const moveLeftCon = distance > 0 && storedIndex < photoPathSplit.length-1
                 const moveRightCon = distance < 0 && storedIndex > 0
                 const swipeCompute = (arg:number, dir:string, forward:boolean) => {
                     const forwardExp = dir === 'left' ? (arg:number) => {return (arg*0.01)*(arg-200)} : (arg:number) => {return -(arg*0.01)*(arg-200)}
@@ -239,16 +237,21 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
         }
     });
 
+    const context = useContext(HandlerContext)
+
     useEffect(()=>{
-        if(isMobile) {
-            photoTouchFrame.current?.addEventListener('touchstart', funcRefStore.current.touchStartFunc)
-            photoTouchFrame.current?.addEventListener('touchmove', funcRefStore.current.touchMoveFunc)
-            photoTouchFrame.current?.addEventListener('touchend', funcRefStore.current.touchEndFunc)
-        }
-        else {
-            photoTouchFrame.current?.removeEventListener('touchstart', funcRefStore.current.touchStartFunc)
-            photoTouchFrame.current?.removeEventListener('touchmove', funcRefStore.current.touchMoveFunc)
-            photoTouchFrame.current?.removeEventListener('touchend', funcRefStore.current.touchEndFunc)   
+        if(photoTouchFrame.current) {
+            if(isMobile) {
+                photoTouchFrame.current.addEventListener('touchstart', funcRefStore.current.touchStartFunc)
+                photoTouchFrame.current.addEventListener('touchmove', funcRefStore.current.touchMoveFunc)
+                photoTouchFrame.current.addEventListener('touchend', funcRefStore.current.touchEndFunc)
+            
+            }
+            else {
+                photoTouchFrame.current.removeEventListener('touchstart', funcRefStore.current.touchStartFunc)
+                photoTouchFrame.current.removeEventListener('touchmove', funcRefStore.current.touchMoveFunc)
+                photoTouchFrame.current.removeEventListener('touchend', funcRefStore.current.touchEndFunc)   
+            }
         }
     },[isMobile])
 
@@ -262,10 +265,12 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
         <>
         <div className={styles.feed_container}>
             <div className={styles.feed}>
-                <FeedHeader feedData={feedData} feedProfileImageData={feedProfileImageData} feedProfileImageLoadStatus={feedProfileImageLoadStatus}/>
+                <FeedHeader feedData={feedData} feedProfileImageLoadStatus={feedProfileImageLoadStatus}/>
                 <hr/>
+
+                {/* Feed Photo */}
                 <div className={styles.feed_photo} ref={photoTouchFrame}>
-                {!isMobile && feedData.photo_path.split(",").length > 1 ? 
+                {!isMobile && photoPathSplit.length > 1 ? 
                     <div className = {styles.buttonArea} id ={styles.left}>
                         <button onClick = {()=>switchShownPhotos('left')}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -274,17 +279,18 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                             </svg>
                         </button>
                     </div> : null}
-                {!isMobile && feedData.photo_path.split(",").length > 1 ? 
+                {!isMobile && photoPathSplit.length > 1 ? 
                     <div className = {styles.buttonArea} id = {styles.right}>
                         <button onClick = {()=>switchShownPhotos('right')}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                 <path d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
                                 <circle r="8" cx="8" cy="8"></circle>
                             </svg>
-                </button></div> : null}
+                        </button>
+                    </div> : null}
                     <div className = {styles.wrapper} ref={frame} id="frame">
                     {
-                    feedData.photo_path.split(',').map((i:any, index:number)=>{
+                    photoPathSplit.map((i:any, index:number)=>{
                         return (
                         <div className = {`${styles.photo_container} photo_container_${idx} index_${photoShownIndex} ${isMobile ? 'mobile_swipe_duration':'desktop_switch_duration'}`} ref={photo_container} id = {`feed_photo_position_${index}`}>
                             <FeedPhoto feedData={feedData} index={index}/>
@@ -292,13 +298,28 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                     })}
                     </div>
                 </div>
-                {feedData.photo_path.split(',').length > 1 ? 
+
+
+
+
+                {/* Feed Photo Index */}
+                {photoPathSplit.length > 1 ? 
                     <FeedPhotoIndex feedData={feedData} photoShownIndex={photoShownIndex}/> : null}
                 <hr/>
+
+
+
+
+                {/* Feed Content */}
                 <div className={styles.feed_content}>
                     <p id = {styles.feedText}>{feedData.text}</p>
                     <p id = {styles.feedDate}>{year + "년 " + month + "월 " + day + "일"}</p>
                 </div>
+
+
+
+
+                {/* Feed Comment */}
                 <div className={styles.feed_comment}>
                     {/* button before comment updated */}
                     {feedData.comment_exists === 'true' && commentUpdated === false ? 
@@ -319,7 +340,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                     <FeedCommentShow feedData={feedData} commentShown = {commentShown} commentData={commentData} showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                     <div className={styles.comment_write}>
                         <div className = {styles.comment_profile_container}>
-                            {profileImageData.current === undefined ? null : <img src = {profileImageData.current.src} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                            { context.getLoginUser('image') === undefined ? null : <img src = {context.getLoginUser('image').src} id = {context.getLoginUser('image').height > context.getLoginUser('image').width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                         </div>
                         <div className = {styles.textareaContainer}>
                         <textarea placeholder='댓글 달기' ref={comment} onChange={(e)=> {
@@ -328,7 +349,7 @@ function Feed({feedData, profileImageData, feedProfileImageData, feedProfileImag
                         }}></textarea>
                         </div>
                         <button onClick = { buttonActive === true ? (e)=>{
-                            uploadComment(feedData.feed_id, feedData.user_id, session.user_id, comment.current?.value as string)
+                            uploadComment(feedData.feed_id, feedData.user_id, context.getLoginUser('user_id'), comment.current?.value as string)
                             .then((resolve) =>{clearComInp(resolve, comment.current as HTMLTextAreaElement)});
                         }:undefined} id = {buttonActive === true ? styles.active : styles.notActive}>게시</button>
                     </div>

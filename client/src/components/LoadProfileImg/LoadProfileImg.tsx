@@ -1,22 +1,29 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useContext} from 'react'
 import Urls from '../../utils/Url'
+
+import {HandlerContext} from '../../App'
 
 interface LoadProfileImgProps {
     url: string,
     user_id: string,
-    // loadProfileData: (json: any) => void,
+    target:string,
     setLoadStatus?:(status:string) => void;
-    // setFeedProfileImageData?:(data:any) => void;
-    feedProfileImageData?:React.MutableRefObject<any>;
-    profileImageData?:React.MutableRefObject<any>;
     setFeedProfileImageLoadStatus?: (status:string) => void;
-    userFeedData?:React.MutableRefObject<any>
+    idx?: number;
 
 }
 
-function LoadProfileImg({url, user_id, setLoadStatus, profileImageData, feedProfileImageData, setFeedProfileImageLoadStatus, userFeedData}:LoadProfileImgProps){
+function LoadProfileImg({url, user_id, target, setLoadStatus, setFeedProfileImageLoadStatus, idx}:LoadProfileImgProps){
     const data = new FormData();
-    data.append('user_id', user_id);
+    const context = useContext(HandlerContext)
+    switch(target) {
+        case 'profileImageData':
+            data.append('user_id', context.getLoginUser('user_id'));
+            break;
+        case 'feedProfileImageData':
+            data.append('user_id', user_id);
+    }
+    
 
     const loadProfile = async(url: string) => {
         const response = await fetch(url, {
@@ -25,7 +32,7 @@ function LoadProfileImg({url, user_id, setLoadStatus, profileImageData, feedProf
         })
         const json = await response.json()
         .then((value)=>{
-            const xmlRequest = (data:React.MutableRefObject<any>, settingStatus:(status:string) => void, status:string) => {
+            const xmlRequest = (context:any, settingStatus:(status:string) => void, target:string) => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("GET", `${Urls.hostPath}${value.path}`);
                 xhr.responseType = "blob";
@@ -36,28 +43,28 @@ function LoadProfileImg({url, user_id, setLoadStatus, profileImageData, feedProf
                         const img = new Image();
                         img.src = reader.result as string;
                         img.onload = () => {
-                            switch(data) {
-                                case profileImageData:
-                                    data.current = {src:img.src, height:img.height, width:img.width};
-                                    settingStatus(status);
+                            switch(target) {
+                                case 'profileImageData':
+                                    context.setLoginUser({src:img.src, height:img.height, width:img.width},'image')
+                                    settingStatus('loadingFinished');
                                     break;        
-                                case feedProfileImageData:
-                                    data.current[`${user_id}`] = {src:img.src, height: img.height, width: img.width};
-                                    if(userFeedData !== undefined && userFeedData.current.user_id_array.length + 1 === Object.keys(feedProfileImageData?.current).length) {
-                                        settingStatus(status);
+                                case 'feedProfileImageData':
+                                    context.setFeedProfileImageData({src:img.src, height: img.height, width: img.width}, user_id);
+                                    if(Object.keys(context.getFeedProfileImageData()).length === context.getFeedData('user_id_array').length) {
+                                        settingStatus("feedProfileImageLoadFinished");
                                     }
-
+                                    console.log(idx, context.getFeedProfileImageData())
                             }
                         }
                     }
                 }
                 xhr.send();
             }
-            if(profileImageData !== undefined && setLoadStatus !== undefined) {
-                xmlRequest(profileImageData, setLoadStatus, "loadingFinished");
+            if(target === 'profileImageData' && setLoadStatus !== undefined) {
+                xmlRequest(context, setLoadStatus, "profileImageData");
             }
-            if(feedProfileImageData !== undefined && setFeedProfileImageLoadStatus !== undefined &&userFeedData !== undefined) {
-                xmlRequest(feedProfileImageData, setFeedProfileImageLoadStatus, "feedProfileImageLoadFinished")
+            if(target === 'feedProfileImageData' && setFeedProfileImageLoadStatus !== undefined) {
+                xmlRequest(context, setFeedProfileImageLoadStatus, "feedProfileImageData")
             }
         });;
     }

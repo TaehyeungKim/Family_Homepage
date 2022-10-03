@@ -1,21 +1,23 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoadProfileImg } from '../../LoadProfileImg/LoadProfileImg';
 import {DeleteFeedAlert} from '../../DeleteAlert/DeleteAlert';
 import styles from './FeedHeader.module.scss';
 import Urls from '../../../utils/Url';
 
+import {HandlerContext} from '../../../App'
+
 
 interface FeedHeaderProps {
     feedData: any;
-    feedProfileImageData: React.MutableRefObject<any>;
     feedProfileImageLoadStatus:string;
 }
 
 
-function FeedHeader({feedData, feedProfileImageData, feedProfileImageLoadStatus}: FeedHeaderProps) {
+function FeedHeader({feedData, feedProfileImageLoadStatus}: FeedHeaderProps) {
 
     const [alertVisible, setAlertVisible] = useState<boolean>(false);
+    const context = useContext(HandlerContext)
 
     
     const showAlert = () => {
@@ -43,25 +45,23 @@ function FeedHeader({feedData, feedProfileImageData, feedProfileImageLoadStatus}
 
     }
 
-    const session = sessionStorage
+    
 
 
     return(
         <>  
-            {/* {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id = {feedData.user_id} loadProfileData={loadProfileData}/> : null} */}
             {/* delete feed alert */}
             <DeleteFeedAlert deleteFeed={deleteFeed} alertVisible={alertVisible} hideAlert={hideAlert} feedData={feedData} message={'피드를 정말 삭제하시겠습니까?'}/>
             <div className={styles.feed_header}>
                 <div className = {styles.profile_image_container}>
                     <div className={styles.profile_image}>
-                        {/* {profileImageData === undefined ? null : <img src = {profileImageData.path} id = {profileImageData.height > profileImageData.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>} */}
-                        {feedProfileImageLoadStatus === "toLoadFeedProfileImage" ? null : <img src = {feedProfileImageData.current[`${feedData.user_id}`].src} id = {feedProfileImageData.current[`${feedData.user_id}`].height > feedProfileImageData.current[`${feedData.user_id}`].width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                        {feedProfileImageLoadStatus === "toLoadFeedProfileImage" ? null : <img src = {context.getFeedProfileImageData(feedData.user_id).src} id = {context.getFeedProfileImageData(feedData.user_id).height > context.getFeedProfileImageData(feedData.user_id).width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                     </div>
                 </div>
                 <div className ={styles.profile_name}>
                     <p>{feedData.user_id}</p>
                 </div>
-                {session.user_id === feedData.user_id ? <button className = {styles.feed_delete_button} onClick = {showAlert}>삭제</button> : null}
+                {context.getLoginUser('user_id') === feedData.user_id ? <button className = {styles.feed_delete_button} onClick = {showAlert}>삭제</button> : null}
             </div>
         </>
     )

@@ -1,7 +1,8 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, useContext} from 'react';
 import { LoadProfileImg } from '../LoadProfileImg/LoadProfileImg';
 import styles from './Description.module.scss'
 import Urls from '../../utils/Url';
+import {HandlerContext} from '../../App'
 
 interface SubmitDescProps {
     setDescription: (desc: string) => void;
@@ -21,19 +22,13 @@ interface DescriptionProps {
     status: string;
     setDescription: (description: string) => void;
     fetchData: boolean;
-    userInfoData: React.MutableRefObject<any>;
-    profileImageData: React.MutableRefObject<any>;
 }
 
-function Description({status, setDescription, fetchData, userInfoData, profileImageData}:DescriptionProps) {
-    // const [profileImageData, setProfileImageData] = useState<any>();
-
-    // const loadProfileData = (json: any) => {
-    //     setProfileImageData(json);
-    // }
-
+function Description({status, setDescription, fetchData}:DescriptionProps) {
+    
     const session = sessionStorage;
     const descArea = useRef<HTMLTextAreaElement>(null);
+    const context = useContext(HandlerContext)
 
     useEffect(()=>{
         if(status === 'beforeUploadImage') {
@@ -47,14 +42,13 @@ function Description({status, setDescription, fetchData, userInfoData, profileIm
     },[status])
     return(
         <>
-        {/* {profileImageData === undefined ? <LoadProfileImg url = {Urls.readProfileImg} user_id={session.user_id} loadProfileData={loadProfileData}/> : null} */}
         <div className = {styles.frame} id = {status === 'write' ? styles.frameAtDescription : styles.frameBeforeDescription}>
             <div className = {styles.profile}>
                 <div className = {styles.imageContainer}>
-                    {profileImageData.current === undefined ? null : <img src = {`.${profileImageData.current.path}`} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                    {context.getLoginUser('image') === undefined ? null : <img src = {context.getLoginUser('image').src} id = {context.getLoginUser('image').height > context.getLoginUser('image').width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                 </div>
                 <div className = {styles.name}>
-                    <input name = 'user_id' defaultValue={session.user_id} disabled/>
+                    <input name = 'user_id' defaultValue={context.getLoginUser('user_id')} disabled/>
                 </div>
             </div>
             <div className = {styles.descContainer} id = {status === 'write' ? styles.descWidthAtDescription: styles.descWidthBeforeDescription}>

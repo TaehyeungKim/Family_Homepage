@@ -1,13 +1,12 @@
-import {useEffect} from 'react'
+import {useEffect, useContext} from 'react'
 import Urls from '../../utils/Url';
+import {HandlerContext} from '../../App'
 
 interface LoadUserProps {
     setLoadStatus:(status:string) => void;
-    userInfoData: React.MutableRefObject<any>;
 }
 
-function LoadUser({setLoadStatus, userInfoData}:LoadUserProps) {
-    const session = sessionStorage;
+function LoadUser({setLoadStatus}:LoadUserProps) {
     const loadUserInfo = async (url: string, data: any) => {
         const response = await fetch(url, {
             method: 'POST',
@@ -18,18 +17,29 @@ function LoadUser({setLoadStatus, userInfoData}:LoadUserProps) {
         })
         const json = await response.json().then(
             (value)=>{
-                userInfoData.current = value;
-                console.log('loadUser')
+                context.setLoginUser(value);      
                 setLoadStatus("toLoadUserFeed")
             }
         );
-        // loadUserInfoData(json);
+    }
+    const context = useContext(HandlerContext)
+
+    const loadUserIdFromSession = async() => {
+        const userIdFromSession = await fetch(Urls.checkIsLogin, {
+            method: "GET"
+        })
+        const userId = await userIdFromSession.text();
+        console.log(userId)
+        
     }
 
 
-    const data = {'user_id' : session.user_id}
+    const data = {'user_id' : context.getLoginUser('user_id')}
     useEffect(()=>{
-        loadUserInfo(Urls.loadUserInfo, data)
+        if(context.getLoginUser('user_id')) loadUserInfo(Urls.loadUserInfo, data)
+        else {
+            loadUserIdFromSession()
+        }
     },[])
     return(
         <></>

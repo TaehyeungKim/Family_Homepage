@@ -1,8 +1,9 @@
-import {useRef, useState, useEffect} from 'react';
+import {useRef, useState, useEffect, useContext} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './LoginPage.module.scss'
 import winter_house from '../../images/winter_house.png'
 import Urls from '../../utils/Url';
+import {HandlerContext} from '../../App'
 
 
 interface WrongLoginAlertProps { 
@@ -37,6 +38,7 @@ function LoginPage() {
     const loginUrl = Urls.login;
 
     const session = sessionStorage
+    const context = useContext(HandlerContext)
 
     const fetchData = async(url:string, data:any) => {
         const response = await fetch(url, {
@@ -48,7 +50,8 @@ function LoginPage() {
         });
         const json = await response.json()
         if (json.message === 'Login Success') {
-            session.user_id = json.user_id;
+            console.log(json);
+            context.setLoginUser({user_id: json.user_id});    
             navigate('/main');
         } else if (json.message === 'Wrong User Id') {
             setLoginState("Wrong User Id");

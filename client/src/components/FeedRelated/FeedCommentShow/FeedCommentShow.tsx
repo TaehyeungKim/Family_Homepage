@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import styles from './FeedCommentShow.module.scss'
 import {DeleteCommentAlert} from '../../DeleteAlert/DeleteAlert'
+
+import {HandlerContext} from '../../../App'
+
 
 interface FeedCommentLineProps {
     em: any,
@@ -11,7 +14,7 @@ interface FeedCommentLineProps {
 
 function FeedCommentLine({em, feedData, showComment, commentIsUpdated}:FeedCommentLineProps) {
 
-    const session = sessionStorage;
+    const context = useContext(HandlerContext)
 
     const [alertVisible, setAlertVisible] = useState<boolean>(false);
 
@@ -32,7 +35,7 @@ function FeedCommentLine({em, feedData, showComment, commentIsUpdated}:FeedComme
                     <span>{em.comment_user}</span>
                     {em.comment}
                 </div> 
-                {em.comment_user === session.user_id ? 
+                {em.comment_user === context.getLoginUser('user_id') ? 
                 <div className = {styles.buttonContainer}>
                     <button onClick={showAlert}>삭제</button>
                 </div>

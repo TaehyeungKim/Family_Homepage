@@ -1,9 +1,11 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styles from './Write.module.scss'
 import PhotoSelect from '../PhotoSelect/PhotoSelect';
 import Description from '../Description/Description';
 import Urls from '../../utils/Url';
+
+import {HandlerContext} from '../../App'
 
 
 interface FetchDataProps {
@@ -14,7 +16,8 @@ interface FetchDataProps {
 function FetchData({imgFiles, description}: FetchDataProps) {
     const navigate = useNavigate();
 
-    const session = sessionStorage
+
+    const context = useContext(HandlerContext)
 
     const url = Urls.postFeed;
 
@@ -34,7 +37,7 @@ function FetchData({imgFiles, description}: FetchDataProps) {
             formData.append(`image${i}`, fileList[i-1]);
         }
         formData.append("description", description);
-        formData.append("user_id", session.user_id);
+        formData.append("user_id", context.getLoginUser('user_id'));
         fetchData(formData);
     })
     return(
@@ -73,13 +76,8 @@ function WriteHeader({backButtonDisplay, back, nextButtonDisplay, next, status, 
     )
 }
 
-interface WriteProps {
-    userInfoData: React.MutableRefObject<any>;
-    profileImageData: React.MutableRefObject<any>;
-}
 
-
-function Write({userInfoData, profileImageData}:WriteProps) {
+function Write() {
 
     const [status, setStatus] = useState<string>('beforeUploadImage');
     const [submit, setSubmit] = useState<boolean>(false);
@@ -103,7 +101,7 @@ function Write({userInfoData, profileImageData}:WriteProps) {
                 }} next = {()=>{setStatus('write')}} submit={()=>setSubmit(true)}/> }
                 <div className = {styles.bodyContainer}>
                     <PhotoSelect status={status} fetchData={submit} setImgFiles={setImgFiles} setStatus={setStatus}/>
-                    <Description status={status} setDescription={setDescription} fetchData={submit} userInfoData={userInfoData} profileImageData={profileImageData}/>
+                    <Description status={status} setDescription={setDescription} fetchData={submit}/>
                 </div>
             </div>
             {submit === true && imgFiles !== undefined && description !=="" ? <FetchData imgFiles={imgFiles} description={description}/>: null}

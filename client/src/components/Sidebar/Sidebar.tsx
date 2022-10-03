@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {useNavigate, useLocation} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 
@@ -6,16 +6,15 @@ import closeIcon from '../../icons/closeIcon.svg';
 import pin_icon from '../../icons/pin_icon.png';
 import Urls from '../../utils/Url';
 
+import {HandlerContext} from '../../App'
+
 
 interface SidebarProps {
     onClick: () => void;
     visible: boolean;
-    userInfoData: any;
-    user_id: string;
-    profileImageData: any
 }
 
-function Sidebar({onClick, visible, userInfoData, user_id, profileImageData}:SidebarProps) {
+function Sidebar({onClick, visible}:SidebarProps) {
 
     const session = sessionStorage;
     const url = Urls.logout
@@ -44,6 +43,7 @@ function Sidebar({onClick, visible, userInfoData, user_id, profileImageData}:Sid
     }
 
     const location = useLocation();
+    const context = useContext(HandlerContext)
 
     return(
         <>
@@ -53,12 +53,12 @@ function Sidebar({onClick, visible, userInfoData, user_id, profileImageData}:Sid
             </div>
             <div className = {styles.sidebarProfileArea}>
                 <div className = {styles.profileImageContainer}>
-                {profileImageData.current === undefined ? null : <img src = {profileImageData.current.src} id = {profileImageData.current.height > profileImageData.current.width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                {context.getLoginUser('image') === undefined ? null : <img src = {context.getLoginUser('image').src} id = {context.getLoginUser('image').height > context.getLoginUser('image').width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
                 </div>
                 <div className = {styles.profileName}>
-                    {userInfoData.current.user_name} <br/> <span>{user_id}</span> <br/>
+                    {context.getLoginUser('user_name')} <br/> <span>{context.getLoginUser('user_id')}</span> <br/>
                     <div className = {styles.descriptionContainer}>
-                    {userInfoData.current.desc.map((description: string, idx: any) => (
+                    {context.getLoginUser('desc').map((description: string, idx: any) => (
                         <React.Fragment key = {idx}>
                         <div className = {styles.description}>
                             <img src = {pin_icon}/>
