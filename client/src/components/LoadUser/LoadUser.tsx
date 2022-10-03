@@ -28,8 +28,11 @@ function LoadUser({setLoadStatus}:LoadUserProps) {
         const userIdFromSession = await fetch(Urls.checkIsLogin, {
             method: "GET"
         })
-        const userId = await userIdFromSession.text();
-        console.log(userId)
+        const userId = await userIdFromSession.json().then(
+            (value)=>{
+                loadUserInfo(Urls.loadUserInfo, {'user_id':value.user_id})
+            }
+        );
         
     }
 

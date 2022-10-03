@@ -34,7 +34,6 @@ function LoadUserFeed({setLoadStatus}:LoadUserFeedProps) {
     }
     useEffect(() => {
         loadFeedData();
-        console.log('load feed')
     },[])
     return(
         <></>

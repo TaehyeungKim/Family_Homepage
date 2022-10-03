@@ -50,7 +50,6 @@ function LoginPage() {
         });
         const json = await response.json()
         if (json.message === 'Login Success') {
-            console.log(json);
             context.setLoginUser({user_id: json.user_id});    
             navigate('/main');
         } else if (json.message === 'Wrong User Id') {
