@@ -30,6 +30,7 @@ function LoadUser({setLoadStatus}:LoadUserProps) {
         })
         const userId = await userIdFromSession.json().then(
             (value)=>{
+                context.setLoginUser({'user_id':value.user_id})
                 loadUserInfo(Urls.loadUserInfo, {'user_id':value.user_id})
             }
         );

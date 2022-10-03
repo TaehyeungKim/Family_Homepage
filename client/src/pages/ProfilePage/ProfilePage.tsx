@@ -8,6 +8,9 @@ import Urls from '../../utils/Url';
 
 import {HandlerContext} from '../../App'
 
+import LoadUser from '../../components/LoadUser/LoadUser'
+import {LoadProfileImg} from '../../components/LoadProfileImg/LoadProfileImg'
+
 interface ProfilePageDescAreaProps {
     jsonData: any;
 }
@@ -75,6 +78,7 @@ function ProfilePage() {
     const session = sessionStorage;
     const location = useLocation();
     const [changedProfileImgPreview, setChangedProfileImgPreview] = useState<any>(null);
+    const [profilePageLoadingStatus, setProfilePageLoadingStatus] = useState<string>("toLoadUser");
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     
     const changeProfile = useRef<HTMLInputElement>(null);
@@ -93,7 +97,20 @@ function ProfilePage() {
 
     return(
         <>
-        {context.getLoginUser() === undefined ? null
+        {context.getLoginUser() === undefined ? 
+        (()=>{
+            switch(profilePageLoadingStatus) {
+                case "toLoadUser":
+                    <LoadUser setLoadStatus={setProfilePageLoadingStatus}/>
+                    break;
+                case "toLoadUserFeed":
+                    setProfilePageLoadingStatus("toLoadProfileImage");
+                    break;
+                case "toLoadProfileImage":
+                    <LoadProfileImg url={Urls.readProfileImg} user_id={context.getLoginUser('user_id')} target={"profileImageData"} setLoadStatus={setProfilePageLoadingStatus}/>
+                    break;
+            }
+        })()
         :
         <>
         <div className = {styles.frame}>
