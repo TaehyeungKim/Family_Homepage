@@ -101,14 +101,12 @@ function ProfilePage() {
         (()=>{
             switch(profilePageLoadingStatus) {
                 case "toLoadUser":
-                    <LoadUser setLoadStatus={setProfilePageLoadingStatus}/>
-                    break;
+                    return <LoadUser setLoadStatus={setProfilePageLoadingStatus}/>
                 case "toLoadUserFeed":
                     setProfilePageLoadingStatus("toLoadProfileImage");
                     break;
                 case "toLoadProfileImage":
-                    <LoadProfileImg url={Urls.readProfileImg} user_id={context.getLoginUser('user_id')} target={"profileImageData"} setLoadStatus={setProfilePageLoadingStatus}/>
-                    break;
+                    return <LoadProfileImg url={Urls.readProfileImg} user_id={context.getLoginUser('user_id')} target={"profileImageData"} setLoadStatus={setProfilePageLoadingStatus}/>
             }
         })()
         :
