@@ -97,15 +97,18 @@ function ProfilePage() {
 
     return(
         <>
-        {context.getLoginUser() === undefined ? 
+        {context.getLoginUser('user_id') === undefined || context.getLoginUser('image') === undefined? 
         (()=>{
             switch(profilePageLoadingStatus) {
                 case "toLoadUser":
+                    console.log('load user');
                     return <LoadUser setLoadStatus={setProfilePageLoadingStatus}/>
                 case "toLoadUserFeed":
+                    console.log('load user feed');
                     setProfilePageLoadingStatus("toLoadProfileImage");
                     break;
                 case "toLoadProfileImage":
+                    console.log('load profile image');
                     return <LoadProfileImg url={Urls.readProfileImg} user_id={context.getLoginUser('user_id')} target={"profileImageData"} setLoadStatus={setProfilePageLoadingStatus}/>
             }
         })()
