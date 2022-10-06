@@ -15,6 +15,7 @@ function RedirectToMain({redirectToLogin}:RedirectToMainProps) {
         const response = await fetch(url, {
             method: "GET"
         })
+
         const json = await response.json()
         .then((value) => {
             console.log(value);
@@ -24,7 +25,8 @@ function RedirectToMain({redirectToLogin}:RedirectToMainProps) {
             } else {
                 redirectToLogin();
             }
-        });
+        })
+        .catch((error)=>console.log('error: ',error));
     }
     useEffect(()=>{
         checkLogin();

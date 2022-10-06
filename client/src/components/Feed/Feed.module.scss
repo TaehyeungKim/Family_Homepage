@@ -5,6 +5,7 @@
 
 $feedArea1: 800;
 $feedArea2: 600;
+$proportion: 1.5;
 
 hr {
     margin-block-start: 0;
@@ -16,86 +17,97 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: toRem($feedArea1/2);
+    width: 100%;
     height:auto;
-    margin-bottom: toRem(20);
+    margin-bottom: toRem(40);
+    background-color: white;
+    border-radius: toRem(15);
+    border: 2px solid #bebebe;
+    box-sizing: border-box;
     
 
     .feed {
         position: relative;
         width: 95%;
         height: auto ;
-        border: 2px solid rgba(100,100,100,0.5);
+        // border: 2px solid rgba(100,100,100,0.5);
         border-radius: toRem(10);
 
         .feed_photo {
             position:relative;
             width: 100%;
-            height: toRem(($feedArea1/2) * 0.95);
-            @media (max-width: 800px) {
-                height: toRem(250);
-            }
-            @media (max-width: 600px) {
-                height: 80vw;
-            }
 
-            .buttonArea {
-                height: 100%;
-                display: flex;
-                align-items: center;
-                position: absolute;
-                z-index: 10;
+            .feed_photo_innerframe{
+                position:absolute;
+                top:0%;
+                bottom:0%;
+                left:0%;
+                right:0%;
 
-                button {
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                    opacity: 0.4;
-                    
-                    &:hover {
-                        opacity: 0.7;
-                    }
-
-                    &:active {
-                        opacity: 1;
-                    }
-
-                    svg {
-                        width: toRem(40);
-                        height: toRem(40);
-                        fill: black;
-
-                        circle {
-                            opacity: 0.4;
+                .buttonArea {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    position: absolute;
+                    z-index: 10;
+    
+                    button {
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        opacity: 0.4;
+                        
+                        &:hover {
+                            opacity: 0.7;
+                        }
+    
+                        &:active {
+                            opacity: 1;
+                        }
+    
+                        svg {
+                            width: toRem(40);
+                            height: toRem(40);
+                            fill: black;
+    
+                            circle {
+                                opacity: 0.4;
+                            }
                         }
                     }
                 }
-            }
-            
-            #left {
-                left: toRem(5);
-            }
-            
-            #right {
-                right: toRem(5);
-            }
-
-            .wrapper {
-                position: relative;
-                height: 100%;
-                width: 100%;
-                overflow-x: hidden;
-                scroll-behavior: smooth;
-                margin-top: 0;
-
-                .photo_container {
-                    position: absolute;
-                    width: 100%;
+                
+                #left {
+                    left: toRem(5);
+                }
+                
+                #right {
+                    right: toRem(5);
+                }
+    
+                .wrapper {
+                    position: relative;
                     height: 100%;
-                    margin: 0;
-                    padding: 0;
+                    width: 100%;
+                    overflow-x: hidden;
+                    scroll-behavior: smooth;
+                    margin-top: 0;
+    
+                    .photo_container {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        margin: 0;
+                        padding: 0;
+                    }
                 }
             }            
+        }
+
+        .feed_photo::after {
+            content:"";
+            display:block;
+            padding-bottom:100%;
         }
         
         .feed_content {
@@ -117,6 +129,8 @@ hr {
 
         .feed_comment {
             position: relative;
+            height: auto;
+
 
             .commentShowOrHideButton {
                 position: relative;
@@ -128,55 +142,110 @@ hr {
                 margin-left: toRem(10);
             }
 
-            .comment_write {
-                display: flex;
-                align-items: center;
-                padding: toRem(10) 0 toRem(10);
+            .comment_write > div {
+                display: inline-block;
+                height: inherit;
+                position: relative;
+            }
 
-                .comment_profile_container {
-                    width: toRem(30);
-                    height: toRem(30);
-                    border: 1px solid #e0e0e0;
-                    border-radius: toRem(15);
-                    overflow: hidden;
-                    margin-left: toRem(10);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    img {
-                        display: block;
-                    }
+            .comment_write {
+                position:relative;
+                padding: toRem(10) 0 toRem(10);
+                width:100%;
+                //specific variable values
+                $comment_write_height: 40;
+
+                $comment_profile_width: $comment_write_height;
+                $comment_profile_left_margin: 10;
+                $comment_profile_right_margin: 5;
+
+                $comment_button_width: $comment_write_height + 20;
+                $comment_button_right_margin: 10;
+                $comment_button_left_margin:10;
+
+                $comment_profile_area: $comment_profile_width + $comment_profile_left_margin + $comment_profile_right_margin;
+                $comment_button_area: $comment_button_width + $comment_button_left_margin + $comment_button_right_margin; 
+
+                height: toRem($comment_write_height);
                 
-                    #toHeight {
-                        height: 100%;
+                .comment_profile_container {
+                    border: 1px solid #e0e0e0;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-left: toRem($comment_profile_left_margin);
+                    margin-right: toRem($comment_profile_right_margin);
+                    // aspect-ratio: 1/1;  **only for very modern browsers
+                    width: toRem($comment_profile_width);
+                    box-sizing: border-box;
+
+                    .profile_innerframe {
+                        position:absolute;
+                        top:0;
+                        left:0;
+                        right:0;
+                        bottom:0;
+                        display:flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        img {
+                            display: block;
+                        }
+                        #toHeight {
+                            height: 100%;
+                        }
+            
+                        #toWidth {
+                            width: 100%;
+                        }
                     }
-        
-                    #toWidth {
-                        width: 100%;
-                    }
-        
                 }
+
                 .textareaContainer {
-                    position: relative;
+                    // width: auto;
+                    // position:static;
+                    width: calc(100% - toRem($comment_button_area + $comment_profile_area));
                     textarea {
-                        position: relative;
-                        margin-left: toRem(10);
+                        position: absolute;
+                        top:0;
+                        left:0;
+                        right:0;
+                        bottom:0;
+                        // margin-left: toRem(10);
                         border: 1px solid gray;
                         border-radius: toRem(6);
-                        width: toRem(260);
-                        height: toRem(25);
+                        width: 100%;
                         resize: none;
                         font-size: toRem(13);
+                        box-sizing: border-box;
+                    }
+                }
+
+
+                .buttonContainer {
+                    margin-right: toRem($comment_button_right_margin);
+                    margin-left: toRem($comment_button_left_margin);
+                    float: right;
+                    width: toRem($comment_button_width);
+                    box-sizing: border-box;
+                    
+                    button {
+                        position: absolute;
+                        top:0;
+                        left:0;
+                        right:0;
+                        bottom:0;
+                        background: white;
+                        border: white;
+                        color: #df78ef;
+                        font-size: toRem(15);
+                        flex-grow: 1;
+                        
+                        padding:0;
                     }
                 }
                 
-                button {
-                    background: white;
-                    border: white;
-                    color: #df78ef;
-                    margin-left: toRem(10);
-                    font-size: toRem(15);
-                }
+
 
                 #active {
                     opacity: 1.0;
@@ -191,53 +260,10 @@ hr {
     }
 }
 
-@media (max-width: 800px) {
-    .feed_container {
-        width: toRem($feedArea2/2);
-        .feed {
-            width: 95%;
-            .feed_photo {
-                height: toRem(($feedArea2/2) * 0.95);
-            }
-            .feed_header {
-                .profile_name p {
-                    font-size: toRem(18);
-                }
-            }
-            .feed_comment {
-
-                .comment_write {
- 
-                    .textareaContainer {
-                        position: absolute;
-                        left: toRem(40);
-                        right: toRem(40);
-                        textarea {
-                            width: 80%;
-                        }
-                    }
-
-                    button {
-                        position: absolute;
-                        right: toRem(10);
-                        font-size: toRem(15);
-                        margin-left: toRem(5);
-                    }
-                }
-            }
-
-        }
-    }
-}
 
 @media (max-width: 600px) {
     .feed_container {
         width: 100%;
-        .feed {
-            .feed_photo {
-                height: 95vw;
-            }
-        }
     }
     
 }

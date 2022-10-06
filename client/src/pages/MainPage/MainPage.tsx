@@ -89,7 +89,6 @@ function MainPage() {
                             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                                 <Nav onClick = {sidebarMove}/>
                                 <div className = {styles.bodyWrapper} ref={bodyRef}>
-                                    <div className={styles.jumbotron}> </div>
                                     {context.getFeedData('data') === 'empty' ? 
                                         <div className= {styles.feed_area}>
                                             <div className = {styles.noFeed}>
@@ -97,14 +96,20 @@ function MainPage() {
                                             </div>
                                         </div>
                                         :
-                                        <div className = {styles.feed_area} id ={styles.notEmpty}>
+                                        <>
+                                        <div className = {styles.feed_area}>
                                             {context.getFeedData('data').map((feedData: any, idx: number) => (
                                             <React.Fragment key = {idx}>
                                                 <Feed feedData={feedData} feedProfileImageLoadStatus={feedProfileImageLoadStatus} idx={idx}/>
                                             </React.Fragment>
                                         ))
                                             }
-                                        </div>   
+                                        </div>
+                                        <div className = {styles.showLoginedUserArea}>
+                                        
+                                        </div> 
+                                        </>
+                                    
                                         }
                                 </div>
                             </>

@@ -59,12 +59,24 @@ function LoginPage() {
         }
     }
 
+    const extendSession = async() =>{
+        await fetch(Urls.sessionExtend, {
+            method: "GET"
+        }).then((value)=>{
+            console.log(value)
+        })
+    }
+
     const handleLogin = () => {
         const data = {
             'inpId' : inpId.current?.value,
             'inpPw' : inpPw.current?.value
         }
         fetchData(loginUrl, data);
+        const sessionInterval = setInterval(()=>{
+            extendSession()
+        },5000)
+
     }
 
     useEffect(()=>{

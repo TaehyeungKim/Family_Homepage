@@ -136,6 +136,7 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
 
     const photoTouchFrame = useRef<HTMLDivElement>(null);
     const photo_container = useRef<HTMLDivElement>(null);
+    const comment_profile_container = useRef<HTMLDivElement>(null);
 
     const swipeRefObject = useRef<any>({
         touchStartCoordinateX:0,
@@ -266,10 +267,11 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
         <div className={styles.feed_container}>
             <div className={styles.feed}>
                 <FeedHeader feedData={feedData} feedProfileImageLoadStatus={feedProfileImageLoadStatus}/>
-                <hr/>
+                {/* <hr/> */}
 
                 {/* Feed Photo */}
                 <div className={styles.feed_photo} ref={photoTouchFrame}>
+                    <div className = {styles.feed_photo_innerframe}>
                 {!isMobile && photoPathSplit.length > 1 ? 
                     <div className = {styles.buttonArea} id ={styles.left}>
                         <button onClick = {()=>switchShownPhotos('left')}>
@@ -297,6 +299,7 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
                         </div>)
                     })}
                     </div>
+                    </div>
                 </div>
 
 
@@ -305,7 +308,7 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
                 {/* Feed Photo Index */}
                 {photoPathSplit.length > 1 ? 
                     <FeedPhotoIndex feedData={feedData} photoShownIndex={photoShownIndex}/> : null}
-                <hr/>
+                {/* <hr/> */}
 
 
 
@@ -340,7 +343,9 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
                     <FeedCommentShow feedData={feedData} commentShown = {commentShown} commentData={commentData} showComment={showComment} commentIsUpdated={commentIsUpdated}/>
                     <div className={styles.comment_write}>
                         <div className = {styles.comment_profile_container}>
+                            <div className = {styles.profile_innerframe}>
                             { context.getLoginUser('image') === undefined ? null : <img src = {context.getLoginUser('image').src} id = {context.getLoginUser('image').height > context.getLoginUser('image').width ? styles.toWidth : styles.toHeight} alt = 'profile'/>}
+                            </div>
                         </div>
                         <div className = {styles.textareaContainer}>
                         <textarea placeholder='댓글 달기' ref={comment} onChange={(e)=> {
@@ -348,10 +353,12 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
                             comment.current?.value !== "" ? activateButton() : deactivateButton();
                         }}></textarea>
                         </div>
+                        <div className={styles.buttonContainer}>
                         <button onClick = { buttonActive === true ? (e)=>{
                             uploadComment(feedData.feed_id, feedData.user_id, context.getLoginUser('user_id'), comment.current?.value as string)
                             .then((resolve) =>{clearComInp(resolve, comment.current as HTMLTextAreaElement)});
                         }:undefined} id = {buttonActive === true ? styles.active : styles.notActive}>게시</button>
+                        </div>
                     </div>
                 </div>
             </div>

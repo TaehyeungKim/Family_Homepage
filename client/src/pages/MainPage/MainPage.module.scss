@@ -9,6 +9,10 @@ $navHeight: 80;
 $feedArea1: 800;
 $feedArea2: 600;
 
+body {
+    background-color: #eae7e7;
+}
+
     #deactivate {
         position: fixed;
         width: 100%;
@@ -19,26 +23,42 @@ $feedArea2: 600;
         z-index: 15;
     }
 
-    .bodyWrapper {
-        position: relative;
-        top: toRem(80);
-        width: 100%;
-        height: auto;
 
-        .jumbotron{
-            position:relative;
-            width: 100%;
-            height: toRem(450);
-            background-image: url('../../images/winter_bg.jpg');
-            background-size: 100%;
-            background-position-y: center;
+    .bodyWrapper {
+        position: absolute;
+        top: toRem(80);
+        $bodyWrapperWidth: 800;
+        width: toRem($bodyWrapperWidth);
+        bottom: 0;
+        left: calc(50% - toRem(calc($bodyWrapperWidth/2)));
+        background-color: white;
+        margin: 0 auto 0;
+
+        $feedAreaProportion: 55%;
+
+        .showLoginedUserArea {
+            position: absolute;
+            width: calc(100% - $feedAreaProportion - toRem(30));
+            border: 2px solid black;
+            right: 0;
+            box-sizing: border-box;
+            top: toRem(50);
+        }
+
+
+        .feed_area::-webkit-scrollbar {
+            display: none;
         }
 
         .feed_area {
-            position: relative;
-            width: toRem($feedArea1);
+            position: absolute;
+            width: $feedAreaProportion;
             margin: toRem(20) auto toRem(20);
             padding-bottom: toRem(30);
+            overflow-y: scroll;
+            bottom: 0;
+            top: 0;
+            // background-color: white;
         
             .noFeed {
                 position: relative;
