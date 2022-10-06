@@ -12,21 +12,26 @@ function RedirectToMain({redirectToLogin}:RedirectToMainProps) {
     const session = sessionStorage;
     const navigate = useNavigate();
     const checkLogin = async() => {
-        const response = await fetch(url, {
-            method: "GET"
-        })
-
-        const json = await response.json()
-        .then((value) => {
-            console.log(value);
-            if (value.isLogin === 'true') {
-                session.user_id = value.user_id;
-                navigate('/main');
-            } else {
-                redirectToLogin();
-            }
-        })
-        .catch((error)=>console.log('error: ',error));
+        try {
+            const response = await fetch(url, {
+                method: "GET"
+            })
+    
+            await response.json()
+            .then((value) => {
+                console.log(value);
+                if (value.isLogin === 'true') {
+                    session.user_id = value.user_id;
+                    navigate('/main');
+                } else {
+                    redirectToLogin();
+                }
+            })
+            
+        } catch(e) {
+            console.log(e);
+        }
+        
     }
     useEffect(()=>{
         checkLogin();

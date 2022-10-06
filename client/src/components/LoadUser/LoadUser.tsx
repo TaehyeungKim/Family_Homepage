@@ -8,32 +8,37 @@ interface LoadUserProps {
 
 function LoadUser({setLoadStatus}:LoadUserProps) {
     const loadUserInfo = async (url: string, data: any) => {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        })
-        const json = await response.json().then(
-            (value)=>{
-                context.setLoginUser(value);      
-                setLoadStatus("toLoadUserFeed")
-            }
-        );
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type" : "application/json"
+                }
+            })
+            const json = await response.json().then(
+                (value)=>{
+                    context.setLoginUser(value);      
+                    setLoadStatus("toLoadUserFeed")
+                }
+            );
+        } catch(e) {console.log(e)}
+        
     }
     const context = useContext(HandlerContext)
 
     const loadUserIdFromSession = async() => {
-        const userIdFromSession = await fetch(Urls.checkIsLogin, {
-            method: "GET"
-        })
-        const userId = await userIdFromSession.json().then(
-            (value)=>{
-                context.setLoginUser({'user_id':value.user_id})
-                loadUserInfo(Urls.loadUserInfo, {'user_id':value.user_id})
-            }
-        );
+        try {
+            const userIdFromSession = await fetch(Urls.checkIsLogin, {
+                method: "GET"
+            })
+            const userId = await userIdFromSession.json().then(
+                (value)=>{
+                    context.setLoginUser({'user_id':value.user_id})
+                    loadUserInfo(Urls.loadUserInfo, {'user_id':value.user_id})
+                }
+            );
+        } catch(e) {console.log(e)}
         
     }
 

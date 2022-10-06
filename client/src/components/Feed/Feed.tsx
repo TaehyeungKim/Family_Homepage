@@ -67,13 +67,16 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
         const data = new FormData();
         data.append('feed_id', feed_id.toString());
         data.append('feed_user', feed_user);
-        const response = await fetch(loadUrl, {
-            method: "POST",
-            body: data
-        })
-        const json = await response.json()
-        setCommentData(json);
-        setCommentShown(true);
+        try {
+            const response = await fetch(loadUrl, {
+                method: "POST",
+                body: data
+            })
+            const json = await response.json()
+            setCommentData(json);
+            setCommentShown(true);
+        } catch(e) {console.log(e)}
+        
     }
 
     const hideComment = () => {
@@ -90,17 +93,18 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
         data.append('comment_user', comment_user);
         data.append('comment', comment);
 
-        const fetchData = await fetch(url, {
-            method: "POST",
-            body: data
-        })
-
-        const text = await fetchData.text().then((value)=>{
-            showComment(feed_id, feed_user);
-        }).then((value)=>{
-            setButtonActive(false)
-            setCommentUpdated(true)});
-
+        try {
+            const fetchData = await fetch(url, {
+                method: "POST",
+                body: data
+            })
+    
+            const text = await fetchData.text().then((value)=>{
+                showComment(feed_id, feed_user);
+            }).then((value)=>{
+                setButtonActive(false)
+                setCommentUpdated(true)});
+        } catch(e) {console.log(e)}
         return ""
     }
 
@@ -136,7 +140,7 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
 
     const photoTouchFrame = useRef<HTMLDivElement>(null);
     const photo_container = useRef<HTMLDivElement>(null);
-    const comment_profile_container = useRef<HTMLDivElement>(null);
+    
 
     const swipeRefObject = useRef<any>({
         touchStartCoordinateX:0,

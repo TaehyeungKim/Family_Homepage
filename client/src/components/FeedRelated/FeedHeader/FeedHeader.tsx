@@ -35,13 +35,17 @@ function FeedHeader({feedData, feedProfileImageLoadStatus}: FeedHeaderProps) {
         formData.append('user_id', user_id)
         formData.append('feed_id', feed_id);
         formData.append('photo_type', photo_type);
-        const response = await fetch(url, {
-            method: "POST",
-            body: formData
-        })
-        const text = await response.text()
-            .then((value) => {console.log(value)})
-            .then(() => navigate(`/main_proxy`));
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                body: formData
+            })
+            const text = await response.text()
+                .then((value) => {console.log(value)})
+                .then(() => navigate(`/main_proxy`));
+        }
+        catch(e) {console.log(e)}
+        
 
     }
 

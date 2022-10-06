@@ -24,13 +24,15 @@ function LoadUserFeed({setLoadStatus}:LoadUserFeedProps) {
     const context = useContext(HandlerContext)
 
     const loadFeedData = async() => {
-        const response = await fetch(feedUrl, {
-            method: "GET"
-        })
-        const json = await response.json().then((value)=>{
+        try {
+            const response = await fetch(feedUrl, {
+                method: "GET"
+            })
+            await response.json().then((value)=>{
             context.setFeedData(value);
             setLoadStatus("toLoadProfileImage");       
-        });
+            });
+        } catch(e) {console.log(e)}
     }
     useEffect(() => {
         loadFeedData();

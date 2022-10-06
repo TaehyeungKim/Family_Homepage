@@ -22,12 +22,15 @@ function FetchData({imgFiles, description}: FetchDataProps) {
     const url = Urls.postFeed;
 
     const fetchData = async(data: FormData) => {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: data
-        })
-        const text = await response.text().then((value)=>{
-            navigate(`/main_proxy`)});
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: data
+            })
+            const text = await response.text().then((value)=>{
+                navigate(`/main_proxy`)});
+        } catch(e) {console.log(e)}
+        
     }
 
     useEffect(() => {

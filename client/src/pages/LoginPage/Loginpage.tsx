@@ -41,21 +41,25 @@ function LoginPage() {
     const context = useContext(HandlerContext)
 
     const fetchData = async(url:string, data:any) => {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type' : 'application/json'
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type' : 'application/json'
+                }
+            });
+            const json = await response.json()
+            if (json.message === 'Login Success') {
+                context.setLoginUser({user_id: json.user_id});    
+                navigate('/main');
+            } else if (json.message === 'Wrong User Id') {
+                setLoginState("Wrong User Id");
+            } else if (json.message === 'Wrong Password') {
+                setLoginState("Wrong Password");
             }
-        });
-        const json = await response.json()
-        if (json.message === 'Login Success') {
-            context.setLoginUser({user_id: json.user_id});    
-            navigate('/main');
-        } else if (json.message === 'Wrong User Id') {
-            setLoginState("Wrong User Id");
-        } else if (json.message === 'Wrong Password') {
-            setLoginState("Wrong Password");
+        } catch(e) {
+            console.log(e);
         }
     }
 
@@ -73,9 +77,9 @@ function LoginPage() {
             'inpPw' : inpPw.current?.value
         }
         fetchData(loginUrl, data);
-        const sessionInterval = setInterval(()=>{
-            extendSession()
-        },5000)
+        // const sessionInterval = setInterval(()=>{
+        //     extendSession()
+        // },5000)
 
     }
 

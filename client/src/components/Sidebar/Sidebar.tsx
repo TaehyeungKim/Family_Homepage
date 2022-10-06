@@ -23,15 +23,18 @@ function Sidebar({onClick, visible}:SidebarProps) {
     const profilePage = `/profile`
     const mainPage = `/main`
     const Logout = async () => {
-        const response = await fetch (url, {
-            method: "GET"
-        })
-        const json = await response.json()
-        .then((value)=>{
-            console.log(value);
-            session.clear();
-            navigate(loginPage, {replace: true})
-        });
+        try {
+            const response = await fetch (url, {
+                method: "GET"
+            })
+            const json = await response.json()
+            .then((value)=>{
+                console.log(value);
+                session.clear();
+                navigate(loginPage, {replace: true})
+            });
+        } catch(e) {console.log(e)}
+        
        
     }
     const moveToProfile = () => {
