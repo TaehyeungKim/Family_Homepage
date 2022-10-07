@@ -4,6 +4,7 @@ import styles from './LoginPage.module.scss'
 import winter_house from '../../images/winter_house.png'
 import Urls from '../../utils/Url';
 import {HandlerContext} from '../../App'
+import {setSessionInterval} from '../../utils/SessionExtend'
 
 
 interface WrongLoginAlertProps { 
@@ -63,13 +64,6 @@ function LoginPage() {
         }
     }
 
-    const extendSession = async() =>{
-        await fetch(Urls.sessionExtend, {
-            method: "GET"
-        }).then((value)=>{
-            console.log(value)
-        })
-    }
 
     const handleLogin = () => {
         const data = {
@@ -77,10 +71,7 @@ function LoginPage() {
             'inpPw' : inpPw.current?.value
         }
         fetchData(loginUrl, data);
-        // const sessionInterval = setInterval(()=>{
-        //     extendSession()
-        // },5000)
-
+        setSessionInterval(60000);
     }
 
     useEffect(()=>{

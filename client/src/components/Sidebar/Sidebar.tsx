@@ -8,6 +8,7 @@ import Urls from '../../utils/Url';
 
 import {HandlerContext} from '../../App'
 
+import {clearSessionInterval} from '../../utils/SessionExtend'
 
 interface SidebarProps {
     onClick: () => void;
@@ -31,6 +32,8 @@ function Sidebar({onClick, visible}:SidebarProps) {
             .then((value)=>{
                 console.log(value);
                 session.clear();
+                clearSessionInterval();
+                
                 navigate(loginPage, {replace: true})
             });
         } catch(e) {console.log(e)}

@@ -31,12 +31,16 @@ if ($info == null) {
     } else {
         $_SESSION['isLogin'] = 'true';
         $_SESSION['user_id'] = $info['user_id'];
+        $_SESSION['time'] = time();
+        $timeToInt = intval($_SESSION['time']);
         $userData = json_encode(array('message' => 'Login Success', 'user_id' => $_SESSION['user_id'], 'isLogin' => $_SESSION['isLogin']));
         mysqli_query($con, "update members set isLogin = 'true' where user_id = '$inpId'");
+        mysqli_query($con, "update members set lastlogin = $timeToInt where user_id = '$inpId'");
         echo $userData;
     }
 }
 
 mysqli_close($con);
+
 exit();
 ?>
