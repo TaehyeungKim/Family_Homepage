@@ -35,9 +35,9 @@ function FeedPhoto({feedData, index}:FeedPhotoProps){
         {feedPhoto !== undefined ? 
         <>
             
-                <div className = {`${styles.photo_wrapper} photo_wrapper`}>
-                <img src={feedPhoto.src} alt='feed_image' id = {feedPhoto.height > feedPhoto.width ? styles.fitHeight : styles.fitWidth}/>
-                </div>
+                <figure className = {`${styles.photo_wrapper} photo_wrapper`}>
+                    <img src={feedPhoto.src} alt='feed_image' id = {feedPhoto.height > feedPhoto.width ? styles.fitHeight : styles.fitWidth}/>
+                </figure>
         </>
         : null}
         </>

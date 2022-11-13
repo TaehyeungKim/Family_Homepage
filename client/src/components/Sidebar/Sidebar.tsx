@@ -53,7 +53,7 @@ function Sidebar({onClick, visible}:SidebarProps) {
 
     return(
         <>
-        <div className={styles.sidebar} id={visible === true ? styles.sidebar_visible : styles.sidebar_closed}>
+        <aside className={styles.sidebar} id={visible === true ? styles.sidebar_visible : styles.sidebar_closed}>
             <div className ={styles.close_mark} onClick={onClick}>
                 <img src = {closeIcon}/>
             </div>
@@ -86,7 +86,7 @@ function Sidebar({onClick, visible}:SidebarProps) {
                 </div>
 
             </div>
-        </div>
+        </aside>
         </>
     )
 }

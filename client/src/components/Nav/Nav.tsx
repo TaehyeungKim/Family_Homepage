@@ -22,7 +22,7 @@ function Nav({onClick}:NavProps) {
     
     return(
         <>
-            <div className= {styles.nav}>
+            <nav className={styles.nav}>
                 <div className = {styles.logo}>
                     <img src = {winter_house} alt = 'logo'/>
                 </div>
@@ -43,7 +43,7 @@ function Nav({onClick}:NavProps) {
                 <div className = {styles.menu} onClick={onClick}>
                     <img src={menuIcon}/>
                 </div>
-            </div>
+            </nav>
         </>
     )
 }

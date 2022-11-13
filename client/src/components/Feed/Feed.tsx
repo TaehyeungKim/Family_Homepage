@@ -268,7 +268,7 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
 
     return(
         <>
-        <div className={styles.feed_container}>
+        <article className={styles.feed_container}>
             <div className={styles.feed}>
                 <FeedHeader feedData={feedData} feedProfileImageLoadStatus={feedProfileImageLoadStatus}/>
                 {/* <hr/> */}
@@ -366,7 +366,7 @@ function Feed({feedData, feedProfileImageLoadStatus, idx}: FeedProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
         </>
     )
 }

@@ -119,7 +119,7 @@
             .userInfo {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                div {
+                section {
                     display: flex;
                     flex-direction: column;
                         ul {
@@ -141,6 +141,10 @@
                                     label {
                                         margin-left: toRem(10);
                                         width: fit-content;
+
+                                        &:hover {
+                                            cursor: pointer;
+                                        }
                                     }
     
                                     #descLabel {
@@ -150,6 +154,10 @@
                                         margin-left: toRem(30);
                                         height: toRem(30);
                                         width: toRem(250);
+
+                                        &:hover {
+                                            cursor: pointer;
+                                        }
                                     };
                                 }
 

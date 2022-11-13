@@ -25,7 +25,7 @@ function ProfilePageDescArea({jsonData}:ProfilePageDescAreaProps) {
     },[])
 
     return(
-        <div>
+        <section>
             <ul>
                 {(()=>{
                     let lines = []
@@ -34,8 +34,8 @@ function ProfilePageDescArea({jsonData}:ProfilePageDescAreaProps) {
                             lines.push(
                                 <li>
                                     <div className = {styles.labelAndInput}>
-                                    <label id = {styles.descLabel}>한 줄 소개1</label>
-                                    <input name = {`desc${1}`} placeholder = '소개를 입력하세요'></input>
+                                    <label id = {styles.descLabel} htmlFor = {`desc${1}`}>한 줄 소개1</label>
+                                    <input name = {`desc${1}`} id={`desc${1}`} placeholder = '소개를 입력하세요'></input>
                                     </div>
                                     <div className = {styles.descAddDelete}>
                                     <button className = {styles.descButton} onClick = {(event)=>{
@@ -49,8 +49,8 @@ function ProfilePageDescArea({jsonData}:ProfilePageDescAreaProps) {
                                 lines.push(
                                 <li>
                                     <div className = {styles.labelAndInput}>
-                                    <label id = {styles.descLabel}>{`한 줄 소개${i+1}`}</label>
-                                    <input name = {`desc${i+1}`} defaultValue = { jsonData.desc.length === 0 || changedOccured === true ? null : 
+                                    <label id = {styles.descLabel} htmlFor={`desc${i+1}`}>{`한 줄 소개${i+1}`}</label>
+                                    <input name = {`desc${i+1}`} id={`desc${i+1}`} defaultValue = { jsonData.desc.length === 0 || changedOccured === true ? null : 
                                         i+1 <= jsonData.desc.length ? jsonData.desc[i] : null} placeholder = '소개를 입력하세요'></input>
                                     </div>
                                     <div className = {styles.descAddDelete}>
@@ -70,7 +70,7 @@ function ProfilePageDescArea({jsonData}:ProfilePageDescAreaProps) {
                     return lines
                 })()}
             </ul>
-        </div>
+        </section>
     )
 }
 
@@ -166,22 +166,22 @@ function ProfilePage() {
                         </div>
                     </div>
                     <div className = {styles.userInfo}>
-                        <div>
+                        <section>
                             <ul>
                                 <li>
                                     <div className = {styles.labelAndInput}>
-                                    <label>이름</label>
-                                    <input type='text' name = 'user_name' defaultValue = {context.getLoginUser('user_name')} placeholder = '이름을 입력하세요'></input>
+                                    <label htmlFor='user_name'>이름</label>
+                                    <input type='text' name = 'user_name' id='user_name' defaultValue = {context.getLoginUser('user_name')} placeholder = '이름을 입력하세요'></input>
                                     </div>
                                 </li>
                                 <li>
                                     <div className = {styles.labelAndInput}>
-                                    <label>지위</label>
-                                    <input type='text' name = 'user_status' defaultValue = {context.getLoginUser('user_status')} placeholder = '가족 내 지위를 입력하세요'></input>
+                                    <label htmlFor='user_status'>지위</label>
+                                    <input type='text' name = 'user_status' id='user_status' defaultValue = {context.getLoginUser('user_status')} placeholder = '가족 내 지위를 입력하세요'></input>
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </section>
                         <ProfilePageDescArea jsonData={context.getLoginUser()}/>
                     </div>
                 </div>

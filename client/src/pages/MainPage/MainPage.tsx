@@ -90,30 +90,30 @@ function MainPage() {
                             <Sidebar onClick = {sidebarMove} visible={visibleSidebar}/>
                             <div id={styles.deactivate} style = {visibleSidebar === true ? {display: 'block'}:{display: 'none'}}></div>
                                 <Nav onClick = {sidebarMove}/>
-                                <div className = {styles.bodyWrapper} ref={bodyRef}>
+                                <main className = {styles.bodyWrapper} ref={bodyRef}>
                                     {context.getFeedData('data') === 'empty' ? 
-                                        <div className= {styles.feed_area}>
+                                        <section className= {styles.feed_area}>
                                             <div className = {styles.noFeed}>
                                                 아직 우리 가족 피드가 없어요!<br/>새로운 피드를 추가해보세요!
                                             </div>
-                                        </div>
+                                        </section>
                                         :
                                         <>
-                                        <div className = {styles.feed_area}>
+                                        <section className = {styles.feed_area}>
                                             {context.getFeedData('data').map((feedData: any, idx: number) => (
                                             <React.Fragment key = {idx}>
                                                 <Feed feedData={feedData} feedProfileImageLoadStatus={feedProfileImageLoadStatus} idx={idx}/>
                                             </React.Fragment>
                                         ))
                                             }
-                                        </div>
-                                        <div className = {styles.showLoginedUserArea}>
+                                        </section>
+                                        <section className = {styles.showLoginedUserArea}>
                                         
-                                        </div> 
+                                        </section> 
                                         </>
                                     
                                         }
-                                </div>
+                                </main>
                             </>
                                 )
                             }
