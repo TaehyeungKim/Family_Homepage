@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import styles from './MainPage.module.scss'
 import {Outlet, Navigate, useLocation} from 'react-router-dom'
 import { LoadProfileImg } from '../../components/LoadProfileImg/LoadProfileImg';
@@ -54,6 +55,8 @@ function MainPage() {
 
     const [feedProfileImageLoadStatus,setFeedProfileImageLoadStatus] = useState<string>("toLoadFeedProfileImage");
 
+    const isDeviceDesktop = useMediaQuery({minWidth: '600px'})
+
 
     const sidebarMove = () => {
         setVisibleSidebar(!visibleSidebar)
@@ -82,7 +85,7 @@ function MainPage() {
                         return(
                             <>
                             { !bodyRef.current ? 
-                            context.getFeedData('user_id_array').map((e:string, idx:number)=> {
+                            [...context.getFeedData('user_id_array'), ...context.getFeedData('nofeed_user_id_array')].map((e:string, idx:number)=> {
                                 return (<LoadProfileImg url = {Urls.readProfileImg} user_id = {e} setFeedProfileImageLoadStatus={setFeedProfileImageLoadStatus} idx={idx} target={'feedProfileImageData'}/>)
                             }
                             )
@@ -107,13 +110,16 @@ function MainPage() {
                                         ))
                                             }
                                         </section>
-                                        <section className = {styles.showLoginedUserArea}>
-                                        
-                                        </section> 
                                         </>
                                     
                                         }
                                 </main>
+                                <aside>
+                                {isDeviceDesktop ? 
+                                        <section className = {styles.showLoginedUserArea}>
+                                        
+                                        </section> : null} 
+                                </aside>
                             </>
                                 )
                             }

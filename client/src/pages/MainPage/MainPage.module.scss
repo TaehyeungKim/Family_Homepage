@@ -25,39 +25,30 @@ body {
 
 
     .bodyWrapper {
-        position: absolute;
+        position: relative;
         top: toRem(80);
-        $bodyWrapperWidth: 800;
+        $bodyWrapperWidth: 400;
         width: toRem($bodyWrapperWidth);
         bottom: 0;
-        left: calc(50% - toRem(calc($bodyWrapperWidth/2)));
         background-color: white;
-        margin: 0 auto 0;
-
-        $feedAreaProportion: 55%;
-
-        .showLoginedUserArea {
-            position: absolute;
-            width: calc(100% - $feedAreaProportion - toRem(30));
-            border: 2px solid black;
-            right: 0;
-            box-sizing: border-box;
-            top: toRem(50);
-        }
-
+        margin: 0 50% 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
 
         .feed_area::-webkit-scrollbar {
             display: none;
         }
 
         .feed_area {
-            position: absolute;
-            width: $feedAreaProportion;
+            position: relative;
+            width: 100%;
             margin: toRem(20) auto toRem(20);
             padding-bottom: toRem(30);
             overflow-y: scroll;
             bottom: 0;
             top: 0;
+            flex-shrink: 0;
             // background-color: white;
         
             .noFeed {
@@ -72,30 +63,41 @@ body {
         
         
     }
+    aside {
+        position: fixed;
+        top: toRem(100);
+        left: 60%;
+        .showLoginedUserArea {
+            position: relative;
+            width: toRem(300);
+            border: 2px solid white;
+            right: 0;
+            box-sizing: border-box;
+            top: toRem(50);
+            height:fit-content;
+        }
+    }
+
+
+
+// #notEmpty {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//     grid-row-gap: 30px;
 // }
-
-
-
-#notEmpty {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-row-gap: 30px;
-}
 
 @media (max-width: 800px) {
     .bodyWrapper {
-        .jumbotron {
-            height: toRem(350);
-        }
-
-        .feed_area {
-            width: toRem($feedArea2);
-        }
+        width: 100%;
+        // .feed_area {
+        //     width: toRem($feedArea2);
+        // }
     }
 }
 
 @media (max-width: 600px) {
     .bodyWrapper {
+        width: 100%;
         .jumbotron {
             display: none;
         }
