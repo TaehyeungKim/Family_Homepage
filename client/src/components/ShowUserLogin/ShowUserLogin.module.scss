@@ -1,0 +1,143 @@
+@function toRem($value) {
+    $remValue: ($value/16) + rem;
+    @return $remValue;
+}
+
+@keyframes loginDotColorAnim {
+    0% {
+        background-color: #239E45;
+    }
+    100% {
+        background-color: #9BCB9E;
+    }
+}
+
+@keyframes height-anim {
+    0% {
+        max-height: toRem(40);
+    }
+    40% {
+        max-height: toRem(1000);
+    }
+}
+
+@keyframes blur-anim {
+    0% {
+        z-index: 10;
+        backdrop-filter:blur(5px);
+    }
+    80% {
+        z-index: 10;
+        backdrop-filter:blur(0px);
+    }
+    100% {
+        z-index: -1;
+    }
+}
+
+#addHeightAnim {
+    animation-name: height-anim;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-duration: 2s;
+}
+
+#addBlurAnim {
+    animation-name:blur-anim;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    animation-delay: 1s;
+    animation-duration: 1s;
+}
+
+
+.showLoginedUserArea {
+    position: relative;
+    width: toRem(300);
+    right: 0;
+    box-sizing: border-box;
+    border: 2px solid gray;
+    border-radius: toRem(10);
+    overflow: hidden;
+
+
+    .blurBox {
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        z-index: 5;
+    }
+
+    .loading {
+        position: relative;
+        text-align: center;
+        height: toRem(40);
+        line-height: toRem(40);
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+
+        .userStatusBar {
+            width: 100%;
+            padding: toRem(10) 0;
+            cursor: pointer;
+            .statusProfile {
+                display: inline-block;
+                // aspect-ratio: 1;
+                width: toRem(25);
+                height: toRem(25);
+                border-radius: 50%;
+                margin-left: toRem(5);
+                overflow: hidden;
+                vertical-align: middle;
+
+                figure {
+                    width: 100%;
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+            span {
+                display: inline-block;
+                position: relative;
+                margin-left: toRem(10);
+            }
+
+            .loginDotContainer {
+                position: absolute; 
+                vertical-align: middle;
+                display: inline-flex;
+                height: toRem(25);
+                width: toRem(25);
+                // aspect-ratio: 1;
+                right: toRem(10);
+                justify-content: center;
+                align-items: center;
+
+                .loginDot {
+                    width: toRem(9);
+                    height: toRem(9);
+                    border-radius: 50%;
+                }
+
+                .login {
+                    animation-name: loginDotColorAnim;
+                    animation-timing-function: ease-in-out;
+                    animation-iteration-count: infinite;
+                    animation-direction: alternate;
+                    animation-duration: 2s;
+                }
+                .unlogin {
+                    background-color: gray;
+                }
+            }
+        }
+    }
+
+}

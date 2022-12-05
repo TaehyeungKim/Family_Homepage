@@ -8,6 +8,7 @@ import LoadUser from '../../components/LoadUser/LoadUser';
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Nav from '../../components/Nav/Nav'
 import Feed from '../../components/Feed/Feed';
+import ShowUserLogin from '../../components/ShowUserLogin/ShowUserLogin';
 
 import Urls from '../../utils/Url';
 
@@ -114,12 +115,12 @@ function MainPage() {
                                     
                                         }
                                 </main>
-                                <aside>
-                                {isDeviceDesktop ? 
-                                        <section className = {styles.showLoginedUserArea}>
-                                        
-                                        </section> : null} 
+                                {isDeviceDesktop ?
+                                <aside className = {styles.userStatusArea}>
+                                    <ShowUserLogin/>
                                 </aside>
+                                :null
+                                }
                             </>
                                 )
                             }

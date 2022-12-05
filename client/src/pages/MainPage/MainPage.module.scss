@@ -63,19 +63,10 @@ body {
         
         
     }
-    aside {
+    .userStatusArea {
         position: fixed;
         top: toRem(100);
         left: 60%;
-        .showLoginedUserArea {
-            position: relative;
-            width: toRem(300);
-            border: 2px solid white;
-            right: 0;
-            box-sizing: border-box;
-            top: toRem(50);
-            height:fit-content;
-        }
     }
 
 
