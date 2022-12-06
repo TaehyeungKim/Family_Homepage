@@ -5,7 +5,7 @@ import Urls from '../../utils/Url';
 import {HandlerContext} from '../../App'
 
 interface UserStatusBarProps {
-    profileImg: string;
+    profileImg: any;
     user_id: string;
     isLogin: boolean;
 }
@@ -16,7 +16,7 @@ function UserStatusBar({profileImg, user_id, isLogin}:UserStatusBarProps) {
         <li className={styles.userStatusBar}>
             <div className={styles.statusProfile}>
                 <figure>
-                    <img src={profileImg} alt={`${user_id}의 프로파일 이미지`}/>
+                    <img src={profileImg.src} id={profileImg.width > profileImg.height ? styles.heightFull : styles.widthFull} alt={`${user_id}의 프로파일 이미지`}/>
                 </figure>
             </div>
             <span>{user_id}</span>
@@ -27,6 +27,7 @@ function UserStatusBar({profileImg, user_id, isLogin}:UserStatusBarProps) {
         </>
     )
 }
+
 
 function ShowUserLogin() {
     const url = Urls.queryLoginUser;
@@ -49,17 +50,31 @@ function ShowUserLogin() {
                 method: 'GET'
             }).then((res)=>{return res.json()})
             setUserLoginData(res);
-            
+            console.log('queryLoginSuccess');
+            // console.log(Object.keys(context.getFeedProfileImageData()).length, [...userLoginData.login, ...userLoginData.unlogin].length); 
+            console.log(res);
+
         } catch(e){
             console.log(e);
         }
     }
+
+    const loadCheck = ()=> {
+        const interval = setInterval(()=>{
+            if(allMembers()) {
+                setProfileImgLoadingFinished(true);
+                clearInterval(interval);
+            }
+        },2000)
+    }
+
     useEffect(()=>{
         queryLoginUser(url)
     },[])
     useEffect(()=>{
-        if(allMembers()) setProfileImgLoadingFinished(true);
-    },[Object.keys(context.getFeedProfileImageData()).length])
+        loadCheck();
+    },[userLoginData])
+    
     return(
         <>
         <section className = {styles.showLoginedUserArea} id={userLoginData && allMembers() ? styles.addHeightAnim : undefined}>
@@ -68,12 +83,12 @@ function ShowUserLogin() {
             <ul>
             {[...userLoginData.login].map(
                 (e:string)=>{
-                     return <UserStatusBar profileImg={context.getFeedProfileImageData(e).src} user_id={e} isLogin={true}/> 
+                     return <UserStatusBar profileImg={context.getFeedProfileImageData(e)} user_id={e} isLogin={true}/> 
                 }
             )}
             {[...userLoginData.unlogin].map(
                 (e:string)=>{
-                     return <UserStatusBar profileImg={context.getFeedProfileImageData(e).src} user_id={e} isLogin={false}/> 
+                     return <UserStatusBar profileImg={context.getFeedProfileImageData(e)} user_id={e} isLogin={false}/> 
                 }
             )}
             </ul> : <div className={styles.loading}>로딩중</div>}

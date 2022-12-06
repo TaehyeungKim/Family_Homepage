@@ -97,9 +97,20 @@
                 vertical-align: middle;
 
                 figure {
+                    position: relative;
                     width: 100%;
-                    img {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    #widthFull {
                         width: 100%;
+                        height: auto;
+                    }
+                    #heightFull {
+                        height: 100%;
+                        width: auto;
                     }
                 }
             }
