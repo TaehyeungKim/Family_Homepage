@@ -2,9 +2,10 @@ import styles from './Nav.module.scss'
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import winter_house from '../../images/winter_house.png'
-import menuIcon from '../../icons/menuIcon.svg';
-import writeIcon from '../../icons/writeIcon.svg';
+import {ReactComponent as MenuIcon} from '../../icons/menuIcon.svg';
+import {ReactComponent as WriteIcon} from '../../icons/writeIcon.svg'
 
+import Snowfall from 'react-snowfall'
 
 interface NavProps {
     onClick: () => void,
@@ -23,6 +24,8 @@ function Nav({onClick}:NavProps) {
     return(
         <>
             <nav className={styles.nav}>
+                <Snowfall color='white' snowflakeCount={50}/>
+                <div className={styles.background}></div>
                 <div className = {styles.logo}>
                     <img src = {winter_house} alt = 'logo'/>
                 </div>
@@ -35,13 +38,13 @@ function Nav({onClick}:NavProps) {
                 : 
                 <button className = {styles.write_button} onClick = {Create}>
                     <div id = {styles.icon}>
-                        <img src={writeIcon}/>
+                        <WriteIcon fill="white"/>
                     </div>
-                <div id = {styles.label}>글쓰기</div>
+                    <div id = {styles.label}><span>글쓰기</span></div>
                 </button>
                 }
                 <div className = {styles.menu} onClick={onClick}>
-                    <img src={menuIcon}/>
+                    <MenuIcon fill='white'/>
                 </div>
             </nav>
         </>

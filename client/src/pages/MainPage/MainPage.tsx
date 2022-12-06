@@ -56,7 +56,7 @@ function MainPage() {
 
     const [feedProfileImageLoadStatus,setFeedProfileImageLoadStatus] = useState<string>("toLoadFeedProfileImage");
 
-    const isDeviceDesktop = useMediaQuery({minWidth: '600px'})
+    const isDeviceDesktop = useMediaQuery({minWidth: '800px'})
 
 
     const sidebarMove = () => {

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Nunito&display=swap');
-
 @function toRem($value) {
     $remValue: ($value/16) + rem;
     @return $remValue;
@@ -12,6 +10,7 @@ $feedArea2: 600;
 body {
     background-color: #eae7e7;
 }
+
 
     #deactivate {
         position: fixed;
@@ -27,10 +26,11 @@ body {
     .bodyWrapper {
         position: relative;
         top: toRem(80);
-        $bodyWrapperWidth: 400;
-        width: toRem($bodyWrapperWidth);
+        width: toRem(500);
+        @media(max-width: 1050px) {
+            width: toRem(400);
+        }
         bottom: 0;
-        background-color: white;
         margin: 0 50% 0 auto;
         display: flex;
         flex-direction: row;
@@ -64,9 +64,14 @@ body {
         
     }
     .userStatusArea {
-        position: fixed;
+        position: fixed;   
+        width: toRem(400);
+        @media(max-width: 1050px) {
+            width: toRem(300);
+        }
+        
         top: toRem(100);
-        left: 60%;
+        left: 55%;
     }
 
 

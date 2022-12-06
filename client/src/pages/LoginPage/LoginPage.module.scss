@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Nunito&display=swap');
+@import url('../../utils/font.css');
 
 @function toRem($value) {
     $remValue: ($value / 16) + rem;
@@ -33,7 +33,7 @@
             position: relative;
             text-align: center;
             line-height: 0;
-            font-family: 'Nunito', 'sans-serif';
+            font-family: '--main-font', 'sans-serif';
 
             h3 {
                 font-size: toRem(50);

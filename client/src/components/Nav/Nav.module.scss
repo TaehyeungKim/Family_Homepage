@@ -1,3 +1,5 @@
+@import url('../../utils/font.css');
+
 @function toRem($value) {
     $remValue: ($value/16) + rem;
     @return $remValue;
@@ -13,8 +15,23 @@ $navHeight: 80;
     align-items: center;
     width: 100%;
     height: toRem($navHeight);
-    background-color: white;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    background: #603813;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b29f94, #603813);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #b29f94, #603813); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    .background {
+        position: absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        background-image: url('../../icons/snowstack.svg');
+        background-position-y: bottom;
+        background-repeat: no-repeat;
+    }
+
+    // background-color: #AC5424;
+    //border-bottom: 1px solid rgba(0,0,0,0.2);
     z-index: 100;
 
     .logo {
@@ -31,13 +48,14 @@ $navHeight: 80;
     }
 
     .title {
-        position: absolute;
+        position: relative;
         height: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
-        left: toRem(100);
-        font-family: 'Nunito', 'Fuzzy Bubbles', sans-serif;
+        flex-grow: 1;
+        text-align: start;
+        font-family: '--main-font', sans-serif;
+        color: white;
 
         p {
             font-size: toRem(25);
@@ -49,17 +67,17 @@ $navHeight: 80;
     }
 
     .write_button {
-        position: absolute;
+        position: relative;
         display: flex;
         align-items: center;
-        right: toRem(110);
         width: toRem(90);
         border-radius: toRem(10);
         font-size: toRem(22);
         height: toRem(40);
-        border: white;
-        background-color: white;
+        background: none;
+        border: none;
         line-height: 0;
+        margin-right: toRem(20);
         cursor: pointer;
 
         div {
@@ -73,6 +91,9 @@ $navHeight: 80;
 
         #label {
             left: 0;
+            span {
+                color: white;
+            }
         }
     &:hover {
         opacity: 0.6;
@@ -83,14 +104,13 @@ $navHeight: 80;
     }
 
     .menu {
-        position: absolute;
+        position: relative;
         height: auto;
-        right: toRem(30);
         width: auto;
         display: flex;
-        justify-content: center;
         align-items: center;
         cursor: pointer;
+        margin-right: toRem(20);
 
         &:hover {
             opacity: 0.6;
@@ -102,27 +122,37 @@ $navHeight: 80;
 @media (max-width: 600px) {
     .nav {
         height: toRem(95);
-        justify-content: center;
-        align-items: center;
+        display: block;
 
         .logo {
+            position: relative;
             left: auto;
+            display: block;
             width: toRem(80);
-            margin-bottom: toRem(30);
+            // margin-bottom: toRem(30);
+            margin: 0 auto;
+            
         }
 
         .title {
-            left: auto;
-            top: toRem(30);
+            height: auto;
+            display: block;
+            text-align: center;
+
+            p {
+                margin: 0;
+            }
         }
 
         .write_button {
-            right: auto;
+            position: absolute;
+            height: 100%;
             left: toRem(10);
             width: toRem(70);
+            top: 0;
             font-size: toRem(20);
-
-
+            margin: 0;
+            
             #icon {
                 position: relative;
                 margin: 0 auto 0;
@@ -134,9 +164,33 @@ $navHeight: 80;
                 display: none;
             }
         }
+        .menu {
+            position:absolute;
+            top: 0;
+            height: 100%;
+            right: toRem(10);
+            margin: 0;
+        }
     }
 }
 
+@media (max-width: 320px) {
+    .nav {
+        .title {
+            p {
+                font-size: toRem(20);
+            }
+        }
+        .write_button {
+            width: toRem(55);
+        }
+        .menu {
+            img {
+                width: toRem(40);
+            }
+        }
+    }
+}
 
 
 
